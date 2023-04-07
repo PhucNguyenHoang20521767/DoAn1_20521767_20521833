@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        'width': 'width',
+        'height': 'height',
+      },
       colors: {
         "primary-0": "#886059",
         "primary-1": "#A67F78",
