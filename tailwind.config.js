@@ -44,6 +44,9 @@ module.exports = {
         'phone': '444px',
         // => @media (min-width: 640px) { ... }
 
+        'phone-1': '516px',
+        // => @media (min-width: 640px) { ... }
+
         'tablet': '640px',
         // => @media (min-width: 640px) { ... }
   
