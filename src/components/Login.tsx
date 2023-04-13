@@ -14,12 +14,12 @@ const Login = (props: Props) => {
     return (
     <div className=""> 
         {/* Navigation */}
-        <div className="font-medium text-2xl text-primary-1 pt-3 pl-3">
-            <a href="/Login">Đăng nhập</a>
-        </div>
-
+        {/* <div className="min-[512px]:hidden flex items-center justify-between px-4 py-2 bg-white border-b border-secondary-1"> */}
+        {/* <div className="max-[1024px]:hidden  font-medium text-2xl text-primary-1 pt-3 pl-3">
+            <a href="">Đăng nhập</a>
+        </div> */}
         {/* Form */}
-        <div className="w-[32rem] max-[512px]:w-full p-2 border">
+        <div className="w-[32rem] max-[512px]:w-full p-2">
             <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-2">
                 {/* Email */}
                 <div className="mb-1 p-1">
@@ -27,12 +27,6 @@ const Login = (props: Props) => {
                     <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} 
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                 </div>
-                {/* Password */}
-                {/* <div className="mb-1 p-1">
-                    <label htmlFor="password" className="font-semibold">Mật khẩu:</label>
-                    <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
-                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
-                </div> */}
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
                     <div className="flex items-center">
