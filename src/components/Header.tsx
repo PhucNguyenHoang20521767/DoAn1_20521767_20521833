@@ -83,9 +83,18 @@ const Header = (props: Props) => {
         <nav className="hidden md:flex justify-center md:items-center flex-wrap plr-6">
           <div className="lg:w-auto lg:flex">
             <div className="text-base md:shrink-0">
-              <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-primary-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                SẢN PHẨM
-              </a>
+              <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
+                <a href="#responsive-header" className="text-primary-0">
+                  SẢN PHẨM
+                </a>
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                  <div className="flex flex-row">
+                    <a href="#">
+                      Bàn
+                    </a>
+                  </div>
+                </div>
+              </div>
               <a href="#responsive-header" className="block mt-4 lg:inline-block lg:mt-0 text-primary-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
                 PHÒNG
               </a>
