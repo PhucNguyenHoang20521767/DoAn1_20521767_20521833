@@ -24,7 +24,7 @@ const Signup = (props: Props) => {
         </div> */}
 
         {/* Form */}
-        <div className="w-[32rem] max-[512px]:w-full p-2 max-[1084px]:hidden">
+        <div className="w-[32rem] max-[512px]:w-full p-2">
             <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-2">
                 {/* Basic information */}
                 <div className='flex justify-center'>
@@ -59,7 +59,7 @@ const Signup = (props: Props) => {
                     <div className="mb-1 p-1 pr-[10.4rem]">
                         {/* https://github.com/OMikkel/tailwind-datepicker-react */}
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Giới tính:</label>
-                        <select id="countries" className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {/* <option selected>Giới tính:</option> */}
                             <option value="Male">Nam</option>
                             <option value="Female">Nữ</option>

@@ -4,84 +4,41 @@ import Login from '@/components/Login';
 import Signup from "@/components/Signup";
 import { useMediaQuery } from 'react-responsive';
 
-// const LoginAndSignup = () => {
-//     return (
-//         <div className="px-8 mb-6 flex justify-center">
-//             <div className="max-lg:hidden font-medium text-2xl text-primary-1 pt-3 pl-3">
-//                 <Link to="/Log" className="hover:text-dark-1">Đăng nhập</Link>
-//             </div>
-//             <div className="max-lg:hidden font-medium text-2xl text-primary-1 pt-3 pl-3">
-//                 <Link to="/Sign" className="hover:text-dark-1">Đăng ký</Link>
-//             </div>
-//         </div>
-//     )
-// }
-
 const SignIn = () => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [isSignup, setIsSignup] = useState(true);
-    const isTablet = useMediaQuery({ maxWidth: 1024 });
+    const [isLogin, setIsLogin] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
+
 
     const handleLogin = () => {
         setIsLogin(true);
-        setIsSignup(false);
+        setIsSignUp(false);
     }
 
-    const handleSignup = () => {
+    const handleSignUp = () => {
         setIsLogin(false);
-        setIsSignup(true);
-    }
-
-    const handleBoth = () => {
-        setIsLogin(true);
-        setIsSignup(true);
+        setIsSignUp(true);
     }
 
     return (
         <BrowserRouter>
-            <div className="relative flex flex-col justify-center lg:items-center">
+            <div className="flex flex-col lg:flex-row justify-center py-5">
                 <div className="mb-6">
-                    <div className="font-medium text-2xl text-primary-1 pt-3 pl-3">
-                        <div className=''>
-                            <Link to="/Login" className={`hover:text-dark-1 ${isLogin ? 'text-dark-1' : ''}`} onClick={() => handleLogin()}>Đăng nhập</Link>
-                            <Link to="/Signup" className={`hover:text-dark-1 ${!isLogin ? 'text-dark-1' : ''}`} onClick={() => handleSignup()}>/ Đăng ký</Link>
+                    <div className="flex flex-col">
+                        <div className={`p-3 text-2xl font-medium lg:text-primary-1 ${isLogin ? 'text-dark-1' : 'text-primary-1'}`} onClick={() => handleLogin()}>Đăng nhập</div>
+                        <div className={`p-3 text-2xl font-medium lg:hidden ${isLogin ? 'text-primary-1' : 'text-dark-1'}`}  onClick={() => handleSignUp()}>Đăng ký</div>
+                        <div className={`lg:block ${isLogin ? 'block' : 'hidden'}`}>
+                            <Login/>
                         </div>
                     </div>
                 </div>
-                {/* Desktop version */}
-                {/* {!isTablet && (
-                    <>
-                        <div className="px-8 mb-6">
-                            <div className="max-lg:hidden font-medium text-2xl text-primary-1 pt-3 pl-3">
-                                <Link to="/LoginSignup" className={"hover:text-dark-1"} onClick={() => handleBoth()}></Link>
-                            </div>
-                        </div>
-                    </>
-                )} */}
-
-
-                {/* Tablet version */}
-                {/* {isTablet && (
-                    <div className="px-8 mb-6">
-                        <div className="lg:block min-[1392px]:px-[10rem] px-8 w-screen">
-                            <div className="font-medium text-2xl text-primary-1 pt-3 pl-3">
-                                <div className='relative'>
-                                    <Link to="/Login" className={`hover:text-dark-1 ${isLogin ? 'text-dark-1' : ''}`} onClick={() => handleLogin()}>Đăng nhập</Link>
-                                    <Link to="/Signup" className={`hover:text-dark-1 ${!isLogin ? 'text-dark-1' : ''}`} onClick={() => handleSignup()}>/ Đăng ký</Link>
-                                </div>
-                            </div>
+                <div className="mb-6 lg:pl-28">
+                    <div className="flex flex-col">
+                        <div className="p-3 text-2xl text-primary-1 font-medium lg:block hidden"  onClick={() => handleSignUp()}>Đăng ký</div>
+                        <div className={`lg:block ${isLogin ? 'hidden' : 'block'}`}>
+                            <Signup/>
                         </div>
                     </div>
-                )} */}
-                { /* Display both login and signup form on larger screens */ }
-                <Routes>
-                    {/* <Route path='/LoginSignup'>
-                        <Route path='/LoginSignup/Log' element={<Login/>}/>
-                        <Route path='/LoginSignup/Sign' element={<Signup/>}/>
-                    </Route> */}
-                    <Route path='/Login' element={<Login/>}/>
-                    <Route path='/Signup' element={<Signup/>}/>
-                </Routes>
+                </div>
             </div>
         </BrowserRouter>
     )
