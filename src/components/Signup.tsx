@@ -16,6 +16,16 @@ const Signup = (props: Props) => {
     e.preventDefault();
       // Handle form submission here
     };
+
+    const firstDivRef = useRef<HTMLDivElement>(null);
+    const secondDivRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (firstDivRef.current && secondDivRef.current) {
+        secondDivRef.current.style.width = firstDivRef.current.offsetWidth + 'px';
+        }
+    }, []);
+    
     return (
     <div className=""> 
         {/* Navigation */}
@@ -24,6 +34,7 @@ const Signup = (props: Props) => {
         </div> */}
 
         {/* Form */}
+
         <div className="w-[32rem] max-[512px]:w-full p-2">
             <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-2">
                 {/* Basic information */}
@@ -45,20 +56,14 @@ const Signup = (props: Props) => {
                      {/* Date time picker */}
                     <div className="mb-1 pl-1">
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Ngày sinh:</label>
-                        <div className='relative w-[14.5rem] h-2'>
+                        <div className='max-w-xs max-h-1'>
+                            {/* https://github.com/OMikkel/tailwind-datepicker-react */}
                             <DateTimePick></DateTimePick>
                         </div>
-                        {/* <div className="relative max-w-sm">
-                            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg aria-hidden="true" className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                            </div>
-                            <input DateTimePick type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date"/>
-                        </div> */}
                     </div>
                     {/* Gender */}
-                    <div className="mb-1 p-1 pr-[10.4rem]">
-                        {/* https://github.com/OMikkel/tailwind-datepicker-react */}
-                        <label htmlFor="email" className="font-semibold text-base text-dark-1">Giới tính:</label>
+                    <div className="mb-1 p-1 min-[508px]:pr-[10.4rem]">
+                        <label htmlFor="email" className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
                         <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {/* <option selected>Giới tính:</option> */}
                             <option value="Male">Nam</option>
