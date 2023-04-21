@@ -120,7 +120,7 @@ const Signup = (props: Props) => {
                 </div>
 
                 <div className='mt-3 p-1'>
-                    <button type="submit" className="w-full px-3 py-1 text-white bg-secondary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                    <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                         ĐĂNG KÝ
                     </button>
                 </div>
