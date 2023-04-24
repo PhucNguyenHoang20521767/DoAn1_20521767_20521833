@@ -18,9 +18,10 @@ const Account = () => {
 
                 </div>
                 <div className='w-full lg:w-8/12'>
-                    8/12
+                    <Link to='signin'>Đăng nhập</Link>
                 </div>
             </div>
+            <Outlet></Outlet>
         </div>
     );
 };

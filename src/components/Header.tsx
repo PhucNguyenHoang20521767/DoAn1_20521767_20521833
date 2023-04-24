@@ -1,7 +1,7 @@
 import Account from '@/pages/Account/account';
 import Home from '@/pages/Home/home';
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, Routes, Route, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 type Props = {};
 
@@ -53,15 +53,15 @@ const Header = (props: Props) => {
                 </a>
 
                 <div className='relative inline-block text-left group'>
-                  <Link className="flex items-center hover:text-gray-200 p-3 btn btn-ghost rounded-btn" to="/account">
+                  <NavLink className="flex items-center hover:text-gray-200 p-3 btn btn-ghost rounded-btn" to="account">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                  </Link>
+                  </NavLink>
                   <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
-                    <Link to="/account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</Link>
-                    <a href="#" className="block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</a>
-                    <a href="#" className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold">Đăng xuất</a>
+                    <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
+                    <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
+                    <NavLink to="/" className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold">Đăng xuất</NavLink>
                   </div>
                 </div>
               </div>
@@ -157,12 +157,6 @@ const Header = (props: Props) => {
           </div>
         </nav>
       </div>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/account" element={<Account />} />
-      </Routes>
-
     </div>
   )
 };
