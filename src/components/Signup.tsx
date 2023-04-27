@@ -62,7 +62,7 @@ const Signup = (props: Props) => {
                         </div>
                     </div>
                     {/* Gender */}
-                    <div className="mb-1 p-1 min-[508px]:pr-[10.4rem]">
+                    <div className="mb-1 min-[508px]:pr-[10.4rem]">
                         <label htmlFor="email" className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
                         <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {/* <option selected>Giới tính:</option> */}
