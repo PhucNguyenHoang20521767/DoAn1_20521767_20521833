@@ -60,7 +60,7 @@ const Header = (props: Props) => {
                   </NavLink>
                   <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
                     <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
-                    <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
+                    <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
                     <NavLink to="/" className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold">Đăng xuất</NavLink>
                   </div>
                 </div>

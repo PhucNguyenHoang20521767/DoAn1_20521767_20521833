@@ -21,6 +21,7 @@
     "react-datepicker": "^4.11.0",
     "react-dom": "^18.2.0",
     "react-responsive": "^9.0.2",
+    "react-router": "6.4",
     "react-router-dom": "^6.9.0",
     "tailwind-datepicker-react": "^1.2.3"
   },
