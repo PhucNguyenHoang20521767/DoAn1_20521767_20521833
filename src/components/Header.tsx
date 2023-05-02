@@ -6,6 +6,16 @@ import { NavLink, Outlet } from 'react-router-dom';
 type Props = {};
 
 const Header = (props: Props) => {
+  const [nav, setNav] = useState(false);
+  const handleNav = () => {
+    setNav(!nav);
+    if(!nav) {
+        document.body.style.overflow = 'hidden'
+    } else {
+        document.body.style.overflow = 'scroll'
+    }
+  };
+  
   return (
     <div className=''>
       {/* Logo + information */}
@@ -15,15 +25,15 @@ const Header = (props: Props) => {
             <div className="px-5 xl:px-8 py-4 flex w-full justify-between items-center">
               {/* Logo */}
               <div className="flex flex-row min-w-max">
-                <a className='hidden phone:flex' href="#">
+                <NavLink to="/" className='hidden phone:flex'>
                   <img src="./src/assets/logo-nobg.png" alt="logo" className='h-20 w-15'/>
-                </a>
-                <a href="#" className='item-center pt-3 flex flex-col justify-center'>
+                </NavLink>
+                <NavLink to='/' className='item-center pt-3 flex flex-col justify-center'>
                   <div className='text-primary-0 text-2xl whitespace-nowrap font-medium'>NGUYEN'S HOME</div>
                   <div className='flex justify-center'>
                     <div className='text-dark-1 text-base/3 font-medium'>FURNITURE</div>
                   </div>    
-                </a>
+                </NavLink>
               </div>
 
               {/* Icon */}
@@ -79,7 +89,7 @@ const Header = (props: Props) => {
               </span>
             </a>
             {/* Expand in responsive */}
-            <a className="navbar-burger self-center mr-12 xl:hidden" href="#">
+            <a className="navbar-burger self-center mr-12 xl:hidden" onClick={handleNav}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="#32435F">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -90,7 +100,12 @@ const Header = (props: Props) => {
       </div>
       {/* Navbar */}
       <div className='bg-white shadow-md'>
-        <nav className="hidden md:flex justify-center md:items-center flex-wrap plr-6">
+        {/* <nav className="hidden md:flex justify-center md:items-center flex-wrap plr-6"> */}
+        <nav  className={
+          nav
+            ? 'hidden'
+            : 'md:flex justify-center md:items-center flex-wrap plr-6'
+        }>
           <div className="lg:w-auto lg:flex">
             <div className="text-base md:shrink-0">
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
