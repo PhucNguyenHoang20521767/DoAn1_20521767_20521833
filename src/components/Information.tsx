@@ -7,6 +7,7 @@ const Information = (props: Props) => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 
     const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -49,7 +50,10 @@ const Information = (props: Props) => {
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Ngày sinh:</label>
                         <div className='max-w-xs max-h-1'>
                             {/* https://github.com/OMikkel/tailwind-datepicker-react */}
-                            <DateTimePick></DateTimePick>
+                            <DateTimePick 
+                                selectedDate={selectedDate}
+                                setSelectedDate={setSelectedDate}
+                            ></DateTimePick>
                         </div>
                     </div>
                     {/* Gender */}
@@ -72,11 +76,11 @@ const Information = (props: Props) => {
 
                 {/* Default Address */}
                 <div className="mb-1 p-1">
-                    <label className="font-semibold text-base text-dark-1">Địa chỉ mặt định:</label>
+                    <label className="font-semibold text-base text-dark-1">Địa chỉ mặc định:</label>
                     <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected>1</option>
-                            <option value="Male">Nam</option>
-                            <option value="Female">Nữ</option>
+                            <option value="Male">2</option>
+                            <option value="Female">3</option>
                         </select>
                 </div>
 

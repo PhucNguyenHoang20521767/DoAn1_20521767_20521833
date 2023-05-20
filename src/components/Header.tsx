@@ -3,16 +3,60 @@ import Home from '@/pages/Home/home';
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
+import { mainApi } from '@/api/main_api';
+import * as apiEndpoints from '@/api/api_endpoints';
+import { logout } from '@/redux/reducers/auth_reducers';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from '@/redux/store/store';
+import { error } from 'console';
+
 type Props = {};
 
 const Header = (props: Props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentUsers = useSelector((state: RootState) => state.auth.id);
+  const isLogin = useSelector((state: RootState) => state.auth.isLogin);
   const [nav, setNav] = useState(false);
+  const [loginState, setLoginState] = useState(false);
+
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     setLoginState(true);
+  //   }
+  // }, [isLogin]);
+
   const handleNav = () => {
     setNav(!nav);
     if(!nav) {
         document.body.style.overflow = 'hidden'
     } else {
         document.body.style.overflow = 'scroll'
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      console.log('currentid', currentUsers);
+      const result = await mainApi.post(
+        apiEndpoints.LOGOUT(currentUsers),
+        apiEndpoints.logoutCustomer(currentUsers)
+        ).then(
+          (res) => {
+            console.log(res);
+          }
+        ).catch(error => {
+          console.log(error);
+        })
+
+        console.log(result);
+        console.log('logout2');
+      dispatch(logout());
+      navigate('/signin');
+    } catch (error: any) {
+      console.log(error);
     }
   };
   
@@ -26,7 +70,7 @@ const Header = (props: Props) => {
               {/* Logo */}
               <div className="flex flex-row min-w-max">
                 <NavLink to="/" className='hidden phone:flex'>
-                  <img src="./src/assets/logo-nobg.png" alt="logo" className='h-20 w-15'/>
+                  <img src="/src/assets/logo-nobg.png" alt="logo" className='h-20 w-15'/>
                 </NavLink>
                 <NavLink to='/' className='item-center pt-3 flex flex-col justify-center'>
                   <div className='text-primary-0 text-2xl whitespace-nowrap font-medium'>NGUYEN'S HOME</div>
@@ -68,11 +112,25 @@ const Header = (props: Props) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                   </NavLink>
-                  <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
+                  {
+                    isLogin ?
+                    (
+                  <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">          
                     <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
                     <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
-                    <NavLink to="/" className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold">Đăng xuất</NavLink>
+                    <button
+                    onClick={handleLogout}
+                    className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold" 
+                    >Đăng xuất</button>
                   </div>
+                    )
+                    :
+                    (
+                  <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
+                    <NavLink to="signin" className="block px-4 py-2 hover:bg-gray-200 text-black">Đăng nhập</NavLink>
+                  </div>
+                    )
+                  }
                 </div>
               </div>
             </div>

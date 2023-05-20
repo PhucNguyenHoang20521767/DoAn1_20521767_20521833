@@ -1,37 +1,105 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
 
-type Props = {};
+import { mainApi } from '@/api/main_api'
+import * as apiEndpoints from '@/api/api_endpoints';
+import { login } from '@/redux/reducers/auth_reducers';
+import { useDispatch } from 'react-redux'
 
-const Login = (props: Props) => {
-    const [email, setEmail] = useState('');
+interface ILoginInput {
+    email: string;
+    password: string;
+}
+
+type Props = {
+    idToken: string;
+    setIdToken: (token: string) => void;
+    handleOpen: () => void;
+    loginEmail: string;
+    setLoginEmail: (loginEmail: string) => void;
+};
+
+const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Props) => {
+    // const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-      // Handle form submission here
-    };
+    const { register, formState: { errors }, handleSubmit } = useForm<ILoginInput>();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
+        try {
+            const result = await mainApi.post(
+                apiEndpoints.LOGIN,
+                apiEndpoints.getLoginBody(data.email, data.password)
+            );
+            console.log("verify", result.data.data.isVerified);
+
+            if (result.data.data.isVerified) {
+                handleLogin(result.data.token, result.data.data._id)
+                
+            } else {
+                await mainApi.post(
+                    apiEndpoints.VERIFY_OTP,
+                    apiEndpoints.sendOTPCustomer(loginEmail)
+                );
+                setIdToken(result.data.token);
+                console.log(result.data.token);
+                handleOpen();
+            }
+
+            //handleLogin(result.data.token);
+        } catch (error: any) {
+
+            const errorMessage = error.response.data.error;
+
+            if (errorMessage === "Invalid credentials") {
+                setError("email", { message: "Người dùng không tồn tại" });
+            } else if (errorMessage === "Incorrect password") {
+                setError("password", { message: "Sai mật khẩu" });
+            }
+        }
+    }
+
+    const handleLogin = async (currentUser: string, id: string) => {
+        try {
+            console.log("id", id);
+            const userLogin = {currentUser: currentUser, id: id, isLogin: true}
+            dispatch(login(userLogin));
+            // localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            navigate("/home");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
     <div className=""> 
-        {/* Navigation */}
-        {/* <div className="min-[512px]:hidden flex items-center justify-between px-4 py-2 bg-white border-b border-secondary-1"> */}
-        {/* <div className="max-[1024px]:hidden  font-medium text-2xl text-primary-1 pt-3 pl-3">
-            <a href="">Đăng nhập</a>
-        </div> */}
         {/* Form */}
         <div className="w-[32rem] max-[512px]:w-full p-2">
-            <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="max-w-full mx-auto mt-2">
                 {/* Email */}
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-gray-700">Email:</label>
-                    <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} 
+                    <input type="email" 
+                    {...register("email", { required: "Email is required", maxLength: { value: 20, message: "Email chỉ có thể nhỏ hơn 20 kí tự" } })} 
+                    name="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} 
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                 </div>
+
+                {errors.email && <span><p className='text-red-800 pl-1'>Thiếu Email!</p></span>}
+
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
                     <div className="flex items-center">
-                        <input type={showPassword ? "text" : "password"} id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                        <input type={showPassword ? "text" : "password"} 
+                        {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
+                        name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
+                        autoComplete="current-password"
+                        required />
                         <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
@@ -45,6 +113,8 @@ const Login = (props: Props) => {
                         </button>
                     </div>
                 </div>
+
+                {errors.password && <span> <p className='text-red-800 pl-1'>Thiếu mật khẩu!</p></span>}
 
                 <div className='mt-3 p-1'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
@@ -83,11 +153,11 @@ const Login = (props: Props) => {
                     </div>
 
                     {/* Help? */}
-                    <div className='my-5 p-1 flex justify-center'>
+                    {/* <div className='my-5 p-1 flex justify-center'>
                         <div className='text-lg'>
                             Bạn cần giúp đỡ? <a className='underline hover:text-dark-2 hover:font-bold' href="#">Liên hệ chúng tôi</a>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </form>
         </div>
@@ -96,3 +166,7 @@ const Login = (props: Props) => {
 }
 
 export default Login;
+function setError(arg0: string, arg1: { message: string; }) {
+    throw new Error('Function not implemented.');
+}
+

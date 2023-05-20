@@ -55,10 +55,16 @@ const options: Options = {
 	autoHide: true
 };
 
-const DemoComponent: React.FC = () => {
+interface Props{
+	selectedDate: Date;
+	setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+}
+
+const DemoComponent = ({ selectedDate, setSelectedDate}: Props) => {
 	const [show, setShow] = useState<boolean>(false);
 
 	const handleChange = (selectedDate: Date) => {
+		setSelectedDate(selectedDate);
 		console.log(selectedDate);
 	};
 
@@ -91,3 +97,4 @@ const DemoComponent: React.FC = () => {
 };
 
 export default DemoComponent;
+

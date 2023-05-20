@@ -1,9 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DateTimePick from "./Daypicker"
+import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
 
-type Props = {};
+import { mainApi } from '@/api/main_api'
+import * as apiEndpoints from '@/api/api_endpoints';
+import { useDispatch } from 'react-redux'
+import { login } from '@/redux/reducers/auth_reducers';
 
-const Signup = (props: Props) => {
+enum GenderEnum {
+    female = "female",
+    male = "male"
+}
+
+interface ISignUpInput {
+    password: string;
+    firstname: string;
+    lastname: string;
+    birthday: string; 
+    email: string;
+    gender: GenderEnum;
+}
+
+type Props = {
+    idToken: string;
+    setIdToken: (token: string) => void;
+    handleOpen: () => void;
+};
+
+const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -12,10 +37,12 @@ const Signup = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-      // Handle form submission here
-    };
+    //Date time picker
+    const [date, setDate] = useState(new Date());
+
+    const { register, formState: { errors }, handleSubmit } = useForm<ISignUpInput>();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const firstDivRef = useRef<HTMLDivElement>(null);
     const secondDivRef = useRef<HTMLDivElement>(null);
@@ -26,27 +53,60 @@ const Signup = (props: Props) => {
         }
     }, []);
     
+    const birthday = date.toISOString().split('T')[0];
+
+    const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
+        console.log("Button clicked");
+
+        try {
+            const result = await mainApi.post(
+                apiEndpoints.SIGNUP,
+
+                apiEndpoints.getSignupBody(data.password, data.firstname, data.lastname, 
+                    birthday, data.email,data.gender)
+            );
+
+            console.log(result.data);
+            setIdToken(result.data.customerIdToken);
+
+            handleSignUp(result.data.token, result.data.data._id);
+        } catch (error: any) {
+            console.log(error);
+        }
+    }
+
+    const handleSignUp = async (token: string, id: string) => {
+        try {
+            const userLogin = {currentUser: token, id: id, isLogin: true}
+            dispatch(login(userLogin));
+
+            handleOpen();
+
+            // localStorage.setItem("currentUser", token);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
     return (
     <div className=""> 
-        {/* Navigation */}
-        {/* <div className="max-[1024px]:hidden font-medium text-2xl text-primary-1 pt-3 pl-3">
-            <a href="/Login">Đăng ký</a>
-        </div> */}
-
         {/* Form */}
-
         <div className="w-[32rem] max-[512px]:w-full p-2">
-            <form onSubmit={handleSubmit} className="max-w-full mx-auto mt-2">
+            <form onSubmit={handleSubmit(onSubmit)} className="max-w-full mx-auto mt-2">
                 {/* Basic information */}
                 <div className='flex justify-center'>
                     <div className="mb-1 p-1 pr-2">
                         <label htmlFor="text" className="font-semibold text-base text-dark-1">Họ:</label>
-                        <input type="text" id="lastname" name="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} 
+                        <input type="text" 
+                        {...register("lastname", { pattern: /^[A-Za-z]+$/i })}
+                        name="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                     </div>
                     <div className="mb-1 p-1 pl-2">
                         <label htmlFor="text" className="font-semibold text-base text-dark-1">Tên:</label>
-                        <input type="text" id="firstname" name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} 
+                        <input type="text" 
+                        {...register("firstname", { required: true, maxLength: 20 })}
+                        name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                     </div>
                 </div>
@@ -58,16 +118,18 @@ const Signup = (props: Props) => {
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Ngày sinh:</label>
                         <div className='max-w-xs max-h-1'>
                             {/* https://github.com/OMikkel/tailwind-datepicker-react */}
-                            <DateTimePick></DateTimePick>
+                            <DateTimePick selectedDate={date} setSelectedDate={setDate}></DateTimePick>                           
                         </div>
                     </div>
                     {/* Gender */}
                     <div className="mb-1 min-[508px]:pr-[10.4rem]">
                         <label htmlFor="email" className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
-                        <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select 
+                        {...register("gender")}
+                        className="bg-white border border-secondary-1 text-gray-900 text-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {/* <option selected>Giới tính:</option> */}
-                            <option value="Male">Nam</option>
-                            <option value="Female">Nữ</option>
+                            <option value="Nam" >Nam</option>
+                            <option value="Nữ">Nữ</option>
                         </select>
                     </div>
                 </div>
@@ -75,7 +137,9 @@ const Signup = (props: Props) => {
                 {/* Email */}
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-dark-1">Email:</label>
-                    <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} 
+                    <input type="email"
+                    {...register("email", { required: "Hãy nhập email!"})}
+                    name="email" value={email} onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                 </div>
 
@@ -83,8 +147,12 @@ const Signup = (props: Props) => {
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="password" className="font-semibold block text-dark-1">Mật khẩu:</label>
                     <div className="flex items-center">
-                        <input type={showPassword ? "text" : "password"} id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                        <input type={showPassword ? "text" : "password"} 
+                        {...register("password", { required: "Hãy nhập mật khẩu!", minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
+                        name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" 
+                        autoComplete="current-password"
+                        required />
                         <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
@@ -119,11 +187,12 @@ const Signup = (props: Props) => {
                     </div>
                 </div>
 
-                <div className='mt-3 p-1'>
+                <div className='mt-3 p-1 pb-4'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                         ĐĂNG KÝ
                     </button>
                 </div>
+                
             </form>
         </div>
     </div>
@@ -131,3 +200,7 @@ const Signup = (props: Props) => {
 }
 
 export default Signup;
+function setError(arg0: string, arg1: { message: string; }) {
+    throw new Error('Function not implemented.');
+}
+
