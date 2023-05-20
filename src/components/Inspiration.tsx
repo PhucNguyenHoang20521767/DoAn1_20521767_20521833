@@ -9,7 +9,7 @@ const Inspiration = () => {
                 alt='/'
             />
             {/* <div className='bg-black/30 absolute top-0 left-0 w-full h-full' /> */}
-            <div className='absolute w-full h-full flex flex-col justify-center text-primary-0 top-1 lg:left-[600px] max-sm:left-[120px]'>
+            <div className='max-w-[600px] absolute w-full h-full flex flex-col justify-center text-primary-0 top-1 lg:left-[600px] max-sm:left-[120px]'>
                 <p className='pb-5 font-bold text-2xl'>GÓC CẢM HỨNG</p>
                 <p className='pb-3 text-xl max-w-[500px]'>Bước chân vào thế giới của những mẫu thiết kế mang lại nguồn cảm hứng cho bạn</p>
                 <button className='bg-transparent border-secondary-1 border-2 text-secondary-1 p-3 hover:shadow-lg w-[200px]'>KHÁM PHÁ NGAY</button>
