@@ -1,12 +1,15 @@
-import React, {useEffect} from 'react'
-
+import React, {useEffect, useState} from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import {mainApi} from "@/api/main_api";
 import * as apiEndpoints from "@/api/api_endpoints";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {login} from "@/redux/reducers/auth_reducers";
+import { RootState } from '@/redux/store/store';
+
+import MuiAlert, { Stack, Snackbar, IconButton} from "@mui/material";
+import { Alert } from '@/utils/ui';
 
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -14,46 +17,16 @@ import Footer from '@/components/Footer'
 const rootpage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLog = useSelector((state: RootState) => state.auth.isLogin);
 
-    // const getUser = async (email: string, password: string, expiredDate: Date) => {
-    //     try {
-    //         const result = await mainApi.post(
-    //             apiEndpoints.LOGIN,
-    //             apiEndpoints.getLoginBody(email, password)
-    //         );
+    const [openSnack, setOpenSnack] = useState(false);
 
-    //         const currentUser = {
-    //             token: result.data.token,
-    //             id: result.data.id,
-    //             email: result.data.email,
-    //             password: result.data.password,
-    //             expiredDate: expiredDate,
-    //         }
-
-    //         dispatch(login(currentUser));
-    //     } catch (error: any) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     const currentUser = localStorage.getItem("currentUser");
-
-    //     if (currentUser) {
-    //         const loggedUser = JSON.stringify(currentUser);
-    //         console.log(loggedUser);
-    //         const today = new Date();
-    //         const expiredDate = new Date(loggedUser.expiredDate);
-
-    //         if (today > expiredDate) {
-    //             localStorage.removeItem("currentUser");
-    //             navigate("/signin");
-    //         }
-    //         else{
-    //             getUser(loggedUser.email, loggedUser.password, loggedUser.expiredDate);
-    //         }
-    //     }
-    // }, []);
+    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpenSnack(false);
+      };
 
     return (
         <>
@@ -61,6 +34,13 @@ const rootpage = () => {
                 <Header/>
             </header>
             <main>
+                        {/* <Stack sx={{ width: '100%' }} spacing={2}>
+                            <Snackbar open={isLog} autoHideDuration={6000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                                This is a success message!
+                                </Alert>
+                            </Snackbar>
+                        </Stack> */}
                 <Outlet></Outlet>
             </main>
             <Footer/>

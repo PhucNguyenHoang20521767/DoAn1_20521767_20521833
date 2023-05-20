@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import {Box, Button, Typography, Modal} from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
-import { matchIsNumeric } from '@/utils/numberCheck';
+import { matchIsNumeric } from '@/utils/function';
 
 import { mainApi } from '@/api/main_api'
 import * as apiEndpoints from '@/api/api_endpoints';

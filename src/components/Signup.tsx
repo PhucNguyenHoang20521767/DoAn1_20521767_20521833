@@ -36,6 +36,7 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [error, setError] = useState('');
 
     //Date time picker
     const [date, setDate] = useState(new Date());
@@ -52,6 +53,16 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
         secondDivRef.current.style.width = firstDivRef.current.offsetWidth + 'px';
         }
     }, []);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (error) {
+          timer = setTimeout(() => {
+            setError('');
+          }, 5000);
+        }
+        return () => clearTimeout(timer);
+      }, [error]);
     
     const birthday = date.toISOString().split('T')[0];
 
@@ -186,6 +197,9 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
                         </button>
                     </div>
                 </div>
+                {
+                    error && <p className='text-red-700'>{error}</p>
+                }   
 
                 <div className='mt-3 p-1 pb-4'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
@@ -200,7 +214,4 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
 }
 
 export default Signup;
-function setError(arg0: string, arg1: { message: string; }) {
-    throw new Error('Function not implemented.');
-}
 

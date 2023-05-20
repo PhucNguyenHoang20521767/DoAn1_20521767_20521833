@@ -1,4 +1,4 @@
-
+//function to use in the project
 export function matchIsNumeric(text: string) {
     const isNumber = typeof text === 'number'
     const isString = matchIsString(text)

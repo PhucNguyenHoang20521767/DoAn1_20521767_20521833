@@ -24,10 +24,21 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
     // const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
     const { register, formState: { errors }, handleSubmit } = useForm<ILoginInput>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (error) {
+          timer = setTimeout(() => {
+            setError('');
+          }, 5000);
+        }
+        return () => clearTimeout(timer);
+      }, [error]);
 
     const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
         try {
@@ -56,9 +67,9 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
             const errorMessage = error.response.data.error;
 
             if (errorMessage === "Invalid credentials") {
-                setError("email", { message: "Người dùng không tồn tại" });
+                setError("Người dùng không tồn tại");
             } else if (errorMessage === "Incorrect password") {
-                setError("password", { message: "Sai mật khẩu" });
+                setError("Sai mật khẩu");
             }
         }
     }
@@ -115,7 +126,9 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
                 </div>
 
                 {errors.password && <span> <p className='text-red-800 pl-1'>Thiếu mật khẩu!</p></span>}
-
+                {
+                    error && <p className='text-red-800'>{error}</p>
+                }
                 <div className='mt-3 p-1'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                         ĐĂNG NHẬP
@@ -166,7 +179,4 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
 }
 
 export default Login;
-function setError(arg0: string, arg1: { message: string; }) {
-    throw new Error('Function not implemented.');
-}
 
