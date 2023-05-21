@@ -16,14 +16,23 @@ export const getSignupBody = (password: string, firstname: string, lastname: str
     customerGender: gender
 });
 //Forgot passwords
-
+export const FORGOT_PASSWORD = "/customers/forgetPasswordCustomer";
+export const getForgotPasswordBody = (email: string) => ({
+    customerEmail: email
+});
+//Reset passwords
+export const RESET_PASSWORD = "/customers/resetPasswordCustomer";
+export const getResetPasswordBody = (email: string, OTP: string, newPassword: string) => ({
+    customerIdToken: email,
+    customerOTP: OTP,
+    customerPassword: newPassword
+});
 //Get OTP from email
 export const GET_OTP = "/customers/verifyCustomerAfterSendOTP";
 export const getOTPBody = (idToken: string, OTP: string) => ({
     customerIdToken: idToken,
     customerOTP: OTP
 });
-
 //Verify OTP
 export const VERIFY_OTP = "/customers/sendOTPCustomer";
 export const sendOTPCustomer = (email: string) => ({

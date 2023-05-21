@@ -8,6 +8,8 @@ import * as apiEndpoints from '@/api/api_endpoints';
 import { useDispatch } from 'react-redux'
 import { login } from '@/redux/reducers/auth_reducers';
 
+import CircularProgress from '@mui/material/CircularProgress';
+
 enum GenderEnum {
     female = "female",
     male = "male"
@@ -26,9 +28,11 @@ type Props = {
     idToken: string;
     setIdToken: (token: string) => void;
     handleOpen: () => void;
+    loginEmail: string;
+    setLoginEmail: (email: string) => void;
 };
 
-const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
+const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Props) => {
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -37,6 +41,7 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     //Date time picker
     const [date, setDate] = useState(new Date());
@@ -59,16 +64,19 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
         if (error) {
           timer = setTimeout(() => {
             setError('');
-          }, 5000);
+          }, 10000);
         }
         return () => clearTimeout(timer);
       }, [error]);
     
-    const birthday = date.toISOString().split('T')[0];
+    // const birthday = date.toISOString().split('T')[0];
+    const birthday = date.toLocaleDateString('vi-VN');
 
     const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
-        console.log("Button clicked");
+        setLoading(true);
 
+        console.log('date', date)
+        console.log('birthday', birthday);
         try {
             const result = await mainApi.post(
                 apiEndpoints.SIGNUP,
@@ -77,22 +85,26 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
                     birthday, data.email,data.gender)
             );
 
-            console.log(result.data);
+            setLoginEmail(data.email);
+            console.log('data', result);
             setIdToken(result.data.customerIdToken);
-
-            handleSignUp(result.data.token, result.data.data._id);
+            handleSignUp();
         } catch (error: any) {
-            console.log(error);
+            const message = error.response.data.error;
+            if(message === 'customerEmail already exists') {
+                setError('Email đã tồn tại');
+            } else {
+                setError('Đã có lỗi xảy ra');
+            }
+            setLoading(false);
         }
     }
 
-    const handleSignUp = async (token: string, id: string) => {
+    const handleSignUp = async () => {
         try {
-            const userLogin = {currentUser: token, id: id, isLogin: true}
-            dispatch(login(userLogin));
-
             handleOpen();
-
+            // navigate('/');
+            setLoading(false);
             // localStorage.setItem("currentUser", token);
         } catch (error) {
             console.log(error);
@@ -203,6 +215,7 @@ const Signup = ({idToken, setIdToken, handleOpen}: Props) => {
 
                 <div className='mt-3 p-1 pb-4'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                        {loading && <CircularProgress size={20} className='mr-2' />}
                         ĐĂNG KÝ
                     </button>
                 </div>

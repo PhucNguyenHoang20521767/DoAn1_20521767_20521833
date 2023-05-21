@@ -70,7 +70,7 @@ const Header = (props: Props) => {
               {/* Logo */}
               <div className="flex flex-row min-w-max">
                 <NavLink to="/" className='hidden phone:flex'>
-                  <img src="/src/assets/logo-nobg.png" alt="logo" className='h-20 w-15'/>
+                  <img src="/src/assets/logo-nobg.webp" alt="logo" className='h-20 w-15'/>
                 </NavLink>
                 <NavLink to='/' className='item-center pt-3 flex flex-col justify-center'>
                   <div className='text-primary-0 text-2xl whitespace-nowrap font-medium'>NGUYEN'S HOME</div>
@@ -107,11 +107,11 @@ const Header = (props: Props) => {
                 </a>
 
                 <div className='relative inline-block text-left group'>
-                  <NavLink className="flex items-center hover:text-gray-200 p-3 btn btn-ghost rounded-btn" to="account">
+                  <a className="flex items-center hover:text-gray-200 p-3 btn btn-ghost rounded-btn" >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                  </NavLink>
+                  </a>
                   {
                     isLogin ?
                     (

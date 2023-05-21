@@ -21,6 +21,12 @@ const rootpage = () => {
 
     const [openSnack, setOpenSnack] = useState(false);
 
+    useEffect(() => {
+        if(isLog) {
+            setOpenSnack(true);
+        }
+    }, [isLog])
+
     const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
           return;
@@ -34,13 +40,13 @@ const rootpage = () => {
                 <Header/>
             </header>
             <main>
-                        {/* <Stack sx={{ width: '100%' }} spacing={2}>
-                            <Snackbar open={isLog} autoHideDuration={6000} onClose={handleClose}>
-                                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                                This is a success message!
-                                </Alert>
-                            </Snackbar>
-                        </Stack> */}
+                <Stack sx={{ width: '100%' }} spacing={2}>
+                    <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                            Đăng nhập thành công
+                        </Alert>
+                    </Snackbar>
+                </Stack>
                 <Outlet></Outlet>
             </main>
             <Footer/>

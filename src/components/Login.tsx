@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
 
 import { mainApi } from '@/api/main_api'
 import * as apiEndpoints from '@/api/api_endpoints';
 import { login } from '@/redux/reducers/auth_reducers';
 import { useDispatch } from 'react-redux'
+
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface ILoginInput {
     email: string;
@@ -18,13 +20,15 @@ type Props = {
     handleOpen: () => void;
     loginEmail: string;
     setLoginEmail: (loginEmail: string) => void;
+    handleForgotPassword: () => void;
 };
 
-const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Props) => {
+const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, handleForgotPassword}: Props) => {
     // const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const { register, formState: { errors }, handleSubmit } = useForm<ILoginInput>();
     const navigate = useNavigate();
@@ -42,6 +46,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
 
     const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
         try {
+            setLoading(true);
             const result = await mainApi.post(
                 apiEndpoints.LOGIN,
                 apiEndpoints.getLoginBody(data.email, data.password)
@@ -52,12 +57,13 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
                 handleLogin(result.data.token, result.data.data._id)
                 
             } else {
-                await mainApi.post(
+                const resultOtp = await mainApi.post(
                     apiEndpoints.VERIFY_OTP,
                     apiEndpoints.sendOTPCustomer(loginEmail)
                 );
-                setIdToken(result.data.token);
-                console.log(result.data.token);
+                console.log("resultOtp", resultOtp);
+                setIdToken(result.data.customerIdToken);
+                console.log(result.data.customerIdToken);
                 handleOpen();
             }
 
@@ -71,6 +77,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
             } else if (errorMessage === "Incorrect password") {
                 setError("Sai mật khẩu");
             }
+            setLoading(false);
         }
     }
 
@@ -81,6 +88,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
             dispatch(login(userLogin));
             // localStorage.setItem("currentUser", JSON.stringify(currentUser));
             navigate("/home");
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -95,7 +103,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-gray-700">Email:</label>
                     <input type="email" 
-                    {...register("email", { required: "Email is required", maxLength: { value: 20, message: "Email chỉ có thể nhỏ hơn 20 kí tự" } })} 
+                    {...register("email", { required: "Email is required", maxLength: { value: 40, message: "Email chỉ có thể nhỏ hơn 40 kí tự" } })} 
                     name="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} 
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                 </div>
@@ -131,13 +139,15 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
                 }
                 <div className='mt-3 p-1'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                        {loading && <CircularProgress size={20} className='mr-2'/>}
                         ĐĂNG NHẬP
                     </button>
                 </div>
+            </form>
                 <div className='mt-1 p-1'>
-                    <a className='underline hover:text-dark-2 hover:font-bold' href="#">
+                    <button className='underline hover:text-dark-2 hover:font-bold' onClick={handleForgotPassword}>
                         Quên mật khẩu?
-                    </a>
+                    </button>
                 </div>
                 <div className='p-1 position: relative'>
                     {/* <div className="inline-flex items-center justify-center w-full"> */}
@@ -172,7 +182,6 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pro
                         </div>
                     </div> */}
                 </div>
-            </form>
         </div>
     </div>
     )
