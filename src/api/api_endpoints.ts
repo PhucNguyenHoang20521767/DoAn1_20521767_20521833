@@ -27,6 +27,13 @@ export const getResetPasswordBody = (email: string, OTP: string, newPassword: st
     customerOTP: OTP,
     customerPassword: newPassword
 });
+//change passwords
+export const CHANGE_PASSWORD = "/customers/changePasswordCustomer";
+export const getChangePasswordBody = (idToken: string, oldPassword: string, newPassword: string) => ({
+    customerIdToken: idToken,
+    customerOldPassword: oldPassword,
+    customerNewPassword: newPassword
+});
 //Get OTP from email
 export const GET_OTP = "/customers/verifyCustomerAfterSendOTP";
 export const getOTPBody = (idToken: string, OTP: string) => ({

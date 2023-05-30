@@ -71,7 +71,7 @@ const SignIn = () => {
             setDone(true);
             alert('Xác nhận thành công!');
 
-            handleDone(idToken, result.data.data._id);
+            handleDone(result.data.token, result.data.data._id, idToken);
         } catch (error: any) {
             alert('OTP sai!');
         }
@@ -95,9 +95,9 @@ const SignIn = () => {
         }
         }
 
-        const handleDone = async (token: string, id: string) => {
+        const handleDone = async (currentUser: string, id: string, customerIdToken: string) => {
         try {
-            const userLogin = {currentUser: token, id: id, isLogin: true}
+            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true}
             dispatch(login(userLogin));
             handleOpen();
             navigate('/');
@@ -130,7 +130,7 @@ const SignIn = () => {
             console.log('2', result);
             setIdToken(result.data.customerIdToken);
             alert('Hãy nhập mật khẩu mới!');
-            handleCloseForgotPassword()
+            handleCloseForgotPassword(e)
             handleOpenCP();
             setFpLoading(false);
         }
@@ -140,11 +140,15 @@ const SignIn = () => {
             setFpLoading(false);
         }
     }
-      
     const handleOpen = () => { setOpen(true); };
     const handleClose = () => { setOpen(false); };
     const handleForgotPassword = () => {setIsForgotPassword(true); setForgotEmail(loginEmail);}
-    const handleCloseForgotPassword = () => {setIsForgotPassword(false);}
+    const handleCloseForgotPassword = (event: React.SyntheticEvent | MouseEvent, reason?: string) => {
+        if (reason && reason === "backdropClick") {
+            return;
+        }
+        setIsForgotPassword(false);
+    }
     const handleOpenCP = () => { setIsChangePassword(true); };
     const handleCloseCP = () => { setIsChangePassword(false); };
     
@@ -257,6 +261,13 @@ const SignIn = () => {
                                 GỬI
                             </button>
                         </div>
+                        <Button variant="text" sx={{ fontFamily: "EB Garamond"}} onClick={handleCloseForgotPassword}>
+                            THOÁT
+                        </Button>
+
+                        {
+                            fpLoading && <LinearProgress />
+                        }
                     </Box>
                 </Modal>
 

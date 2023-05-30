@@ -5,7 +5,7 @@ import {mainApi} from "@/api/main_api";
 import * as apiEndpoints from "@/api/api_endpoints";
 
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "@/redux/reducers/auth_reducers";
+import {login, logout} from "@/redux/reducers/auth_reducers";
 import { RootState } from '@/redux/store/store';
 
 import MuiAlert, { Stack, Snackbar, IconButton} from "@mui/material";
@@ -24,6 +24,9 @@ const rootpage = () => {
     useEffect(() => {
         if(isLog) {
             setOpenSnack(true);
+        }
+        else if (!isLog) {
+            dispatch(logout());
         }
     }, [isLog])
 

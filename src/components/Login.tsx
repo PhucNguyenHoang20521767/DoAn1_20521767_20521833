@@ -27,24 +27,25 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
     // const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('');
+    // const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { register, formState: { errors }, handleSubmit } = useForm<ILoginInput>();
+    const { register, formState: { errors }, setError, handleSubmit } = useForm<ILoginInput>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        let timer: NodeJS.Timeout;
-        if (error) {
-          timer = setTimeout(() => {
-            setError('');
-          }, 5000);
-        }
-        return () => clearTimeout(timer);
-      }, [error]);
+    // useEffect(() => {
+    //     let timer: NodeJS.Timeout;
+    //     if (error) {
+    //       timer = setTimeout(() => {
+    //         setError('');
+    //       }, 5000);
+    //     }
+    //     return () => clearTimeout(timer);
+    //   }, [error]);
 
     const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
+        if(loading) return;
         try {
             setLoading(true);
             const result = await mainApi.post(
@@ -54,7 +55,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
             console.log("verify", result.data.data.isVerified);
 
             if (result.data.data.isVerified) {
-                handleLogin(result.data.token, result.data.data._id)
+                handleLogin(result.data.token, result.data.data._id, result.data.customerIdToken)
                 
             } else {
                 const resultOtp = await mainApi.post(
@@ -73,18 +74,18 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
             const errorMessage = error.response.data.error;
 
             if (errorMessage === "Invalid credentials") {
-                setError("Người dùng không tồn tại");
+                setError("email", { type: "manual", message: "Người dùng không tồn tại" })
             } else if (errorMessage === "Incorrect password") {
-                setError("Sai mật khẩu");
+                setError("password", { type: "manual", message: "Mật khẩu không chính xác" })
             }
             setLoading(false);
         }
     }
 
-    const handleLogin = async (currentUser: string, id: string) => {
+    const handleLogin = async (currentUser: string, id: string, customerIdToken: string) => {
         try {
             console.log("id", id);
-            const userLogin = {currentUser: currentUser, id: id, isLogin: true}
+            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true}
             dispatch(login(userLogin));
             // localStorage.setItem("currentUser", JSON.stringify(currentUser));
             navigate("/home");
@@ -134,9 +135,6 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                 </div>
 
                 {errors.password && <span> <p className='text-red-800 pl-1'>Thiếu mật khẩu!</p></span>}
-                {
-                    error && <p className='text-red-800'>{error}</p>
-                }
                 <div className='mt-3 p-1'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                         {loading && <CircularProgress size={20} className='mr-2'/>}

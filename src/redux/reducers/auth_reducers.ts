@@ -5,11 +5,13 @@ import { stat } from 'fs';
 interface IAuthState {
     currentUser: string;
     id: string;
+    customerIdToken: string;
     isLogin: boolean;
 }
 const initialState = { 
     currentUser: "",
     id: "",
+    customerIdToken: "",
     isLogin: false,
 } as IAuthState;
 
@@ -27,11 +29,13 @@ const authReducer = createReducer(
         state.id = action.payload.id;
         const user = action.payload.currentUser;
         console.log('user', user)
+        state.customerIdToken = action.payload.customerIdToken;
         state.isLogin = true;
     })
     .addCase(logout, (state) => {
         state.currentUser = "";
         state.id = "";
+        state.customerIdToken = "";
         state.isLogin = false;
     });
 });

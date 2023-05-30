@@ -73,11 +73,12 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
     const birthday = date.toLocaleDateString('vi-VN');
 
     const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
-        setLoading(true);
-
+        if(loading) return;
+        else 
         console.log('date', date)
         console.log('birthday', birthday);
         try {
+            setLoading(true);
             const result = await mainApi.post(
                 apiEndpoints.SIGNUP,
 
