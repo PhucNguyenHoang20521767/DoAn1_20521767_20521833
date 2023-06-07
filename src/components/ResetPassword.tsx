@@ -53,6 +53,12 @@ const ResetPassword = () => {
         }
     }, [password1])
 
+    const handleCancel = () => {
+        setPassword('');
+        setPassword1('');
+        setPassword2('');
+    }
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setLoading(true);
@@ -69,9 +75,9 @@ const ResetPassword = () => {
     }
 
     return (
-        <div className='pl-[5rem] border-l-2 mt-10 flex justify-start mb-8'>
+        <div className='pl-[5rem] border-l-2 mt-10 flex justify-start mb-8 lg:justify-center'>
             <div className="w-[32rem] max-[512px]:w-full">
-                <h1 className='flex justify-end text-2xl font-bold text-gray-700 mb-6'>Đặt lại mật khẩu</h1>
+                <h1 className='flex justify-center text-2xl font-bold text-gray-700 mb-6'>Đặt lại mật khẩu</h1>
                 <InputPassword
                     showPassword = {showPassword} 
                     password = {password} 
@@ -98,7 +104,7 @@ const ResetPassword = () => {
                 />
                 <div className='flex justify-end mt-6'>
                     <div className='mt-3 p-1'>
-                        <button className="w-full px-3 py-1 text-white bg-dark-3 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                        <button onClick={handleCancel} className="w-full px-3 py-1 text-white bg-dark-3 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                             HUỶ
                         </button>
                     </div>

@@ -53,6 +53,11 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
     const firstDivRef = useRef<HTMLDivElement>(null);
     const secondDivRef = useRef<HTMLDivElement>(null);
 
+    const handleChange = (selectedDate: Date) => {
+		setDate(selectedDate);
+		// console.log("date", selectedDate);
+	};
+
     useEffect(() => {
         if (firstDivRef.current && secondDivRef.current) {
         secondDivRef.current.style.width = firstDivRef.current.offsetWidth + 'px';
@@ -71,12 +76,12 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
     
     // const birthday = date.toISOString().split('T')[0];
     const birthday = date.toLocaleDateString('vi-VN');
+    // console.log('birthday', birthday);
 
     const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
         if(loading) return;
-        else 
-        console.log('date', date)
-        console.log('birthday', birthday);
+        // console.log('date', date)
+        // console.log('birthday', birthday);
         try {
             setLoading(true);
             const result = await mainApi.post(
@@ -142,7 +147,11 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Ngày sinh:</label>
                         <div className='max-w-xs max-h-1'>
                             {/* https://github.com/OMikkel/tailwind-datepicker-react */}
-                            <DateTimePick selectedDate={date} setSelectedDate={setDate}></DateTimePick>                           
+                            <DateTimePick 
+                            selectedDate={date} 
+                            setSelectedDate={setDate}
+                            handleChange={handleChange}
+                            ></DateTimePick>                           
                         </div>
                     </div>
                     {/* Gender */}

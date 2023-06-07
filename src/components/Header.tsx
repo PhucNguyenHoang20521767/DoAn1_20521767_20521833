@@ -1,7 +1,7 @@
 import Account from '@/pages/Account/account';
 import Home from '@/pages/Home/home';
 import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, Link } from 'react-router-dom';
 
 import { mainApi } from '@/api/main_api';
 import * as apiEndpoints from '@/api/api_endpoints';
@@ -10,7 +10,8 @@ import { logout } from '@/redux/reducers/auth_reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '@/redux/store/store';
-import { error } from 'console';
+import { get } from 'http';
+import cat from '@/utils/image_link';
 
 type Props = {};
 
@@ -22,11 +23,12 @@ const Header = (props: Props) => {
   const [nav, setNav] = useState(false);
   const [loginState, setLoginState] = useState(false);
 
-  // useEffect(() => {
-  //   if (isLogin) {
-  //     setLoginState(true);
-  //   }
-  // }, [isLogin]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [categoryTable, setCategoryTable] = useState<any[]>([]);
+  const [categoryChair, setCategoryChair] = useState<any[]>([]);
+  const [categorySofa, setCategorySofa] = useState<any[]>([]);
+  const [categoryBed, setCategoryBed] = useState<any[]>([]);
+  const [subCategories, setSubCategories] = useState<any[]>([]);
 
   const handleNav = () => {
     setNav(!nav);
@@ -50,18 +52,55 @@ const Header = (props: Props) => {
         ).catch(error => {
           console.log(error);
         })
-
-        console.log(result);
-        console.log('logout2');
       dispatch(logout());
       navigate('/signin');
     } catch (error: any) {
       console.log(error);
     }
   };
+
+  const getAllCategories = async () => {
+    try {
+      const result = await mainApi.get(apiEndpoints.GET_CATEGORIES);
+      const data = result.data.data;
+      setCategories(
+        data.map((item: any) => {
+          return {
+            id: item._id,
+            name: item.categoryName,
+            slug: item.categorySlug,
+          };
+        })
+      );
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  const getAllSubCategories = async () => {
+    try {
+      const result = await mainApi.get(apiEndpoints.GET_SUBCATEGORIES);
+      const data = result.data.data;
+      setSubCategories(
+        data.map((item: any) => {
+          return {
+            id: item._id,
+            name: item.subcategoryName,
+          };
+        })
+      );
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllSubCategories();
+    getAllCategories();
+  }, []);
   
   return (
-    <div className=''>
+    <nav className='shadow-md'>
       {/* Logo + information */}
       <div className="flex flex-wrap">
         <section className="relative mx-auto">
@@ -167,14 +206,30 @@ const Header = (props: Props) => {
           <div className="lg:w-auto lg:flex">
             <div className="text-base md:shrink-0">
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <a href="#responsive-header" className="text-primary-0">
+                <Link to="product" className="text-primary-0">
                   SẢN PHẨM
-                </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                </Link>
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
-                    <a href="#">
-                      Sản phẩm
-                    </a>
+                    <div className=''>
+                      {
+                        categories.map((category, index) => {
+                          return (
+                            <div>
+                              <Link
+                                key={category.id}
+                                to={`/product/${category.slug}`}
+                                // to={category.name.toString()}
+                                className="block px-4 py-2 font-semibold text-base text-dark-1 hover:bg-gray-200"
+                              >
+                                {category.name}
+                              </Link>
+
+                            </div>
+                          );
+                        })
+                      }
+                    </div>
                   </div>
                 </div>
               </div>
@@ -182,11 +237,21 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   PHÒNG
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
-                    <a href="#">
-                      Phòng
-                    </a>
+                  <div>
+                    {subCategories.map((subCategory, index) => {
+                      return (
+                        <Link
+                          key={index}
+                          to={`/category/${subCategory._id}`}
+                          className="block px-4 py-2 hover:bg-gray-200 text-black"
+                        >
+                          {subCategory.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
                   </div>
                 </div>
               </div>
@@ -194,7 +259,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   GÓC CẢM HỨNG
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Góc cảm hứng
@@ -206,7 +271,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   DỊCH VỤ
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Dịch vụ
@@ -218,7 +283,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   VỀ CHÚNG TÔI
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-60 group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Về chúng tôi
@@ -230,7 +295,7 @@ const Header = (props: Props) => {
           </div>
         </nav>
       </div>
-    </div>
+    </nav>
   )
 };
 

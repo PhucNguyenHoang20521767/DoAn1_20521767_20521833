@@ -109,7 +109,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
                 </div>
 
-                {errors.email && <span><p className='text-red-800 pl-1'>Thiếu Email!</p></span>}
+                {errors.email && <span><p className='text-red-800 pl-1'>{errors.email.message}</p></span>}
 
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
@@ -134,7 +134,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                     </div>
                 </div>
 
-                {errors.password && <span> <p className='text-red-800 pl-1'>Thiếu mật khẩu!</p></span>}
+                {errors.password && <span> <p className='text-red-800 pl-1'>{errors.password.message}</p></span>}
                 <div className='mt-3 p-1'>
                     <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
                         {loading && <CircularProgress size={20} className='mr-2'/>}

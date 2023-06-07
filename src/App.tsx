@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 
 import Home from '@/pages/Home/home';
+import Product from '@/pages/Product/product';
+import Product_item from '@/pages/Product/product_item';
 import Signin from '@/pages/SignIn/signin';
 import Account from '@/pages/Account/account';
 import Rootpage from '@/pages/RootPage/rootpage';
@@ -23,6 +25,13 @@ const router = createBrowserRouter(
         <Route path='/' element={<Rootpage/>}>
             <Route index element={<Home />} />
             <Route path="home" element={<Home/>} />
+            <Route path="product" element={<Product/>} >
+                <Route 
+                path=":id" 
+                element={<Product_item/>}
+                
+                />
+            </Route>
             <Route path="signin" element={<Signin/>} />
             <Route path="account" element={<Account />} >
                 <Route index element={<Information />} />

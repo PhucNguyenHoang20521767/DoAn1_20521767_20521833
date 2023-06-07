@@ -61,12 +61,12 @@ const SignIn = () => {
     const handleComplete = async (finalValue: string) => {
         const theOtp = finalValue;
         try {
-            console.log('1', idToken, theOtp);
+            console.log('n1', idToken, theOtp);
             const result = await mainApi.post(
                 apiEndpoints.GET_OTP,
                 apiEndpoints.getOTPBody(idToken, theOtp)
             );
-            console.log('2', result);
+            console.log('n2', result);
 
             setDone(true);
             alert('Xác nhận thành công!');
@@ -75,20 +75,23 @@ const SignIn = () => {
         } catch (error: any) {
             alert('OTP sai!');
         }
-            handleClose();
+            setOpen(false);
       }
 
       const handleCompleteFP = async (finalValue: string) => {
         const theOtp = finalValue;
         try {
-            console.log('1', idToken, theOtp);
+            console.log('fp1', idToken, theOtp, newPassword);
             const result = await mainApi.post(
                 apiEndpoints.RESET_PASSWORD,
                 apiEndpoints.getResetPasswordBody(idToken, theOtp, newPassword)
             );
-            console.log('2', result);
+            console.log('fp2', result);
             alert('Đổi mật khẩu thành công. Hãy đăng nhập lại!');
             setIsForgotPassword(false);
+            setNewPassword('');
+            setOpen(false);
+            setIsChangePassword(false);
         }
         catch (error: any) {
             alert('OTP sai!');
@@ -131,7 +134,7 @@ const SignIn = () => {
             setIdToken(result.data.customerIdToken);
             alert('Hãy nhập mật khẩu mới!');
             handleCloseForgotPassword(e)
-            handleOpenCP();
+            handleOpenCP(e);
             setFpLoading(false);
         }
         catch (error: any) {
@@ -141,7 +144,12 @@ const SignIn = () => {
         }
     }
     const handleOpen = () => { setOpen(true); };
-    const handleClose = () => { setOpen(false); };
+    const handleClose = (event: React.SyntheticEvent | MouseEvent, reason?: string) => {
+        if (reason && reason === "backdropClick") {
+            return;
+        }
+        setOpen(false); 
+    };
     const handleForgotPassword = () => {setIsForgotPassword(true); setForgotEmail(loginEmail);}
     const handleCloseForgotPassword = (event: React.SyntheticEvent | MouseEvent, reason?: string) => {
         if (reason && reason === "backdropClick") {
@@ -149,8 +157,18 @@ const SignIn = () => {
         }
         setIsForgotPassword(false);
     }
-    const handleOpenCP = () => { setIsChangePassword(true); };
-    const handleCloseCP = () => { setIsChangePassword(false); };
+    const handleOpenCP = (event: React.SyntheticEvent | MouseEvent, reason?: string) => { 
+        if (reason && reason === "backdropClick") {
+            return;
+        }
+        setIsChangePassword(true); 
+    };
+    const handleCloseCP = (event: React.SyntheticEvent | MouseEvent, reason?: string) => { 
+        if (reason && reason === "backdropClick") {
+            return;
+        }
+        setIsChangePassword(false); 
+    };
     
     return (
         <div className="flex flex-col lg:flex-row justify-center py-5">
@@ -203,7 +221,7 @@ const SignIn = () => {
                         Nhập OTP được gửi đến email của bạn
                     </Typography>
                     {
-                        isforgotPassword ?
+                        newPassword ?
                     <MuiOtpInput
                         value={otpFP}
                         onChange={handleChangeFP}

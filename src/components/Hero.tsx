@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Hero = () => {
     return (
@@ -9,7 +10,7 @@ const Hero = () => {
                 alt='/'
             />
             {/* <div className='bg-black/30 absolute top-0 left-0 w-full h-full' /> */}
-            <div className='absolute top-40 w-full h-full flex flex-col justify-center text-primary-0'>
+            <div className='top-[25rem] absolute lg:top-40 w-full h-full flex flex-col justify-center text-primary-0'>
                 <div className='md:left-[10%] max-w-[1100px] m-auto p-4'>
                 <h3 className='font-bold text-5xl md:text-5xl drop-shadow-2xl'>
                     Nội thất đơn giản
@@ -17,7 +18,11 @@ const Hero = () => {
                 <p className='max-w-[600px] drop-shadow-2xl py-2 text-3xl'>
                     Cho người tinh tế
                 </p>
-                <button className='bg-secondary-1 text-white p-3 hover:shadow-lg'>MUA SẮM NGAY</button>
+                <Link to='product'>
+                    <button className='bg-secondary-1 text-white p-3 hover:shadow-lg'>
+                        MUA SẮM NGAY
+                    </button>
+                </Link>
                 </div>
             </div>
         </div>

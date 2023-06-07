@@ -1,61 +1,63 @@
-import React, {useEffect, useState} from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
-
-import {mainApi} from "@/api/main_api";
-import * as apiEndpoints from "@/api/api_endpoints";
-
-import {useDispatch, useSelector} from "react-redux";
-import {login, logout} from "@/redux/reducers/auth_reducers";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '@/redux/reducers/auth_reducers';
 import { RootState } from '@/redux/store/store';
-
-import MuiAlert, { Stack, Snackbar, IconButton} from "@mui/material";
+import MuiAlert, { Stack, Snackbar, IconButton } from '@mui/material';
 import { Alert } from '@/utils/ui';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+const RootPage = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLog = useSelector((state: RootState) => state.auth.isLogin);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
 
-const rootpage = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const isLog = useSelector((state: RootState) => state.auth.isLogin);
+  useEffect(() => {
+    if (isLog) {
+      setOpenSnack(true);
+    } else if (!isLog) {
+      dispatch(logout());
+    }
+  }, [isLog]);
 
-    const [openSnack, setOpenSnack] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    setVisible(currentScrollPos < 10 || prevScrollPos > currentScrollPos);
+    setPrevScrollPos(currentScrollPos);
+    };
 
-    useEffect(() => {
-        if(isLog) {
-            setOpenSnack(true);
-        }
-        else if (!isLog) {
-            dispatch(logout());
-        }
-    }, [isLog])
+    window.addEventListener('scroll', handleScroll);
 
-    const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-          return;
-        }
-        setOpenSnack(false);
-      };
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos, visible]);
 
-    return (
-        <>
-            <header>
-                <Header/>
-            </header>
-            <main>
-                <Stack sx={{ width: '100%' }} spacing={2}>
-                    <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                            Đăng nhập thành công
-                        </Alert>
-                    </Snackbar>
-                </Stack>
-                <Outlet></Outlet>
-            </main>
-            <Footer/>
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    setOpenSnack(false);
+  };
 
-        </>
-    )
-}
+  return (
+    <>
+      <header className={`z-50 fixed top-0 w-full transition-all duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        <Header />
+      </header>
+      <main className="pt-20">
+        <Stack sx={{ width: '100%' }} spacing={2}>
+          <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Chào mừng bạn đến với NGUYEN'S HOME
+            </Alert>
+          </Snackbar>
+        </Stack>
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
+};
 
-export default rootpage
+export default RootPage;

@@ -27,7 +27,7 @@ export const getResetPasswordBody = (email: string, OTP: string, newPassword: st
     customerOTP: OTP,
     customerPassword: newPassword
 });
-//change passwords
+//Change passwords
 export const CHANGE_PASSWORD = "/customers/changePasswordCustomer";
 export const getChangePasswordBody = (idToken: string, oldPassword: string, newPassword: string) => ({
     customerIdToken: idToken,
@@ -54,4 +54,22 @@ export const logoutCustomer = (id: string) => ({
     }
 });
 
+//Get user info
+export const GET_USER_INFO = (id:string) => `/customers/getCustomerById/${id}`;
+//Get avatar
+export const GET_AVATAR = `/customers/getCustomerAvatar`;
+export const getAccessToken = (token: string) => ({
+    headers: {
+        Authorization: "Bearer " + token
+    }
+});
+//Get avatar URL
+export const GET_AVATAR_URL = `/customers/getCustomerAvatarURL`;
+
+//get subcategories
+export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";
+//get categories
+export const GET_CATEGORIES = "/categories/getAllCategories";
+//get categories by id
+export const GET_CATEGORIES_BY_ID = (id:string) => `/categories/getCategoryById/${id}`;
 

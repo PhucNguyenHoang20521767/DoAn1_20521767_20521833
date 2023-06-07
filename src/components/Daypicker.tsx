@@ -24,7 +24,6 @@ interface Options {
 		next: () => JSX.Element;
 	};
 	datepickerClassNames: string;
-	defaultDate: Date;
 	language: string;
 }
 
@@ -50,7 +49,6 @@ const options: Options = {
 		next: () => <span>Next</span>,
 	},
 	datepickerClassNames: "top-12",
-	defaultDate: new Date(Date.now()),
 	language: "vi",
 	autoHide: true
 };
@@ -58,15 +56,16 @@ const options: Options = {
 interface Props{
 	selectedDate: Date;
 	setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+	handleChange: (selectedDate: Date) => void;
 }
 
-const DemoComponent = ({ selectedDate, setSelectedDate}: Props) => {
+const DemoComponent = ({ selectedDate, setSelectedDate, handleChange}: Props) => {
 	const [show, setShow] = useState<boolean>(false);
 
-	const handleChange = (selectedDate: Date) => {
-		setSelectedDate(selectedDate);
-		console.log(selectedDate);
-	};
+	// const handleChange = (selectedDate: Date) => {
+	// 	setSelectedDate(selectedDate);
+	// 	console.log("date", selectedDate);
+	// };
 
 	const handleClose = (state: boolean) => {
 		setShow(state);
@@ -86,12 +85,13 @@ const DemoComponent = ({ selectedDate, setSelectedDate}: Props) => {
 		}}
 		className="border-primary-1 rounded-sm"
 		>
+			{/* https://github.com/OMikkel/tailwind-datepicker-react */}
 			<Datepicker
 				options={options}
 				onChange={handleChange}
 				show={show}
 				setShow={handleClose}
-			/>
+			></Datepicker>
 		</div>
 	);
 };
