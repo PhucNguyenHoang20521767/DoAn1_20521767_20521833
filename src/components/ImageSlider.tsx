@@ -5,15 +5,15 @@ import { RxDotFilled } from 'react-icons/rx';
 const ImageSlider = () => {
   const slides = [
     {
-      url: '/src/assets/video.gif',
+      url: '/video.gif',
       title: 'Save30',
     },
     {
-      url: '/src/assets/save_40.webp',
+      url: '/save_40.webp',
       title: 'Save40',
     },
     {
-      url: '/src/assets/tree_banner.webp',
+      url: '/tree_banner.webp',
       title: 'Tree',
     },
     {
