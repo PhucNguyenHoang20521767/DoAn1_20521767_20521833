@@ -103,7 +103,7 @@ const Header = (props: Props) => {
               {/* Logo */}
               <div className="flex flex-row min-w-max">
                 <NavLink to="/" className='hidden phone:flex'>
-                  <img src="/src/assets/logo-nobg.webp" alt="logo" className='h-20 w-15'/>
+                  <img src="/src/assets/logo-nobg.png" alt="logo" className='h-20 w-15'/>
                 </NavLink>
                 <NavLink to='/' className='item-center pt-3 flex flex-col justify-center'>
                   <div className='text-primary-0 text-2xl whitespace-nowrap font-medium'>NGUYEN'S HOME</div>
