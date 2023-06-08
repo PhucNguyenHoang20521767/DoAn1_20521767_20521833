@@ -1,7 +1,7 @@
 import { createReducer, createAction } from '@reduxjs/toolkit'
 import { stat } from 'fs';
 
-// State
+// Not sure if this is the best way to do this, but it works.
 interface ISlugState {
     slugId: string;
     slugCategoryName: string;

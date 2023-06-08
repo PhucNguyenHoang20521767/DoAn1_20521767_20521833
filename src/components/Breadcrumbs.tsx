@@ -47,9 +47,7 @@ export default function Breadcrumbs({ onCurrentPageChange }: Props ) {
       )
     })
 
-    useEffect(() => {
-
-  // Set the current page in the parent component
+  useEffect(() => {
   const currentPage = {
     en: location.pathname.split('/').pop() || '',
     vi: ''
@@ -70,6 +68,7 @@ export default function Breadcrumbs({ onCurrentPageChange }: Props ) {
     currentPage.vi = 'Sofa'
   }
   console.log(currentPage)
+  //set currentPage in product.tsx
   onCurrentPageChange(currentPage)
 }, [location.pathname])
 

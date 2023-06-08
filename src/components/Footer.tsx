@@ -12,7 +12,7 @@ const Footer = (props: Props) => {
                             {/* Logo in footer */}
                             <div className='flex w-full items-center'>
                                 <a className='hidden phone:flex' href="#">
-                                    <img src="/src/assets/logo-blue.png" alt="logo" className='h-20 w-15'/>
+                                    <img src="/logo-blue.webp" alt="logo" className='h-20 w-15'/>
                                 </a>
                                 <a href="#" className='item-center pt-3 pl-2'>
                                     <div className='text-white text-2xl whitespace-nowrap'>NGUYEN'S HOME</div>

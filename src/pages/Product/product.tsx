@@ -8,14 +8,16 @@ import ProductList from '@/components/ProductList'
 import { set } from 'react-hook-form'
 
 interface Product {
-  create_at: string | number | Date;
-  update_at: string | number | Date;
-  sold: number;
   id: string;
+  category_id: string;
+  category_slug: string;
   name: string;
   description: string;
   price: number;
   images: string[];
+  create_at: string | number | Date;
+  update_at: string | number | Date;
+  sold: number;
 }
 
 interface Crumb {
@@ -28,24 +30,27 @@ const product = () => {
 
   const [filter, setFilter] = useState('')
   const [products, setProducts] = useState<Product[]>([]);
-  const [crumbs, setCrumbs] = useState<Crumb[]>([]);
+  const [crumbs, setCrumbs] = useState<Crumb>();
+  const [currentPage, setCurrentPage] = useState('Tất cả sản phẩm' as string)
 
   const onCurrentPageChange = (crumb: Crumb) => {
-    setCrumbs([...crumbs, crumb])
+    setCrumbs(crumb);
   }
     
 
-  // useEffect(() => {
-  //   // dispatch({type: 'SET_CURRENT_PAGE', payload: 'product'})
-  //   console.log(crumbs)
-  // }, [])
+  useEffect(() => {
+    setCurrentPage(crumbs?.vi.toString() || 'Tất cả sản phẩm')
+    if (crumbs?.en === 'product') {
+      setCurrentPage('Tất cả sản phẩm')
+    }
+  }, [crumbs])
 
   return (
     <div className='mx-10'>
       <div></div>
       <ImageSlider></ImageSlider>
       <Breadcrumbs onCurrentPageChange={onCurrentPageChange}/>
-      <div className="py-7 flex justify-center text-xl text-black text-center">Tất cả sản phẩm</div>
+      <div className="py-7 flex justify-center text-xl text-black text-center">{currentPage}</div>
       {/* product list here */}
       <div className="max-w-max bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <div className="mb-1 flex flex-column">
@@ -70,6 +75,7 @@ const product = () => {
       setProducts={setProducts} 
       filter={filter}
       setFilter={setFilter}
+      crumbs={crumbs}
       />
     </div>
   )

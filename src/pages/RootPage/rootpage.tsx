@@ -42,7 +42,10 @@ const RootPage = () => {
 
   return (
     <>
-      <header className={`z-30 fixed top-0 w-full transition-all duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      <header className={`z-30 fixed top-0 w-full transition-all duration-300 
+      ${visible ? 'visible' : 'invisible'}
+      ${visible ? 'opacity-100' : 'opacity-0'}
+      `}>
         <Header />
       </header>
       <main className="">
