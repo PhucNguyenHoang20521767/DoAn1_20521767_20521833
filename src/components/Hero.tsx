@@ -10,7 +10,7 @@ const Hero = () => {
                 alt='/'
             />
             {/* <div className='bg-black/30 absolute top-0 left-0 w-full h-full' /> */}
-            <div className='top-[25rem] absolute lg:top-40 w-full h-full flex flex-col justify-center text-primary-0'>
+            <div className='top-[8rem] absolute lg:top-40 w-full h-full flex flex-col justify-center text-primary-0'>
                 <div className='md:left-[10%] max-w-[1100px] m-auto p-4'>
                 <h3 className='font-bold text-5xl md:text-5xl drop-shadow-2xl'>
                     Nội thất đơn giản

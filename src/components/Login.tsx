@@ -136,7 +136,13 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
 
                 {errors.password && <span> <p className='text-red-800 pl-1'>{errors.password.message}</p></span>}
                 <div className='mt-3 p-1'>
-                    <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
+                    <button 
+                    type="submit" 
+                    className={`w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 
+                    hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
+                    ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}
+                    ${loading ? 'opacity-50' : 'opacity-100'}
+                    `}>
                         {loading && <CircularProgress size={20} className='mr-2'/>}
                         ĐĂNG NHẬP
                     </button>

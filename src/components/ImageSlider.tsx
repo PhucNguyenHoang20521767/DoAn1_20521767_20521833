@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 
 const ImageSlider = () => {
   const slides = [
     {
-      url: 'https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      title: 'Table',
+      url: '/src/assets/video.gif',
+      title: 'Save30',
     },
     {
-      url: 'https://images.pexels.com/photos/245208/pexels-photo-245208.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      title: 'Dresser',
+      url: '/src/assets/save_40.webp',
+      title: 'Save40',
     },
     {
-      url: 'https://images.pexels.com/photos/3097112/pexels-photo-3097112.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      title: 'Mirror',
+      url: '/src/assets/tree_banner.webp',
+      title: 'Tree',
     },
     {
       url: 'https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
@@ -40,10 +40,18 @@ const ImageSlider = () => {
     setCurrentIndex(slideIndex);
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 6000);
+    return () => clearInterval(interval);
+  }
+  , [currentIndex]);
+
   return (
-    <div className='max-w-[1400px] h-[580px] w-full m-auto pb-8 px-4 relative group'>
+    <div className='max-w-[1400] h-[600px] w-full m-auto pb-8 px-4 relative group'>
       <div
-        className='w-full h-full rounded-2xl bg-center bg-cover duration-500'
+        className='w-full h-full bg-center bg-cover duration-500 object-contain'
         style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
       ></div>
       {/* Left Arrow */}

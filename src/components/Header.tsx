@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { RootState } from '@/redux/store/store';
 import { get } from 'http';
 import cat from '@/utils/image_link';
+import CategoriesById from './CategoriesById';
+import CategoryList from './Categories';
 
 type Props = {};
 
@@ -32,12 +34,23 @@ const Header = (props: Props) => {
 
   const handleNav = () => {
     setNav(!nav);
-    if(!nav) {
-        document.body.style.overflow = 'hidden'
-    } else {
-        document.body.style.overflow = 'scroll'
-    }
   };
+
+  const mediaQuery = window.matchMedia('(min-width: 1200px)');
+
+  function handleMediaQuery(mediaQuery: any) {
+    if (mediaQuery.matches) {
+      setNav(false) // if screen size is greater than "xl", show the nav element
+    } else {
+      setNav(true) // if screen size is less than "xl", hide the nav element
+    }
+  }
+
+  useEffect(() => {
+    handleMediaQuery(mediaQuery); 
+    mediaQuery.addListener(handleMediaQuery);
+  }
+  , []);
 
   const handleLogout = async () => {
     try {
@@ -54,24 +67,6 @@ const Header = (props: Props) => {
         })
       dispatch(logout());
       navigate('/signin');
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
-  const getAllCategories = async () => {
-    try {
-      const result = await mainApi.get(apiEndpoints.GET_CATEGORIES);
-      const data = result.data.data;
-      setCategories(
-        data.map((item: any) => {
-          return {
-            id: item._id,
-            name: item.categoryName,
-            slug: item.categorySlug,
-          };
-        })
-      );
     } catch (error: any) {
       console.log(error);
     }
@@ -96,16 +91,15 @@ const Header = (props: Props) => {
 
   useEffect(() => {
     getAllSubCategories();
-    getAllCategories();
   }, []);
   
   return (
     <nav className='shadow-md'>
       {/* Logo + information */}
-      <div className="flex flex-wrap">
+      <div className="">
         <section className="relative mx-auto">
-          <nav className="flex bg-white text-white w-screen">
-            <div className="px-5 xl:px-8 py-4 flex w-full justify-between items-center">
+          <div className="flex bg-white text-white w-full">
+            <div className="px-5 xl:px-8 py-4 flex w-full mx-auto max-w-[95%] justify-between items-center">
               {/* Logo */}
               <div className="flex flex-row min-w-max">
                 <NavLink to="/" className='hidden phone:flex'>
@@ -154,7 +148,7 @@ const Header = (props: Props) => {
                   {
                     isLogin ?
                     (
-                  <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">          
+                  <div className="z-40 absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">          
                     <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
                     <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
                     <button
@@ -165,7 +159,7 @@ const Header = (props: Props) => {
                     )
                     :
                     (
-                  <div className="absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
+                  <div className="z-40 absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
                     <NavLink to="signin" className="block px-4 py-2 hover:bg-gray-200 text-black">Đăng nhập</NavLink>
                   </div>
                     )
@@ -191,12 +185,12 @@ const Header = (props: Props) => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </a>
-          </nav>
+          </div>
           
         </section>
       </div>
       {/* Navbar */}
-      <div className='bg-white shadow-md'>
+      <div className='bg-white relative my-auto'>
         {/* <nav className="hidden md:flex justify-center md:items-center flex-wrap plr-6"> */}
         <nav  className={
           nav
@@ -209,27 +203,21 @@ const Header = (props: Props) => {
                 <Link to="product" className="text-primary-0">
                   SẢN PHẨM
                 </Link>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
-                  <div className="flex flex-row">
-                    <div className=''>
-                      {
-                        categories.map((category, index) => {
-                          return (
-                            <div>
-                              <Link
-                                key={category.id}
-                                to={`/product/${category.slug}`}
-                                // to={category.name.toString()}
-                                className="block px-4 py-2 font-semibold text-base text-dark-1 hover:bg-gray-200"
-                              >
-                                {category.name}
-                              </Link>
-
-                            </div>
-                          );
-                        })
-                      }
+                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                  <div className='flex justify-center'>
+                    <CategoryList />
+                    <Link to={'product'} className='hidden md:p-1 md:block'>
+                    <div className='pl-5'>
+                      <img 
+                      src="https://media.designcafe.com/wp-content/uploads/2021/12/27144355/design-cafe-modular-furniture-benefits.jpg" 
+                      alt="All product" 
+                      className='w-[400px] h-[100px] object-cover shadow-lg'
+                      />
+                      <p>
+                        <span className='pt-2 text-md font-bold'>Tất cả sản phẩm</span>
+                      </p>
                     </div>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -237,7 +225,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   PHÒNG
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                   <div>
                     {subCategories.map((subCategory, index) => {
@@ -259,7 +247,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   GÓC CẢM HỨNG
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Góc cảm hứng
@@ -271,7 +259,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   DỊCH VỤ
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Dịch vụ
@@ -283,7 +271,7 @@ const Header = (props: Props) => {
                 <a href="#responsive-header" className="text-primary-0">
                   VỀ CHÚNG TÔI
                 </a>
-                <div className="bg-white absolute z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Về chúng tôi

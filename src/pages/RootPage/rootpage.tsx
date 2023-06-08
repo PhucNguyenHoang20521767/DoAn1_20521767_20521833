@@ -42,20 +42,21 @@ const RootPage = () => {
 
   return (
     <>
-      <header className={`z-50 fixed top-0 w-full transition-all duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      <header className={`z-30 fixed top-0 w-full transition-all duration-300 ${visible ? 'opacity-100' : 'opacity-0'}`}>
         <Header />
       </header>
-      <main className="pt-20">
-        <Stack sx={{ width: '100%' }} spacing={2}>
+      <main className="">
+        <div className='mt-40'></div>
+        <Outlet />
+      </main>
+      <Footer />
+      <Stack sx={{ width: '90%' }} spacing={2}>
           <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
               Chào mừng bạn đến với NGUYEN'S HOME
             </Alert>
           </Snackbar>
         </Stack>
-        <Outlet />
-      </main>
-      <Footer />
     </>
   );
 };

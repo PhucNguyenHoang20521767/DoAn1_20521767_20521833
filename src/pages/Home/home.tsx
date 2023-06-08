@@ -15,7 +15,6 @@ const Home = () => {
             <Room></Room>
             <Guarantee></Guarantee>
             <div className="py-7 flex justify-center text-xl text-black text-center">Sản phẩm giá tốt</div>
-            <ImageSlider></ImageSlider>
             <div className="py-7 flex justify-center text-xl text-black text-center">Luôn thấu hiểu khách hàng, cẩn thận và chuyên nghiệp là châm ngôn của chúng tôi</div>
             <Inspiration></Inspiration>
         </div>

@@ -29,7 +29,6 @@ const router = createBrowserRouter(
                 <Route 
                 path=":id" 
                 element={<Product_item/>}
-                
                 />
             </Route>
             <Route path="signin" element={<Signin/>} />

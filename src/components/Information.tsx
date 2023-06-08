@@ -144,6 +144,7 @@ const Information = (props: Props) => {
                         <label className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
                         <select 
                         value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                         className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             {/* <option selected>Giới tính:</option> */}

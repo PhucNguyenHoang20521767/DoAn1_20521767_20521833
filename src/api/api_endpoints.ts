@@ -72,4 +72,5 @@ export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";
 export const GET_CATEGORIES = "/categories/getAllCategories";
 //get categories by id
 export const GET_CATEGORIES_BY_ID = (id:string) => `/categories/getCategoryById/${id}`;
-
+//get all products
+export const GET_ALL_PRODUCTS = "/products/getAllProducts";
