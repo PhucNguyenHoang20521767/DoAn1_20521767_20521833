@@ -27,4 +27,27 @@ export const style = {
   p: 4,
 };
 
+export const styleButtonAddCart = {
+    backgroundColor: '#A67F78',
+    '&:hover': {
+      background: "#000000",
+      borderColor: "#000000",
+    },
+    border: 1,
+    borderRadius: 0,
+    borderColor: '#A67F78',
+    fontFamily: 'EB Garamond',
+    fontSize: '0.8rem',
+};
+
+export const styleButtonView = {
+  '&:hover': {
+    borderColor: "#A67F78",
+  },
+  border: 1,
+  borderRadius: 0,
+  borderColor: '#A67F78',
+  fontFamily: 'EB Garamond',
+  fontSize: '0.8rem',
+};
   

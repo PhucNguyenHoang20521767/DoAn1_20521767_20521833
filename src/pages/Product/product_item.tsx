@@ -2,7 +2,11 @@ import React from 'react'
 
 const product_item = () => {
   return (
-    <div>product_item</div>
+    <div>
+      {/* nothing valuable in here, we can add product and product/:id 
+      to alter in route. But because back-end just support load all product 
+      so i think don't need load by  */}
+    </div>
   )
 }
 

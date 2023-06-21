@@ -8,6 +8,7 @@ import * as apiEndpoints from '@/api/api_endpoints';
 import { logout } from '@/redux/reducers/auth_reducers';
 
 import { useDispatch, useSelector } from 'react-redux';
+import { openFavourite, openCart } from '@/redux/reducers/drawer_reducers';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '@/redux/store/store';
 import { get } from 'http';
@@ -123,12 +124,20 @@ const Header = (props: Props) => {
                   <input placeholder="Nhập sản phẩm cần tìm" className="w-0 h-0 border-none rounded-lg ml-2 p-2 text-dark-1 text-lg focus:w-60 focus:h-8 group-hover/search-header:w-60 group-hover/search-header:h-8 transition-width duration-700" />
                   <div className="pl-2 text-xl text-dark-1 font-medium group-hover/search-header:text-white group-focus-within/search-header:text-white">Tìm kiếm</div>
                 </div>
-                <a className="flex items-center hover:text-gray-200 p-3" href="#">
+
+                {/* Favourite */}
+                <button className="flex items-center hover:text-gray-200 p-3"
+                onClick={() => dispatch(openFavourite())}
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
-                </a>
-                <a className="flex items-center hover:text-gray-200 p-3" href="#">
+                </button>
+
+                {/* Cart */}
+                <button className="flex items-center hover:text-gray-200 p-3"
+                onClick={() => dispatch(openCart())}
+                >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -137,7 +146,7 @@ const Header = (props: Props) => {
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-1">
                       </span>
                     </span>
-                </a>
+                </button>
 
                 <div className='relative inline-block text-left group'>
                   <a className="flex items-center hover:text-gray-200 p-3 btn btn-ghost rounded-btn" >
@@ -148,18 +157,18 @@ const Header = (props: Props) => {
                   {
                     isLogin ?
                     (
-                  <div className="z-40 absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">          
-                    <NavLink to="account" className="block px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
-                    <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink>
+                  <div className="z-40 absolute right-0 hidden group-hover:block group-focus:block bg-white shadow-md p-2 w-32">          
+                    <NavLink to="account" className="block text-center px-4 py-2 hover:bg-gray-200 text-black">Tài khoản</NavLink>
+                    {/* <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink> */}
                     <button
                     onClick={handleLogout}
-                    className="block px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold" 
+                    className="block w-full px-4 py-2 hover:bg-primary-1 hover:text-white text-primary-1 font-bold" 
                     >Đăng xuất</button>
                   </div>
                     )
                     :
                     (
-                  <div className="z-40 absolute right-0 hidden group-hover:block bg-white shadow-md p-2 w-32">
+                  <div className="z-40 absolute right-0 hidden group-hover:block group-focus:block bg-white shadow-md p-2 w-32">
                     <NavLink to="signin" className="block px-4 py-2 hover:bg-gray-200 text-black">Đăng nhập</NavLink>
                   </div>
                     )
@@ -244,40 +253,40 @@ const Header = (props: Props) => {
                 </div>
               </div>
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <a href="#responsive-header" className="text-primary-0">
+                <button className="text-primary-0">
                   GÓC CẢM HỨNG
-                </a>
-                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                </button>
+                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Góc cảm hứng
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <a href="#responsive-header" className="text-primary-0">
+                <button className="text-primary-0">
                   DỊCH VỤ
-                </a>
-                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                </button>
+                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Dịch vụ
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <a href="#responsive-header" className="text-primary-0">
+                <NavLink to={'aboutus'} className="text-primary-0">
                   VỀ CHÚNG TÔI
-                </a>
-                <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
+                </NavLink>
+                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">
                       Về chúng tôi
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
