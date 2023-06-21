@@ -84,8 +84,8 @@ const product = () => {
             filter={filter}
             setFilter={setFilter}
             crumbs={crumbs}
-            selectedColor={selectedColor}
-            selectedDimension={selectedDimension}
+            // selectedColor={selectedColor}
+            // selectedDimension={selectedDimension}
             />
           </div>
           {/* Filter by color and dimension */}
