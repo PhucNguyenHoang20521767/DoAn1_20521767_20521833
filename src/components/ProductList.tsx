@@ -13,7 +13,15 @@ interface Crumb {
 }
 
 interface Props {
+  products: Product[];
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
   crumbs?: Crumb;
+  // selectedColor: string;
+  // setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
+  // selectedDimension: string;
+  // setSelectedDimension: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface Product {
@@ -29,9 +37,8 @@ interface Product {
   sold: number;
 }
 
-const ProductList: React.FC<Props> = ({ crumbs }) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filter, setFilter] = useState('New');
+const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter, crumbs }) => {
+  // const [products, setProducts] = useState<Product[]>([]);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedDimension, setSelectedDimension] = useState('');
   const navigate = useNavigate();
