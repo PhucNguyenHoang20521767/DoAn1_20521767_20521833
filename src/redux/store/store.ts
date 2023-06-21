@@ -27,10 +27,12 @@ import storageSession from 'redux-persist/lib/storage/session';
 import { PersistPartial } from 'redux-persist/es/persistReducer';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '../reducers/auth_reducers';
+import authDrawer from '../reducers/drawer_reducers';
 
 // Define your root reducer
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  drawer: authDrawer
 });
 
 // Define your persist config

@@ -74,3 +74,12 @@ export const GET_CATEGORIES = "/categories/getAllCategories";
 export const GET_CATEGORIES_BY_ID = (id:string) => `/categories/getCategoryById/${id}`;
 //get all products
 export const GET_ALL_PRODUCTS = "/products/getAllProducts";
+//get product images url
+export const GET_PRODUCT_IMAGES_URL = (id:string) => `/products/getAllProductImageURLs/${id}`;
+//get product by id
+export const GET_PRODUCT_BY_ID = (id:string) => `/products/getProductById/${id}`;
+
+//get all colors
+export const GET_ALL_COLORS = "/colors/getAllColors";
+//get color by id
+export const GET_COLOR_BY_ID = (id:string) => `/colors/getColorById/${id}`;

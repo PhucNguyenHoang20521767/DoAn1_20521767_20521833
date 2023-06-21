@@ -8,8 +8,10 @@ import {
 } from "react-router-dom";
 
 import Home from '@/pages/Home/home';
+import Aboutus from '@/pages/AboutUs/aboutus';
 import Product from '@/pages/Product/product';
 import Product_item from '@/pages/Product/product_item';
+import Collection from "./pages/Collection/collection";
 import Signin from '@/pages/SignIn/signin';
 import Account from '@/pages/Account/account';
 import Rootpage from '@/pages/RootPage/rootpage';
@@ -31,6 +33,8 @@ const router = createBrowserRouter(
                 element={<Product_item/>}
                 />
             </Route>
+            <Route path="collection/:id" element={<Collection/>} />
+            <Route path="aboutus" element={<Aboutus/>} />
             <Route path="signin" element={<Signin/>} />
             <Route path="account" element={<Account />} >
                 <Route index element={<Information />} />

@@ -42,7 +42,7 @@ const CategoryList: React.FC = () => {
             <div key={category.id}>
               <Link
                 to={`/product/${category.slug}`}
-                className="block px-4 py-2 font-semibold text-base text-black hover:bg-gray-200"
+                className="block px-10 py-2 font-semibold text-base text-black hover:bg-gray-200"
               >
                 {category.name}
               </Link>

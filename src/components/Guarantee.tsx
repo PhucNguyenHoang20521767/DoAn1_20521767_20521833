@@ -17,7 +17,8 @@ const Guarantee = () => {
                 <div className='flex flex-wrap justify-between mt-1'>
                     <img 
                     className='w-auto h-[56px]'
-                    src="https://cdn-icons-png.flaticon.com/512/6582/6582140.png" 
+                    // src="https://cdn-icons-png.flaticon.com/512/6582/6582140.png" 
+                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2_WOfvpIn1YQxm9NICpihz-n9BBT1ktn5Iw&usqp=CAU'
                     alt="" />
                     <div className='pl-4'>
                         <p className='text-lg font-bold text-black/80'>Hỗ trợ 24/7</p>

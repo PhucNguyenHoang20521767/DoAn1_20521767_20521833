@@ -1,5 +1,3 @@
-//function to use in the project
-
 //function to check if the text is a number
 export function matchIsNumeric(text: string) {
     const isNumber = typeof text === 'number'

@@ -7,6 +7,7 @@ import MuiAlert, { Stack, Snackbar, IconButton } from '@mui/material';
 import { Alert } from '@/utils/ui';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CustomeDrawer from '../Drawer/drawer';
 
 const RootPage = () => {
   const navigate = useNavigate();
@@ -53,6 +54,8 @@ const RootPage = () => {
         <Outlet />
       </main>
       <Footer />
+      <CustomeDrawer/>
+
       <Stack sx={{ width: '90%' }} spacing={2}>
           <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
