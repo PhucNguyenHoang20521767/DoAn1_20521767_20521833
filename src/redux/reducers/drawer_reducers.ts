@@ -18,7 +18,7 @@ export const openCart = createAction("CART");
 export const openFavourite = createAction("FAVOURITE");
 export const closeDrawer = createAction("CLOSEDRAWER");
 // Reducer
-const authDrawer = createReducer(
+const drawerReducer = createReducer(
     initialState, 
     (builder) => {
     builder
@@ -39,4 +39,4 @@ const authDrawer = createReducer(
     });
 });
 
-export default authDrawer;
+export default drawerReducer;

@@ -67,7 +67,6 @@ export default function Breadcrumbs({ onCurrentPageChange }: Props ) {
   else if (currentPage.en === 'sofa') {
     currentPage.vi = 'Sofa'
   }
-  console.log(currentPage)
   //set currentPage in product.tsx
   onCurrentPageChange(currentPage)
 }, [location.pathname])

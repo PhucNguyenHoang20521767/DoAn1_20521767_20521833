@@ -78,6 +78,16 @@ export const GET_ALL_PRODUCTS = "/products/getAllProducts";
 export const GET_PRODUCT_IMAGES_URL = (id:string) => `/products/getAllProductImageURLs/${id}`;
 //get product by id
 export const GET_PRODUCT_BY_ID = (id:string) => `/products/getProductById/${id}`;
+//get all product color
+export const GET_ALL_PRODUCT_COLORS = (id:string) => `/products/getAllProductColors/${id}`;
+//get product images by color id
+export const GET_PRODUCT_IMAGES_BY_COLOR 
+= (pid:string, cid:string) => `/products/getAllProductImagesByColor/${pid}/${cid}`;
+// get product images url by color id
+export const GET_PRODUCT_IMAGES_URL_BY_COLOR 
+= (pid:string, cid:string) => `/products/getAllProductImageURLsByColor/${pid}/${cid}`;
+// get product color by id
+export const GET_PRODUCT_COLOR_BY_ID = (id:string) => `/products/getProductColorById/${id}`;
 
 //get all colors
 export const GET_ALL_COLORS = "/colors/getAllColors";

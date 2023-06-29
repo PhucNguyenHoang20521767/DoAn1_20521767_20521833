@@ -18,3 +18,25 @@ interface UserInfo {
 export const getUserInfo = async (id: string): Promise<UserInfo> => {
     return await mainApi.get(apiEndpoints.GET_USER_INFO(id));
 }
+
+export const getProductById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_BY_ID(id));
+}
+
+//get all products color
+export const getProductColor = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_ALL_PRODUCT_COLORS(id));
+}
+
+export const getProductImageByColor = async (pid:string, cid:string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_IMAGES_BY_COLOR(pid, cid));
+}
+
+export const getAllProductImageUrlByColor = async (pid:string, cid:string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_IMAGES_URL_BY_COLOR(pid, cid));
+}
+
+//get product color by id
+export const getProductColorById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_COLOR_BY_ID(id));
+}

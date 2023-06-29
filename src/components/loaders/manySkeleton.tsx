@@ -15,10 +15,10 @@ const ManySkeleton = () => {
       </div>
     ))} */}
         {Array.from({ length: 8 }).map((_, indexTwo) => (
-          <div key={indexTwo} className='p-3 block'>
+          <div key={indexTwo} className='mt-3 plr-3 block'>
             <Skeleton variant='rectangular' width={280} height={140}/>
             <Skeleton width="60%"/>
-            <Skeleton animation="wave"/>
+            <Skeleton animation="wave" width={280}/>
           </div>
         ))}
     </>

@@ -3,6 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Button, IconButton, CardActionArea } from '@mui/material';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { styleButtonAddCart, styleButtonView } from '@/utils/ui';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import { moveToProduct } from '@/redux/reducers/product_reducers';
+import IconFavourite from './customs/IconFavourite';
 
 interface Product {
   id: string;
@@ -22,10 +26,17 @@ interface Props {
 }
 
 const ProductCard: React.FC<Props> = ({ product }) => {
-  const [changeFavorite, setChangeFavorite] = useState(false);
-  const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.auth.currentUser);
+    const [changeFavorite, setChangeFavorite] = useState(false);
+    const navigate = useNavigate();
 
   function handleFavourite(): void {}
+
+  const handleOnClickView = () => {
+    dispatch(moveToProduct({ currentProduct: product.id }));
+    navigate(`/collection/${product.id}`);
+  };
 
   return (
     <Card
@@ -39,22 +50,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       }}
     >
       <div className="flex justify-end">
-        <IconButton onClick={() => handleFavourite()}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 hover:text-secondary-1"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="#000000"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-            />
-          </svg>
-        </IconButton>
+        <IconFavourite/>
       </div>
       <CardActionArea
         className="group z-10"
@@ -71,6 +67,13 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             onError={(e: any) => {
               e.currentTarget.src =
                 'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg';
+            }}
+            style={{ transition: 'transform 0.3s ease' }}
+            onMouseEnter={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           />
         </CardMedia>
@@ -94,7 +97,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           variant="outlined"
           style={{ marginLeft: '2px', paddingRight: '28px', paddingLeft: '28px', color: '#A67F78' }}
           sx={styleButtonView}
-          onClick={() => navigate(`/collection/${product.id}`)}
+          onClick={() => handleOnClickView()}
         >
           Xem thêm
         </Button>

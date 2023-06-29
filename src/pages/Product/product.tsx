@@ -47,7 +47,6 @@ const product = () => {
     if (crumbs?.en === 'product') {
       setCurrentPage('Tất cả sản phẩm')
     }
-    console.log('pro', products)
   }, [crumbs])
 
   return (

@@ -57,7 +57,7 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
     try {
       const result = await mainApi.get(apiEndpoints.GET_PRODUCT_IMAGES_URL(productId));
       const data = result.data.data;
-      console.log('image', data);
+      // console.log('image', data);
       return data;
     } catch (error: any) {
       return error;

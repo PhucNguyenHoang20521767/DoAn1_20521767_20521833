@@ -66,7 +66,7 @@ const CustomDrawer = () => {
         <div className='flex justify-center items-center'>   
           <Link to='product'>
             <button className={pageDrawer ? 
-            'bg-secondary-1 text-white p-2 px-16 hover:bg-black hover:shadow-lg'
+            'rounded-sm bg-secondary-1 text-white p-2 px-16 hover:bg-black hover:shadow-lg'
               : 'hidden'
           }>
                 THANH TOÁN

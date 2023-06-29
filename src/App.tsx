@@ -33,7 +33,10 @@ const router = createBrowserRouter(
                 element={<Product_item/>}
                 />
             </Route>
-            <Route path="collection/:id" element={<Collection/>} />
+            <Route 
+            path="collection/:id" 
+            element={<Collection/>}
+            />
             <Route path="aboutus" element={<Aboutus/>} />
             <Route path="signin" element={<Signin/>} />
             <Route path="account" element={<Account />} >

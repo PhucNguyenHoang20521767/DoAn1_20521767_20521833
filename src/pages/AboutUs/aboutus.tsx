@@ -1,65 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { styled } from '@mui/material/styles';
-import { 
-  Card, 
-  CardContent, 
-  CardMedia, 
-  Typography, 
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
   Avatar,
   Badge,
   Stack,
 } from '@mui/material';
-import SimpleMap from '@/components/Map'  
+import SimpleMap from '@/components/Map';
 import { blue } from '@mui/material/colors';
 
-const aboutus = () => {
-  const [animationFinished, setAnimationFinished] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimationFinished(true);
-    }, 100);
-  }, []);
-
+const AboutUs = () => {
   return (
-    <div className='relative'>
-        <h1 className={`flex justify-center text-xl pt-4 ${animationFinished ? 'opacity-100 transition-opacity duration-200' : 'opacity-10'}`}>Về chúng tôi</h1>
-
-        <div className={`flex justify-center w-600 h-200 ${animationFinished ? 'opacity-100 transition-opacity duration-500 delay-400' : 'opacity-10'}`}>
-            <SimpleMap/>
+    <div className="flex flex-col items-center justify-center space-y-8">
+      <div className="max-w-4xl text-center">
+        <h1 className="text-4xl font-bold mb-4 mt-4">Về chúng tôi</h1>
+        <p className="text-lg"> 
+          Tại cửa hàng nội thất của chúng tôi, bạn sẽ tìm thấy những đồ nội thất 
+          chất lượng cao với giá cả phải chăng. Chúng tôi tin rằng mọi người nên có quyền sử dụng
+          đồ nội thất đẹp và tiện dụng giúp cải thiện ngôi nhà và phong cách sống của họ.
+        </p>
+      </div>
+      <h2 className="text-3xl font-bold my-1">Địa chỉ</h2>
+      <div className="max-w-4xl flex justify-center">
+        <SimpleMap />
+      </div>
+      <div className="max-w-4xl space-y-8">
+        <div className="flex items-center space-x-4">
+          <Avatar alt="Nguyễn Hoàng Phúc" src="https://avatars.githubusercontent.com/u/104909431?v=4" />
+          <div>
+            <Typography variant="h6" component="div">
+              Nguyễn Hoàng Phúc
+            </Typography>
+            <Typography component="div">
+              Co-founder and Lead Designer
+            </Typography>
+          </div>
         </div>
+        <div className="flex items-center space-x-4">
+          <Avatar 
+          alt="Nguyễn Thanh Sang" 
+          src="https://lh3.googleusercontent.com/a/AAcHTtd7cEyJo29sFKl4Q6fyxG1263VlTR32BglWE_8D=s360-c-no" 
+          />
+          <div className='mb-4'>
+            <Typography variant="h6" component="div">
+              Nguyễn Thanh Sang
+            </Typography>
+            <Typography component="div">
+              Co-founder and CEO
+            </Typography>
+          </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default aboutus;
-
-        {/* <div className={`flex justify-center my-3 ${animationFinished ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-10'}`}>
-          <Card className={`${animationFinished ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-0'}`} style={{width: 400}}>
-            <CardContent>
-              <CardMedia>
-                <Avatar alt="Nguyễn Hoàng Phúc" src="https://avatars.githubusercontent.com/u/104909431?v=4" />
-              </CardMedia>
-              <Typography variant="h6" component="div">
-                Nhà thiết kế Nguyễn Hoàng Phúc
-              </Typography>
-              <Typography component="div">
-                MSSV: 20521767
-              </Typography>
-            </CardContent>
-          </Card>
-          <div className='w-10'></div>
-          <Card className={`${animationFinished ? 'opacity-100 transition-opacity duration-500 delay-300' : 'opacity-10'}`} style={{width: 400}}>
-            <CardContent>
-              <CardMedia>
-                <Avatar alt="Nguyễn Thanh Sang" src="https://lh3.googleusercontent.com/a/AAcHTtd7cEyJo29sFKl4Q6fyxG1263VlTR32BglWE_8D=s360-c-no" />
-              </CardMedia>
-              <Typography variant="h6" component="div">
-                Nguyễn Thanh Sang
-              </Typography>
-              <Typography component="div">
-                MSSV: 20521833
-              </Typography>
-            </CardContent>
-          </Card>
-        </div> */}
+export default AboutUs;

@@ -1,7 +1,6 @@
 import { createReducer, createAction } from '@reduxjs/toolkit'
 import { stat } from 'fs';
 
-// Check store.ts
 interface ISlugState {
     slugId: string;
     slugCategoryName: string;

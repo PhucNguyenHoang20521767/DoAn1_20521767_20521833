@@ -208,7 +208,7 @@ const Header = (props: Props) => {
         }>
           <div className="lg:w-auto lg:flex">
             <div className="text-base md:shrink-0">
-              <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
+              <div className="group/product-nav-item text-center block lg:inline-block py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
                 <Link to="product" className="text-primary-0">
                   SẢN PHẨM
                 </Link>
