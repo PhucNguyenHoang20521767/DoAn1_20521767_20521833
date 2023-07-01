@@ -5,6 +5,7 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 //className
 export const nhButton = "w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50";
+export const nhTextInfor = "text-2xl font-bold text-gray-700";
 
 //mui alert
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(

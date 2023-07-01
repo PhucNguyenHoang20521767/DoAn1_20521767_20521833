@@ -93,3 +93,6 @@ export const GET_PRODUCT_COLOR_BY_ID = (id:string) => `/products/getProductColor
 export const GET_ALL_COLORS = "/colors/getAllColors";
 //get color by id
 export const GET_COLOR_BY_ID = (id:string) => `/colors/getColorById/${id}`;
+
+//get product dimension by id
+export const GET_PRODUCT_DIMENSION_BY_ID = (id:string) => `/products/getProductDimension/${id}`;

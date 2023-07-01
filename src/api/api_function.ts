@@ -40,3 +40,8 @@ export const getAllProductImageUrlByColor = async (pid:string, cid:string) => {
 export const getProductColorById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_PRODUCT_COLOR_BY_ID(id));
 }
+
+//get product dimension by id
+export const getProductDimensionById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_DIMENSION_BY_ID(id));
+}
