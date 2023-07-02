@@ -15,4 +15,4 @@
 *Sử dụng link vercel ở góc phải:*   
 ***Tài khoản mẫu cho admin:***   
 admin1@gmail.com  
-admin1  
+12345678  
