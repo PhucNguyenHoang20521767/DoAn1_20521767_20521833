@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {};
 
@@ -24,16 +25,26 @@ const Footer = (props: Props) => {
                             {/* Follow us */}
                             <div className="mt-6 lg:mb-0  flex justify-start items-center">
                                 <div className='hidden phone:flex items-center pr-3 text-white text-lg font-normal'>FOLLOW US:</div>
-                                <button className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
+                                <button 
+                                onClick={() => window.open('https://github.com/sang1833/DoAn1_20521767_20521833')}
+                                className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
                                     <i className="fab fa-facebook text-white text-xl"></i>
                                 </button>
-                                <button className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
+                                <button 
+                                onClick={() => window.open('https://github.com/sang1833/DoAn1_20521767_20521833')}
+                                className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
                                     <i className="fa-brands fa-instagram text-white text-xl"></i>
                                 </button>
-                                <button className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
+                                <button 
+                                onClick={() => window.open('https://github.com/sang1833/DoAn1_20521767_20521833')}
+                                className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
                                     <i className="fa-brands fa-google text-white text-xl"></i>
                                 </button>
-                                <button className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" type="button">
+                                <button 
+                                className="bg-dark-1 font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2" 
+                                type="button"
+                                onClick={() => window.open('https://github.com/sang1833/DoAn1_20521767_20521833')}
+                                >
                                     <i className="fab fa-github text-white text-xl"></i>
                                 </button>
                             </div>
@@ -46,24 +57,31 @@ const Footer = (props: Props) => {
                                 <span className="block text-white text-lg font-semibold mb-2 whitespace-nowrap">NGUYEN'S HOME Furniture</span> 
                                 <ul className="list-unstyled pt-3">
                                 <li>
-                                    <a className="text-white hover:text-primary-1 block pb-2" href="https://www.creative-tim.com/presentation?ref=njs-profile">
+                                    <Link 
+                                    className="text-white hover:text-primary-1 block pb-2"
+                                    to={'/product'}
+                                    >
                                         Sản phẩm
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-white hover:text-primary-1 block pb-2" href="https://blog.creative-tim.com?ref=njs-profile">
+                                    <Link className="text-white hover:text-primary-1 block pb-2" 
+                                    to={'/inspiration'}>
                                         Góc cảm hứng
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-white hover:text-primary-1 block pb-2" href="https://www.github.com/creativetimofficial?ref=njs-profile">
+                                    <Link className="text-white hover:text-primary-1 block pb-2" 
+                                    to={'/service'}>
                                         Dịch vụ
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a className="text-white hover:text-primary-1 block pb-2" href="https://www.creative-tim.com/bootstrap-themes/free?ref=njs-profile">
+                                    <Link className="text-white hover:text-primary-1 block pb-2" 
+                                    to={'/aboutus'}
+                                    >
                                         Về chúng tôi
-                                    </a>
+                                    </Link>
                                 </li>
                                 </ul>
                             </div>
@@ -95,7 +113,8 @@ const Footer = (props: Props) => {
 
                                     <div className="md:mr-auto pl-3">
                                         <button
-                                            className="h-[58px] max-h-[58px] w-full whitespace-nowrap first-letter: inline-block bg-primary-1 hover:bg-black text-white font-bold py-2 px-4 left-3 top-0 mb-0 max-w-[100%] leading-[1.6]">
+                                            className="h-[58px] max-h-[58px] w-full whitespace-nowrap first-letter: inline-block bg-primary-1 hover:bg-black text-white font-bold py-2 px-4 left-3 top-0 mb-0 max-w-[100%] leading-[1.6]"
+                                        >
                                             ĐĂNG KÝ
                                         </button>
                                     </div>

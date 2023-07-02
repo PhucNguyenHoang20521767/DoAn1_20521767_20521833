@@ -96,3 +96,9 @@ export const GET_COLOR_BY_ID = (id:string) => `/colors/getColorById/${id}`;
 
 //get product dimension by id
 export const GET_PRODUCT_DIMENSION_BY_ID = (id:string) => `/products/getProductDimension/${id}`;
+
+//get product rating by id
+export const GET_PRODUCT_RATING_BY_ID = (id:string) => `/feedbacks/getProductRating/${id}`;
+
+//get discount by id
+export const GET_DISCOUNT_BY_ID = (id:string) => `/discounts/getDiscountById/${id}`;

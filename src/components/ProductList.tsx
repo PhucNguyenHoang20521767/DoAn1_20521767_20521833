@@ -26,6 +26,7 @@ interface Props {
 
 interface Product {
   id: string;
+  discount_id: string;
   category_id: string;
   category_slug: string;
   name: string;
@@ -77,6 +78,7 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
           const imageURLs = imageUrls.map((image: any) => image.imageURL);
           return {
             id: item._id,
+            discount_id: item.productDiscountId,
             category_id: item.productCategoryId,
             category_slug: categorySlug,
             name: item.productName,
