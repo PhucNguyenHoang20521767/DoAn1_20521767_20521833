@@ -7,9 +7,11 @@ import {
   getProductById, 
   getProductColor, 
   getProductColorById, 
-  getProductDimensionById 
+  getProductDimensionById,
+  getProductRating,
+  getDiscountById
 } from '@/api/api_function'
-import { Card, CardContent, CardMedia, Typography, Button, IconButton, CardActionArea } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Rating, Button, IconButton, CardActionArea } from '@mui/material';
 import { styleButtonAddCart, styleButtonView } from '@/utils/ui';
 import Breadcrumbs from '@/components/BreadcrumbsProduct'
 import IconFavourite from '@/components/customs/IconFavourite'
@@ -39,6 +41,10 @@ const Collection: React.FC = () => {
   const [chooseColor, setChooseColor] = useState<Color | null>(null)
   const [dimension, setDimension] = useState<any>(null)
   const [quantity, setQuantity] = useState<number>(1)
+  const [rating, setRating] = useState<number>(0)
+  const [price, setPrice] = useState<number>(0)
+  const [discount, setDiscount] = useState<number>(0)
+  let discountNotExpired = true;
 
   useEffect(() => {
     async function fetchData() {
@@ -53,30 +59,54 @@ const Collection: React.FC = () => {
 
         const productColorRes = await getProductColor(id)
         const productColor = productColorRes.data.data
-        console.log('productColor', productColor)
+        // console.log('productColor', productColor)
 
         const productDimensionRes = await getProductDimensionById(id)
         const productDimension = productDimensionRes.data.data
-        console.log('productDimension', productDimension)
+        // console.log('productDimension', productDimension)
         setDimension(productDimension)
+
+        const productRatingRes = await getProductRating(id)
+        const productRating = productRatingRes.data
+        setRating(productRating.averageRating)
+        // console.log('productRating', rating)
+
+        if(product.productDiscountId) {
+          const productDiscountRes = await getDiscountById(product.productDiscountId)
+          const productDiscount = productDiscountRes.data.data
+          // console.log('productDiscount', productDiscount)
+          if (productDiscount && new Date(productDiscount.discountEndDate) > new Date()) {
+            setDiscount(productDiscount.discountPercent)
+          }
+          else {
+            discountNotExpired = false;
+          }
+        }
 
         const listColor = await Promise.all(productColor.map(async (color: any) => {
           const listColorRes = await getProductColorById(color._id)
           const listColor = listColorRes.data.color
-          console.log('listColor1', listColor)
+          // console.log('listColor1', listColor)
           return { ...color, ...listColor, colorId: color._id }
         }))
-        console.log('listColor2', listColor)
-        setListColor(listColor)
-        setChooseColor(listColor[0])
+        // console.log('listColor2', listColor)
+        if (listColor.length > 0) {
+          setListColor(listColor)
+          setChooseColor(listColor[0])
+        }
       } catch (error) {
         console.error(error)
       }
     }
-
-    console.log('dimension', dimension)
     fetchData()
   }, [id])
+
+  useEffect(() => {
+    if (discountNotExpired && product) {
+      const newPrice = (product.productPrice * (100 - discount)) / 100
+      setPrice(newPrice)
+    }
+  }, [discount])
 
   const handleColorClick = (color: Color) => {
     setChooseColor(color)
@@ -118,6 +148,7 @@ const Collection: React.FC = () => {
             <IconFavourite/>
         </div>
       </div>
+      
       <div className="md:flex md:flex-wrap">
         {/* mid left */}
         <div className='md:w-2/3'>
@@ -133,11 +164,41 @@ const Collection: React.FC = () => {
         <div className='md:w-1/3'>
           {/* product name */}
           {product.productStatus && (
-            <div className='md:flex md:justify-between'>
-              <h1 className='text-2xl font-bold'>{product.productName}</h1>
-              <p className='text-2xl text-dark-0'>
-                {product.productPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-              </p>
+            <div className='md:flex md:justify-start'>
+              <div>
+                {/* name */}
+                <h1 className='text-2xl font-bold'>{product.productName}</h1>
+                <div className='flex justify-normal'>
+                  {
+                    rating && (
+                      <Rating name="read-only" precision={0.5} value={rating} readOnly />
+                    )
+                  }
+                  <p className='text-md ml-2 text-gray-600'>Đã bán: </p>
+                  <p className='text-md ml-1 text-gray-600'>{product.productSold}</p>
+                </div>
+                {/* price */}
+                <div className='flex justify-start items-center py-1'>
+                  {
+                    discountNotExpired && (
+                    <p className='text-xl text-dark-1 mr-3 line-through'>
+                      {product.productPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                    </p>  
+                    ) 
+                  }
+                  <p className='text-2xl text-black mr-3'>
+                    {price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                  </p>
+                  {
+                    discountNotExpired && (
+                    <div className="bg-red-500 text-white font-bold rounded-md px-2 flex items-center">
+                      <span className="text-2xl mr-2">{discount}%</span>
+                      <span className='text-xl'>Giảm</span>
+                    </div>
+                    )
+                  }
+                </div>
+              </div>
             </div>
           )}
           {/* color */}

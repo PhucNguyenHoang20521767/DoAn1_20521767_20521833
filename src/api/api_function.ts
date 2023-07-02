@@ -45,3 +45,13 @@ export const getProductColorById = async (id: string) => {
 export const getProductDimensionById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_PRODUCT_DIMENSION_BY_ID(id));
 }
+
+//get product rating
+export const getProductRating = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_PRODUCT_RATING_BY_ID(id));
+}
+
+//get discount by id
+export const getDiscountById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_DISCOUNT_BY_ID(id));
+}
