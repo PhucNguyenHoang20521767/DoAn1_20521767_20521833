@@ -29,12 +29,14 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import authReducer from '../reducers/auth_reducers';
 import drawerReducer from '../reducers/drawer_reducers';
 import productReducer from '../reducers/product_reducers';
+import allProductReducer from '../reducers/allProduct_reducers';
 
 // Define your root reducer
 const rootReducer = combineReducers({
   auth: authReducer,
   drawer: drawerReducer,
-  product: productReducer
+  product: productReducer,
+  all: allProductReducer
 });
 
 // Define your persist config

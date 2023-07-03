@@ -18,7 +18,7 @@ const Hero = () => {
                 <p className='max-w-[600px] drop-shadow-2xl py-2 text-3xl'>
                     Cho người tinh tế
                 </p>
-                <Link to='product'>
+                <Link to='/product'>
                     <button className='bg-secondary-1 text-white p-3 px-4 hover:bg-dark-1 hover:shadow-lg'>
                         MUA SẮM NGAY
                     </button>

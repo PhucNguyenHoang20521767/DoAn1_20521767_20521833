@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-do
 import Login from '@/components/Login';
 import Signup from "@/components/Signup";
 import { useMediaQuery } from 'react-responsive';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from "@/redux/reducers/auth_reducers";
 
 import {Box, Button, Typography, Modal, LinearProgress} from '@mui/material';
@@ -15,11 +15,13 @@ import Input from '@/components/customs/nhTextField';
 import { mainApi } from '@/api/main_api'
 import * as apiEndpoints from '@/api/api_endpoints';
 import { set } from "react-hook-form";
-  
+import { createCart, getCustomerCart } from '@/api/api_function'
+import { RootState } from "@/redux/store/store";
 
 const SignIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const currentUser = useSelector((state: RootState) => state.auth.currentUser);
     const [isLogin, setIsLogin] = useState(false);
     const [isSignUp, setIsSignUp] = useState(true);
     const [showOTPInput, setShowOTPInput] = useState(false);
@@ -103,6 +105,7 @@ const SignIn = () => {
             const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true}
             dispatch(login(userLogin));
             handleOpen();
+            const cart = await createCart(currentUser);
             navigate('/');
             // localStorage.setItem("currentUser", token);
         } catch (error) {

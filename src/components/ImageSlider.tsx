@@ -5,7 +5,7 @@ import { RxDotFilled } from 'react-icons/rx';
 const ImageSlider = () => {
   const slides = [
     {
-      url: '/video.gif',
+      url: '/tree_banner.webp',
       title: 'Save30',
     },
     {
@@ -13,7 +13,7 @@ const ImageSlider = () => {
       title: 'Save40',
     },
     {
-      url: '/tree_banner.webp',
+      url: '/video.gif',
       title: 'Tree',
     },
     {
