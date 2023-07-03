@@ -19,6 +19,11 @@ export const getUserInfo = async (id: string): Promise<UserInfo> => {
     return await mainApi.get(apiEndpoints.GET_USER_INFO(id));
 }
 
+//get all products
+export const getAllProducts = async () => {
+    return await mainApi.get(apiEndpoints.GET_ALL_PRODUCTS);
+}
+
 export const getProductById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_PRODUCT_BY_ID(id));
 }
@@ -54,4 +59,38 @@ export const getProductRating = async (id: string) => {
 //get discount by id
 export const getDiscountById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_DISCOUNT_BY_ID(id));
+}
+
+//create cart
+export const createCart = async (token: string) => {
+    return await mainApi.post(
+        apiEndpoints.CREATE_CART, 
+        apiEndpoints.getAccessToken(token)
+        );
+}
+//get customer cart
+export const getCustomerCart = async (token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_CUSTOMER_CART,
+        apiEndpoints.getAccessToken(token)
+        );
+}
+//get all cart item
+export const getAllCartItem = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_ALL_CART_ITEMS(id));
+}
+//add item to cart
+// export const addItemToCart = async (token: string, cartId: string, productId: string, colorId: string, quantity: number) => {
+//     return await mainApi.post(
+//         apiEndpoints.ADD_ITEM_TO_CART,
+//         apiEndpoints.getAddItemToCartBody(token, cartId, productId, colorId, quantity)
+//         );
+// }
+//remove item from cart
+export const removeItemFromCart = async (id: string) => {
+    return await mainApi.post(apiEndpoints.REMOVE_ITEM_FROM_CART(id));
+}
+//remove all items from cart
+export const removeAllItemFromCart = async (id: string) => {
+    return await mainApi.post(apiEndpoints.REMOVE_ALL_ITEMS_FROM_CART(id));
 }

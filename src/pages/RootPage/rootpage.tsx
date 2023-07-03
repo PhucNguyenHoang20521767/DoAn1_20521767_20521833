@@ -9,6 +9,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomeDrawer from '../Drawer/drawer';
 
+import LoadAllProduct from '@/components/LoadAllProduct';
+
 const RootPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,6 +54,8 @@ const RootPage = () => {
       <main className="">
         <div className='mt-40'></div>
         <Outlet />
+        {/* Load all product */}
+        <LoadAllProduct />
       </main>
       <Footer />
       <CustomeDrawer/>

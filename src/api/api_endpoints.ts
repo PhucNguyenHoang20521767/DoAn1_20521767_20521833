@@ -102,3 +102,23 @@ export const GET_PRODUCT_RATING_BY_ID = (id:string) => `/feedbacks/getProductRat
 
 //get discount by id
 export const GET_DISCOUNT_BY_ID = (id:string) => `/discounts/getDiscountById/${id}`;
+
+//create cart
+export const CREATE_CART = "/carts/createCart";
+//get customer cart
+export const GET_CUSTOMER_CART = `/carts/getCustomerCart`;
+//get all cart items
+export const GET_ALL_CART_ITEMS = (id:string) => `/carts/getAllCartItems/${id}`;
+//add item to cart
+export const ADD_ITEM_TO_CART = (id:string) => `/carts/addItemToCart/${id}`;
+export const getAddItemToCartBody = (id:string, colorId:string, quantity:number) => ({
+    productId: id,
+    productColorId: colorId,
+    productQuantity: quantity
+});
+//update item in cart
+export const UPDATE_ITEM_IN_CART = (id:string) => `/carts/updateItemInCart/${id}`;
+//remove item from cart
+export const REMOVE_ITEM_FROM_CART = (id:string) => `/carts/removeItemFromCart/${id}`;
+//remove all items from cart
+export const REMOVE_ALL_ITEMS_FROM_CART = (id:string) => `/carts/removeAllItemsFromCart/${id}`;
