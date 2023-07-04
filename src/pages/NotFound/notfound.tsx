@@ -5,7 +5,7 @@ const notfound = () => {
         <>
             <div className="flex justify-center">
                 <div className="grid-flow-col text-center">
-                    <img className="pl-2" src="/public/sorry.jpg" alt="sorry" />
+                    <img className="pl-2" src="/sorry.jpg" alt="sorry" />
                     <h1 className="text-4xl font-bold text-dark-0 my-4">404</h1>
                     <h2>Không tìm thấy trang!</h2>
                     <p>Xin lỗi vì sự bất tiện này</p>

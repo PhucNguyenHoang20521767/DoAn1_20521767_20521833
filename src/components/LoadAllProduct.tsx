@@ -23,8 +23,8 @@ const LoadAllProduct = () => {
           return error;
         }
       };
-    
-      const getProductImageURLs = async (productId: string) => {
+
+    const getProductImageURLs = async (productId: string) => {
         try {
           const result = await mainApi.get(apiEndpoints.GET_PRODUCT_IMAGES_URL(productId));
           const data = result.data.data;

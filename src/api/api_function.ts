@@ -28,6 +28,16 @@ export const getProductById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_PRODUCT_BY_ID(id));
 }
 
+//get all subcategories
+export const getAllSubcategories = async () => {
+    return await mainApi.get(apiEndpoints.GET_SUBCATEGORIES);
+}
+
+//get subcategories by id
+export const getSubcategoriesById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_SUBCATEGORIES_BY_ID(id));
+}
+
 //get all products color
 export const getProductColor = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_ALL_PRODUCT_COLORS(id));

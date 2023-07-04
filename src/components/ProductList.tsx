@@ -49,6 +49,7 @@ interface Product {
 const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter, crumbs }) => {
   // const [products, setProducts] = useState<Product[]>([]);
   const dispatch = useDispatch();
+  const currentPage = useSelector((state: RootState) => state.sub.currentPage);
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedDimension, setSelectedDimension] = useState('');

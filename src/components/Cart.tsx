@@ -28,12 +28,12 @@ export const Cart = () => {
       }
     }
 
-    // if (currentUser) {
-    //   fetchCart()
-    //   if (!cart[0].cartStatus) {
-    //     makeCart()
-    //   }
-    // }
+    if (currentUser) {
+      fetchCart()
+      if (cart === null) {
+        makeCart()
+      }
+    }
   }, [currentUser])
 
   if (!currentUser) {

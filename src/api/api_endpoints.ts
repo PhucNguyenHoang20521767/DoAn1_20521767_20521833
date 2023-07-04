@@ -56,6 +56,17 @@ export const logoutCustomer = (id: string) => ({
 
 //Get user info
 export const GET_USER_INFO = (id:string) => `/customers/getCustomerById/${id}`;
+//update customer
+export const UPDATE_CUSTOMER = (id:string) => `/customers/updateCustomer/${id}`;
+export const getUpdateCustomerBody = 
+(firstname: string, lastname: string, birthday: string, email: string, gender: string) => ({
+    customerFirstName: firstname,
+    customerLastName: lastname,
+    customerBirthday: birthday,
+    customerEmail: email,
+    customerGender: gender,
+});
+
 //Get avatar
 export const GET_AVATAR = `/customers/getCustomerAvatar`;
 export const getAccessToken = (token: string) => ({
@@ -68,6 +79,9 @@ export const GET_AVATAR_URL = `/customers/getCustomerAvatarURL`;
 
 //get subcategories
 export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";
+//get subcategories by id
+export const GET_SUBCATEGORIES_BY_ID = (id:string) => `/subcategories/getSubcategoryById/${id}`;
+
 //get categories
 export const GET_CATEGORIES = "/categories/getAllCategories";
 //get categories by id
