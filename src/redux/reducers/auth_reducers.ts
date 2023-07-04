@@ -7,17 +7,21 @@ interface IAuthState {
     id: string;
     customerIdToken: string;
     isLogin: boolean;
+    loginType: string;
+    providerInfor: any;
 }
 const initialState = { 
     currentUser: "",
     id: "",
     customerIdToken: "",
     isLogin: false,
+    loginType: "email",
 } as IAuthState;
 
 // Actions
 export const login = createAction<IAuthState>("LOGIN");
 export const logout = createAction("LOGOUT");
+export const gglogin = createAction<IAuthState>("GGLOGIN");
 
 // Reducer
 const authReducer = createReducer(
@@ -37,6 +41,10 @@ const authReducer = createReducer(
         state.id = "";
         state.customerIdToken = "";
         state.isLogin = false;
+    })
+    .addCase(gglogin, (state, action) => {
+        state.loginType = "google";
+        state.providerInfor = action.payload.providerInfor;
     });
 });
 

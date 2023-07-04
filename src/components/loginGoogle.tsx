@@ -1,6 +1,10 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import { gglogin } from '@/redux/reducers/auth_reducers';
 
 const LoginGoogle = () => {
+  const dispatch = useDispatch();
   const handleGoogleLogin = () => {
     // const redirectUri = encodeURIComponent('http%3A%2F%2Fnguyenshomefurniture-be.onrender.com%2Fapi%2Fauth%2Fgoogle%2Fcallback');
     // const clientId = encodeURIComponent('984597708696-an7j2dtntchg83f342rk2hg4so4j7vtj.apps.googleusercontent.com');
@@ -9,8 +13,11 @@ const LoginGoogle = () => {
     const state = encodeURIComponent(JSON.stringify({ redirectTo: '/', data: { foo: 'bar' } }));
     // const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=${responseType}&state=${state}`;
 
-    const url = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Fnguyenshomefurniture-be.onrender.com%2Fapi%2Fauth%2Fgoogle%2Fcallback&scope=profile%20email&client_id=984597708696-an7j2dtntchg83f342rk2hg4so4j7vtj.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow${state}`
+    const url = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Fnguyenshomefurniture-be.onrender.com%2Fapi%2Fauth%2Fgoogle%2Fcallback&scope=profile%20email&client_id=984597708696-an7j2dtntchg83f342rk2hg4so4j7vtj.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow&state=${state}`
     // const url = 'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&redirect_uri=http%3A%2F%2Fnguyenshomefurniture-be.onrender.com%2Fapi%2Fauth%2Fgoogle%2Fcallback&scope=profile%20email&client_id=984597708696-an7j2dtntchg83f342rk2hg4so4j7vtj.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow'
+
+    const userLogin = {currentUser: '', id: '', customerIdToken: '', isLogin: true, loginType: "google", providerInfor: ""}
+    dispatch(gglogin(userLogin));
 
     window.location.href = url;
   };

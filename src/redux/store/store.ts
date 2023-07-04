@@ -31,6 +31,7 @@ import drawerReducer from '../reducers/drawer_reducers';
 import productReducer from '../reducers/product_reducers';
 import allProductReducer from '../reducers/allProduct_reducers';
 import subCategoryReducer from '../reducers/subCategories';
+import googleReducer from '../reducers/google_reducer';
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
   product: productReducer,
   all: allProductReducer,
   sub: subCategoryReducer,
+  gg: googleReducer,
 });
 
 // Define your persist config

@@ -4,6 +4,18 @@ export const getLoginBody = (email: string, password: string) => ({
     customerEmail: email,
     customerPassword: password
 });
+// Login google and facebook
+export const LOGIN_GOOGLE = "/customers/loginGoogleAndFacebookCustomer";
+export const getLoginGoogleBody = (password: string, firstname: string, lastname: string, 
+    birthday: string, email: string,  gender: string, provider: string) => ({
+    customerPassword: password,
+    customerFirstName: firstname,
+    customerLastName: lastname,
+    customerBirthday: birthday,
+    customerEmail: email,
+    customerGender: gender,
+    customerProvider: provider
+});
 // Signup
 export const SIGNUP = "/customers/registerCustomer";
 export const getSignupBody = (password: string, firstname: string, lastname: string, 
