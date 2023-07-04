@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { mainApi } from '@/api/main_api';
 import * as apiEndpoints from '@/api/api_endpoints';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { redirectSub } from "@/redux/reducers/subCategories";
 
 interface Category {
   id: string;
@@ -10,7 +12,12 @@ interface Category {
 }
 
 const CategoryList: React.FC = () => {
+  const dispatch = useDispatch();
   const [categories, setCategories] = useState<Category[]>([]);
+
+  function handleCategory(categorySlug: any) {
+    dispatch(redirectSub(categorySlug));
+  }
 
   useEffect(() => {
     const getAllCategories = async () => {
@@ -43,6 +50,7 @@ const CategoryList: React.FC = () => {
               <Link
                 to={`/product/${category.slug}`}
                 className="block px-[10rem] md:px-10 py-2 font-semibold text-base text-black hover:bg-gray-200"
+                onClick={() => handleCategory(category)}
               >
                 {category.name}
               </Link>

@@ -11,7 +11,15 @@ import {
   getProductRating,
   getDiscountById
 } from '@/api/api_function'
-import { Card, CardContent, CardMedia, Typography, Rating, Button, IconButton, CardActionArea } from '@mui/material';
+import { 
+  Box, 
+  Typography, 
+  Rating, 
+  Button, 
+  IconButton, 
+  CardActionArea,
+  LinearProgress
+ } from '@mui/material';
 import { styleButtonAddCart, styleButtonView } from '@/utils/ui';
 import Breadcrumbs from '@/components/BreadcrumbsProduct'
 import IconFavourite from '@/components/customs/IconFavourite'
@@ -44,7 +52,14 @@ const Collection: React.FC = () => {
   const [rating, setRating] = useState<number>(0)
   const [price, setPrice] = useState<number>(0)
   const [discount, setDiscount] = useState<number>(0)
-  let discountNotExpired = true;
+  const [discountNotExpired, setDiscountNotExpired] = useState<boolean>(true)
+  const [priceLoading, setPriceLoading] = useState<boolean>(false)
+
+  const discountFailed = () => {
+    setDiscountNotExpired(false)
+    setDiscount(0)
+    setPriceLoading(false)
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -56,6 +71,8 @@ const Collection: React.FC = () => {
         const product = productRes.data.data
         console.log('product', product)
         setProduct(product)
+        setPrice(product.productPrice)
+        setPriceLoading(true)
 
         const productColorRes = await getProductColor(id)
         const productColor = productColorRes.data.data
@@ -74,13 +91,24 @@ const Collection: React.FC = () => {
         if(product.productDiscountId) {
           const productDiscountRes = await getDiscountById(product.productDiscountId)
           const productDiscount = productDiscountRes.data.data
+          const error = productDiscountRes.data.error
+          console.log('error', error)
           // console.log('productDiscount', productDiscount)
           if (productDiscount && new Date(productDiscount.discountEndDate) > new Date()) {
             setDiscount(productDiscount.discountPercent)
+            setDiscountNotExpired(true)
+            handlePrice(product.productPrice)
           }
           else {
-            discountNotExpired = false;
+            discountFailed()
           }
+
+          if (error) {
+            discountFailed()
+          }
+        }
+        else {
+          discountFailed()
         }
 
         const listColor = await Promise.all(productColor.map(async (color: any) => {
@@ -97,15 +125,26 @@ const Collection: React.FC = () => {
       } catch (error) {
         console.error(error)
       }
+
+      return price;
     }
+
     fetchData()
   }, [id])
 
-  useEffect(() => {
-    if (discountNotExpired && product) {
-      const newPrice = (product.productPrice * (100 - discount)) / 100
+  const handlePrice = async (tempPrice: number) => {
+    if (discountNotExpired && product && product.productPrice) {
+      const newPrice = (tempPrice * (100 - discount)) / 100
       setPrice(newPrice)
+      console.log('newPrice', newPrice)
     }
+  }
+
+  useEffect(() => {
+    if (discount) {
+      handlePrice(product.productPrice)
+    }
+    setPriceLoading(false)
   }, [discount])
 
   const handleColorClick = (color: Color) => {
@@ -169,11 +208,7 @@ const Collection: React.FC = () => {
                 {/* name */}
                 <h1 className='text-2xl font-bold'>{product.productName}</h1>
                 <div className='flex justify-normal'>
-                  {
-                    rating && (
-                      <Rating name="read-only" precision={0.5} value={rating} readOnly />
-                    )
-                  }
+                  <Rating name="read-only" precision={0.5} value={rating ? rating : 0} readOnly />   
                   <p className='text-md ml-2 text-gray-600'>Đã bán: </p>
                   <p className='text-md ml-1 text-gray-600'>{product.productSold}</p>
                 </div>
@@ -186,9 +221,20 @@ const Collection: React.FC = () => {
                     </p>  
                     ) 
                   }
-                  <p className='text-2xl text-black mr-3'>
-                    {price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
-                  </p>
+                  {
+                    priceLoading ?
+                    (
+                      <Box sx={{ width: '100px', marginRight: '10px' }}>
+                        <LinearProgress />
+                      </Box>
+                    )
+                    :
+                    (
+                      <p className='text-2xl text-black mr-3'>
+                        {price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                      </p>
+                    )
+                  }
                   {
                     discountNotExpired && (
                     <div className="bg-red-500 text-white font-bold rounded-md px-2 flex items-center">
