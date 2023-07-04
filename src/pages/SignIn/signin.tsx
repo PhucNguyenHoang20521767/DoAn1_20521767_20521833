@@ -102,7 +102,7 @@ const SignIn = () => {
 
         const handleDone = async (currentUser: string, id: string, customerIdToken: string) => {
         try {
-            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true}
+            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true, loginType: "email", providerInfor: ""}
             dispatch(login(userLogin));
             handleOpen();
             const cart = await createCart(currentUser);

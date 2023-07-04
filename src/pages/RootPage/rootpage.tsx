@@ -11,9 +11,13 @@ import CustomeDrawer from '../Drawer/drawer';
 
 import LoadAllProduct from '@/components/LoadAllProduct';
 
+import { gglogin } from '@/redux/reducers/auth_reducers';
+import { glogin } from '@/redux/reducers/google_reducer';
+
 const RootPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const loginType = useSelector((state: RootState) => state.auth.loginType);
   const isLog = useSelector((state: RootState) => state.auth.isLogin);
   const [openSnack, setOpenSnack] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -24,6 +28,18 @@ const RootPage = () => {
       setOpenSnack(true);
     } else if (!isLog) {
       dispatch(logout());
+    }
+
+    if (loginType === 'google') {
+      fetch('https://nguyenshomefurniture-be.onrender.com/api/auth/google/login/success')
+      .then(response => response.json())
+      .then(data => {
+        dispatch(glogin(data));
+      })
+      .catch(error => {
+        // handle the error here
+        console.log(error);
+      });
     }
   }, [isLog]);
 
