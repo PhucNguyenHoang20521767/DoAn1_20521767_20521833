@@ -106,6 +106,8 @@ export const GET_PRODUCT_IMAGES_URL = (id:string) => `/products/getAllProductIma
 export const GET_PRODUCT_BY_ID = (id:string) => `/products/getProductById/${id}`;
 //get all product color
 export const GET_ALL_PRODUCT_COLORS = (id:string) => `/products/getAllProductColors/${id}`;
+//get all product images
+export const GET_ALL_PRODUCT_IMAGES = (id:string) => `/products/getAllProductImages/${id}`;
 //get product images by color id
 export const GET_PRODUCT_IMAGES_BY_COLOR 
 = (pid:string, cid:string) => `/products/getAllProductImagesByColor/${pid}/${cid}`;
@@ -146,5 +148,9 @@ export const getAddItemToCartBody = (id:string, colorId:string, quantity:number)
 export const UPDATE_ITEM_IN_CART = (id:string) => `/carts/updateItemInCart/${id}`;
 //remove item from cart
 export const REMOVE_ITEM_FROM_CART = (id:string) => `/carts/removeItemFromCart/${id}`;
+export const getRemoveItemFromCartBody = (productId:string, colorId:string) => ({
+    productId: productId,
+    productColorId: colorId
+});
 //remove all items from cart
 export const REMOVE_ALL_ITEMS_FROM_CART = (id:string) => `/carts/removeAllItemsFromCart/${id}`;
