@@ -58,6 +58,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
   const [discount, setDiscount] = useState<number>(0)
   const [discountNotExpired, setDiscountNotExpired] = useState<boolean>(true)
   const [priceLoading, setPriceLoading] = useState<boolean>(false)
+  const [imageLoading, setImageLoading] = useState<boolean>(true)
 
   const discountFailed = () => {
     setDiscountNotExpired(false)
@@ -159,7 +160,6 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
 
   // const color = listColor.find((c: Color) => c._id === cartItem.productColorId)
   const imageUrl = imageUrls[0]
-
   const handleColorClick = (color: Color) => {
     setChooseColor(color)
   }
@@ -187,7 +187,14 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     <>
     <div className='flex justify-between'>
       <div className='flex gap-4 items-center'>
-        <img src={imageUrls[0]} alt={product?.productName} className='w-16 h-16 object-contain' />
+          <img 
+          src={imageUrls[0]} 
+          alt={product?.productName} 
+          className='w-16 h-16 object-contain'
+          />
+          <Link to={`collection/${cartItem.productId}`}>
+            <div className='text-dark-3'>Xem</div>
+          </Link>
         <div>
           <div className='font-bold'>{product?.productName}</div>
           <div>
