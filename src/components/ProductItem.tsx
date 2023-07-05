@@ -8,6 +8,7 @@ import { RootState } from '@/redux/store/store';
 import { moveToProduct } from '@/redux/reducers/product_reducers';
 import IconFavourite from './customs/IconFavourite';
 import { getDiscountById } from '@/api/api_function';
+import { addItemToCart, getProductById, getProductColorById, getProductColor } from '@/api/api_function'
 
 interface Product {
   id: string;
@@ -30,6 +31,7 @@ interface Props {
 const ProductCard: React.FC<Props> = ({ product }) => {
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.auth.currentUser);
+    const currentCart = useSelector((state: RootState) => state.cart);
     const [changeFavorite, setChangeFavorite] = useState(false);
     const navigate = useNavigate();
     const [discountPrice, setDiscountPrice] = useState<number>(product.price);
@@ -64,6 +66,29 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     fetchData();
 
   }, [product]);
+
+  async function handelAddToCart() {
+    if(!user) {
+      navigate('/signin');
+      return;
+    }
+    const productRes = await getProductById(product.id);
+    if (productRes.data.data) {
+        const _product = productRes.data.data;
+        const productColorRes = await getProductColor(product.id);
+        const productColor = productColorRes.data.data;
+
+        if (user) {
+          // console.log('currentCart', currentCart._id,
+          //  "User", user,
+          //  "productid", product.id, 
+          //  "colorid", productColor[0]._id, 1);
+            addItemToCart(currentCart._id, user, product.id, productColor[0]._id, 1);
+        } else {
+            // setDisabled(true);
+        }
+    }
+  }
 
   return (
     <Card
@@ -143,7 +168,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           style={{ marginRight: '2px' }}
           sx={styleButtonAddCart}
           onClick={() => {
-            navigate('/cart');
+            handelAddToCart();
           }}
         >
           Thêm vào giỏ

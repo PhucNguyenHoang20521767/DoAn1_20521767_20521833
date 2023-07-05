@@ -2,10 +2,10 @@ import { createReducer, createAction } from '@reduxjs/toolkit'
 import { stat } from 'fs';
 
 interface IProductState {
-    currentProduct: string;
+    currentProduct: any;
 }
 const initialState = { 
-    currentProduct: "",
+    currentProduct: null,
 } as IProductState;
 
 // Actions
@@ -17,10 +17,10 @@ const productReducer = createReducer(
     (builder) => {
     builder
     .addCase(moveToProduct, (state, action) => {
-        state.currentProduct = action.payload.currentProduct;
+        state.currentProduct = action.payload;
     })
     .addCase(outProduct, (state) => {
-        state.currentProduct = "";
+        state.currentProduct = null;
     });
 });
 

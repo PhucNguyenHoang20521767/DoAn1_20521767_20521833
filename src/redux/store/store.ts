@@ -32,6 +32,7 @@ import productReducer from '../reducers/product_reducers';
 import allProductReducer from '../reducers/allProduct_reducers';
 import subCategoryReducer from '../reducers/subCategories';
 import googleReducer from '../reducers/google_reducer';
+import cartReducer from '../reducers/cart_reducers';
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
   drawer: drawerReducer,
   product: productReducer,
   all: allProductReducer,
+  cart: cartReducer,
   sub: subCategoryReducer,
   gg: googleReducer,
 });

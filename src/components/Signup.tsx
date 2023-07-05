@@ -86,7 +86,6 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
             setLoading(true);
             const result = await mainApi.post(
                 apiEndpoints.SIGNUP,
-
                 apiEndpoints.getSignupBody(data.password, data.firstname, data.lastname, 
                     birthday, data.email,data.gender)
             );

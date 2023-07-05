@@ -79,7 +79,8 @@ const Information = (props: Props) => {
             // const user = getUserInfo(_id);
             const user = await mainApi.get(apiEndpoints.GET_USER_INFO(_id));
             const infor = user.data.data;
-            return { ...infor};
+            // return { ...infor};
+            return infor;
         }
         catch(err) {
             console.log(err);

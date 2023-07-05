@@ -8,17 +8,19 @@ import { Alert } from '@/utils/ui';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomeDrawer from '../Drawer/drawer';
-
 import LoadAllProduct from '@/components/LoadAllProduct';
-
+import { createCart, getCustomerCart, getAllCartItem } from '@/api/api_function'
 import { gglogin } from '@/redux/reducers/auth_reducers';
 import { glogin } from '@/redux/reducers/google_reducer';
+import { loadcart } from '@/redux/reducers/cart_reducers';
 
 const RootPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginType = useSelector((state: RootState) => state.auth.loginType);
   const isLog = useSelector((state: RootState) => state.auth.isLogin);
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  const currentCart = useSelector((state: RootState) => state.cart);
   const [openSnack, setOpenSnack] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -34,7 +36,7 @@ const RootPage = () => {
       fetch('https://nguyenshomefurniture-be.onrender.com/api/auth/google/login/success')
       .then(response => response.json())
       .then(data => {
-        dispatch(glogin(data));
+        dispatch(glogin(data.user));
       })
       .catch(error => {
         // handle the error here
@@ -42,6 +44,41 @@ const RootPage = () => {
       });
     }
   }, [isLog]);
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res1 = await getCustomerCart(currentUser)
+        const cartInfores = res1.data.data
+        console.log('ci', cartInfores)
+        const cartInfo = {_id: cartInfores[0]._id, 
+          customerId: cartInfores[0].customerId, 
+          cartStatus: cartInfores[0].cartStatus}
+        dispatch(loadcart(cartInfo))
+
+        if (cartInfores.length > 0) {
+          const res2 = await getAllCartItem(cartInfores[0]._id, currentUser)
+          const cartItems = res2.data.data
+          console.log('aci', cartItems)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const makeCart = async () => {
+      try {
+        if (currentUser)
+        await createCart(currentUser)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if (currentUser) {
+      fetchCart()
+    }
+  }, [currentUser])
 
   useEffect(() => {
     const handleScroll = () => {

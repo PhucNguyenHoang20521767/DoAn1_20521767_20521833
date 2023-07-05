@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ScrollToTop from '@/utils/scroll_top'
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store/store'
 import { 
@@ -9,7 +9,8 @@ import {
   getProductColorById, 
   getProductDimensionById,
   getProductRating,
-  getDiscountById
+  getDiscountById,
+  addItemToCart
 } from '@/api/api_function'
 import { 
   Box, 
@@ -25,9 +26,10 @@ import Breadcrumbs from '@/components/BreadcrumbsProduct'
 import IconFavourite from '@/components/customs/IconFavourite'
 import ProductImages from '@/components/ProductImage'
 import NumberInput from '@/components/customs/NumberInput'
+import moveToProduct from '@/redux/reducers/product_reducers'
 import { set } from 'react-hook-form'
 
-interface Props {
+interface productInfor {
   product: any;
 }
 
@@ -41,8 +43,10 @@ interface Color {
 }
 
 const Collection: React.FC = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentUser = useSelector((state: RootState) => state.auth.currentUser)
+  const currentCart = useSelector((state: RootState) => state.cart)
   const { id } = useParams<{ id: string }>()
   const [product, setProduct] = useState<any>(null)
   const [listColor, setListColor] = useState<Color[]>([])
@@ -162,8 +166,18 @@ const Collection: React.FC = () => {
     )
   }
 
-  function handleAddToCart(): void {
-    throw new Error('Function not implemented.')
+  async function handleAddToCart() {
+    if(!currentUser) {
+      navigate('/signin');
+      return;
+    }
+    try{
+      console.log('infor', currentCart._id, currentUser, product._id, "chooseColor", chooseColor?._id || '', 1)
+      await addItemToCart(currentCart._id, currentUser, product._id, chooseColor?._id || '', quantity)
+    }
+    catch(error) {
+      console.log(error)
+    }
   }
 
   function handleCheckout() {
