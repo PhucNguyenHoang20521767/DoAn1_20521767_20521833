@@ -89,6 +89,22 @@ export const getAccessToken = (token: string) => ({
 //Get avatar URL
 export const GET_AVATAR_URL = `/customers/getCustomerAvatarURL`;
 
+//create address
+export const CREATE_ADDRESS = (id:string) => `/addresses/createAddress/${id}`;
+export const getCreateAddressBody =
+    (firstname: string, lastname: string, phone: string, address: string, ward: string, district: string, 
+        city: string, isDefault: boolean) => ({
+    receiverFirstName: firstname,
+    receiverLastName: lastname,
+    receiverPhone: phone,
+    receiverAddress: address,
+    receiverWard: ward,
+    receiverDistrict: district,
+    receiverCity: city,
+    isDefault: isDefault
+});
+
+
 //get subcategories
 export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";
 //get subcategories by id
@@ -154,3 +170,16 @@ export const getRemoveItemFromCartBody = (productId:string, colorId:string) => (
 });
 //remove all items from cart
 export const REMOVE_ALL_ITEMS_FROM_CART = (id:string) => `/carts/removeAllItemsFromCart/${id}`;
+
+//create order
+export const CREATE_ORDER = "/orders/createOrder";
+export const getCreateOrderBody = (customerId:string, orderCode:string, orderStatus:string, 
+    orderNote: string, orderAddress: string, paymentMethod: string, orderShippingFee: number) => ({
+    customerId: customerId,
+    orderCode: orderCode,
+    orderStatus: orderStatus,
+    orderNote: orderNote,
+    orderAddress: orderAddress,
+    paymentMethod: paymentMethod,
+    orderShippingFee: orderShippingFee
+});

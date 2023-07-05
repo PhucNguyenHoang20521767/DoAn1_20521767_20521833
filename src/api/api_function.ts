@@ -22,6 +22,16 @@ export const getUserInfo = async (id: string): Promise<UserInfo> => {
     return await mainApi.get(apiEndpoints.GET_USER_INFO(id));
 }
 
+//create address
+export const createAddress = async (id: string, token: string, firstname: string, lastname: string, 
+    phone: string, address: string, ward: string, district: string, city: string, isDefault: boolean) => {
+    return await mainApi.post(
+        apiEndpoints.CREATE_ADDRESS(id), 
+        apiEndpoints.getCreateAddressBody(firstname, lastname, phone, address, ward, district, city, isDefault), 
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
 //get all products
 export const getAllProducts = async () => {
     return await mainApi.get(apiEndpoints.GET_ALL_PRODUCTS);
