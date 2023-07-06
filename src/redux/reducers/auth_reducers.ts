@@ -8,7 +8,7 @@ interface IAuthState {
     customerIdToken: string;
     isLogin: boolean;
     loginType: string;
-    providerInfor: any;
+    avatar: string;
 }
 const initialState = { 
     currentUser: "",
@@ -16,6 +16,7 @@ const initialState = {
     customerIdToken: "",
     isLogin: false,
     loginType: "email",
+    avatar: ""
 } as IAuthState;
 
 // Actions
@@ -41,10 +42,16 @@ const authReducer = createReducer(
         state.id = "";
         state.customerIdToken = "";
         state.isLogin = false;
+        state.avatar = "";
+        state.loginType = "email";
     })
     .addCase(gglogin, (state, action) => {
+        state.currentUser = action.payload.currentUser;
+        state.id = action.payload.id;
+        state.customerIdToken = action.payload.customerIdToken;
+        state.isLogin = action.payload.isLogin;
         state.loginType = "google";
-        state.providerInfor = action.payload.providerInfor;
+        state.avatar = action.payload.avatar;
     });
 });
 

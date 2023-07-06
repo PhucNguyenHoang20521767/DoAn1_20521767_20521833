@@ -16,6 +16,7 @@ import cat from '@/utils/image_link';
 import CategoriesById from './CategoriesById';
 import CategoryList from './Categories';
 import SubCategoryList from './SubCategories';
+import { googleLogout } from '@/api/api_function';
 
 type Props = {};
 
@@ -23,6 +24,7 @@ const Header = (props: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUsers = useSelector((state: RootState) => state.auth.id);
+  const loginType = useSelector((state: RootState) => state.auth.loginType)
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
   const [nav, setNav] = useState(false);
   const [loginState, setLoginState] = useState(false);
@@ -67,7 +69,12 @@ const Header = (props: Props) => {
           console.log(error);
         })
       dispatch(logout());
-      navigate('/signin');
+
+      if (loginType === 'google') {
+        googleLogout();
+      } else {
+        navigate('/signin');
+      }
     } catch (error: any) {
       console.log(error);
     }

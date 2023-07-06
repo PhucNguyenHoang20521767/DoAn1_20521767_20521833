@@ -7,7 +7,7 @@ export const getLoginBody = (email: string, password: string) => ({
 // Login google and facebook
 export const LOGIN_GOOGLE = "/customers/loginGoogleAndFacebookCustomer";
 export const getLoginGoogleBody = (password: string, firstname: string, lastname: string, 
-    birthday: string, email: string,  gender: string, provider: string) => ({
+    birthday: Date, email: string,  gender: string, provider: string) => ({
     customerPassword: password,
     customerFirstName: firstname,
     customerLastName: lastname,
@@ -200,3 +200,6 @@ export const getCreateOrderBody = (customerId:string, orderCode:string, orderSta
     paymentMethod: paymentMethod,
     orderShippingFee: orderShippingFee
 });
+
+
+export const GOOGLE_LOGIN_SUCCESS = "/auth/google/login/success";

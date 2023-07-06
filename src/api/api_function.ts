@@ -240,3 +240,39 @@ export const removeAllItemFromCart = async (id: string, token: string) => {
         apiEndpoints.getAccessToken(token)
         );
 }
+
+export const loginWithGoogle = async (password: string, firstname: string, lastname: string, birthday: Date, email: string,  gender: string, provider: string) => {
+    return await mainApi.post(
+        apiEndpoints.LOGIN_GOOGLE,
+        apiEndpoints.getLoginGoogleBody(
+            password,
+            firstname,
+            lastname,
+            birthday,
+            email,
+            gender,
+            provider
+        )
+    );
+}
+
+export const googleLoginCallback = () => {
+    window.open(
+        `${baseURL}/auth/google/callback`,
+        "_self"
+    );
+}
+
+export const googleLoginSuccess = async () => {
+    return await mainApi.get(
+        apiEndpoints.GOOGLE_LOGIN_SUCCESS,
+        { withCredentials: true }
+    );
+}
+
+export const googleLogout = () => {
+    window.open(
+        `${baseURL}/auth/google/logout`,
+        "_self"
+    );
+}

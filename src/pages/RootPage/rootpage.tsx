@@ -9,9 +9,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomeDrawer from '../Drawer/drawer';
 import LoadAllProduct from '@/components/LoadAllProduct';
-import { createCart, getCustomerCart, getAllCartItem } from '@/api/api_function'
+import { createCart, getCustomerCart, getAllCartItem, googleLoginSuccess, loginWithGoogle } from '@/api/api_function'
 import { gglogin } from '@/redux/reducers/auth_reducers';
-import { glogin } from '@/redux/reducers/google_reducer';
 import { loadcart } from '@/redux/reducers/cart_reducers';
 
 const RootPage = () => {
@@ -31,22 +30,30 @@ const RootPage = () => {
     } else if (!isLog) {
       dispatch(logout());
     }
-
-    if (loginType === 'google') {
-      fetch('https://nguyenshomefurniture-be.onrender.com/api/auth/google/login/success')
-      .then(response => {response.json()
-        // alert( response);
-      })
-      // .then(data => {
-      //   dispatch(glogin(data));
-      //   console.log(data);        
-      // })
-      .catch(error => {
-        // handle the error here
-        console.log(error);
-      });
-    }
   }, [isLog]);
+
+  useEffect(() => {
+    if (!isLog && loginType === "google" && currentUser === "") {
+          handleLoginWithGoogle();
+      }
+    }, [isLog, loginType, currentUser]);
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      const result = await googleLoginSuccess();
+
+      const ggUser = result.data.user._json;
+
+      const googleLogin = await loginWithGoogle("12345678", ggUser.given_name, ggUser.family_name, new Date(), ggUser.email, "Nam", "Google");
+      const ava = ggUser.picture;
+
+      const userLogin = {currentUser: googleLogin.data.token, id: googleLogin.data.data._id, customerIdToken: googleLogin.data.customerIdToken, isLogin: true, loginType: "google", avatar: ava}
+
+      dispatch(gglogin(userLogin));
+    } catch (error: any) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -54,9 +61,9 @@ const RootPage = () => {
         const res1 = await getCustomerCart(currentUser)
         const cartInfores = res1.data.data
         console.log('ci', cartInfores)
-        const cartInfo = {_id: cartInfores[0]._id, 
-          customerId: cartInfores[0].customerId, 
-          cartStatus: cartInfores[0].cartStatus}
+        const cartInfo = {_id: cartInfores[0]?._id, 
+          customerId: cartInfores[0]?.customerId, 
+          cartStatus: cartInfores[0]?.cartStatus}
         dispatch(loadcart(cartInfo))
 
         if (cartInfores.length > 0) {

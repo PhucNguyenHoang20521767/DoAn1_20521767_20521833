@@ -36,6 +36,8 @@ const Information = (props: Props) => {
     const _id = useSelector((state: RootState) => state.auth.id);
     const _idToken = useSelector((state: RootState) => state.auth.customerIdToken);
     const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+    const loginType = useSelector((state: RootState) => state.auth.loginType);
+    const googleAvatar = useSelector((state: RootState) => state.auth.avatar);
     const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -121,7 +123,9 @@ const Information = (props: Props) => {
                 if (res.customerGender === 'Nam') setGender('Name');
                 else setGender('Nữ');
             })
-            fetchAvatar();
+            if (loginType !== 'google') {
+                fetchAvatar();
+            }
         }
         else if (!isLog) {
             dispatch(logout());
@@ -264,26 +268,33 @@ const Information = (props: Props) => {
                                 onChange={(e) => setAvatar(e.target.value)}
                                 />
                             </label> */}
-                                <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary-1 hover:text-primary-2 focus-within:outline-none">
-                                    <img src={avatar} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
-                                    <input 
-                                    id="file-upload" 
-                                    name="file-upload" 
-                                    type="file" 
-                                    className="sr-only" 
-                                    onChange={(e) => {
-                                        const file = e.target?.files?.[0];
-                                        if (file) {
-                                        setAvatarFile(file);
-                                        const reader = new FileReader();
-                                        reader.onload = (event) => {
-                                            setAvatar(event.target?.result as string);
-                                        };
-                                        reader.readAsDataURL(file);
-                                        }
-                                    }}
-                                    />
-                                </label>
+                                {(loginType === 'google') ? 
+                                (
+                                    <img src={googleAvatar.toString()} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
+                                )
+                                :
+                                (
+                                    <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary-1 hover:text-primary-2 focus-within:outline-none">
+                                        <img src={avatar} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
+                                        <input 
+                                        id="file-upload" 
+                                        name="file-upload" 
+                                        type="file" 
+                                        className="sr-only" 
+                                        onChange={(e) => {
+                                            const file = e.target?.files?.[0];
+                                            if (file) {
+                                            setAvatarFile(file);
+                                            const reader = new FileReader();
+                                            reader.onload = (event) => {
+                                                setAvatar(event.target?.result as string);
+                                            };
+                                            reader.readAsDataURL(file);
+                                            }
+                                        }}
+                                        />
+                                    </label>
+                                )}
                         </div>
                     </div>
                 </div>
