@@ -5,13 +5,15 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { style } from '@/utils/ui';
 import {
-    createAddress
+    createAddress,
+    updateAddress
 } from '@/api/api_function';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootState } from '@/redux/store/store';
 import { useSelector, useDispatch } from 'react-redux';
 
 interface Props {
+    address: IAddress;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleReload: () => void;
@@ -28,7 +30,20 @@ interface IAddressInput {
     isDefault: boolean;
   }
 
-function AddressModal({ open, setOpen, handleReload }: Props) {
+  interface IAddress {
+    _id: string;
+    customerId: string;
+    receiverFirstName: string;
+    receiverLastName: string;
+    receiverPhone: string;
+    receiverAddress: string;
+    receiverWard: string;
+    receiverDistrict: string;
+    receiverCity: string;
+    isDefault: boolean;
+  }
+
+function UpdateAddressModal({ open, setOpen, handleReload, address }: Props) {
 //   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -36,13 +51,24 @@ function AddressModal({ open, setOpen, handleReload }: Props) {
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const _id = useSelector((state: RootState) => state.auth.id);
 
-  const { register, formState: { errors }, setError, handleSubmit } = useForm<IAddressInput>();
+  const { register, formState: { errors }, setError, handleSubmit, setValue } = useForm<IAddressInput>();
+
+  React.useEffect(() => {
+    setValue('firstname', address.receiverFirstName);
+    setValue('lastname', address.receiverLastName);
+    setValue('phone', address.receiverPhone);
+    setValue('address', address.receiverAddress);
+    setValue('ward', address.receiverWard);
+    setValue('district', address.receiverDistrict);
+    setValue('city', address.receiverCity);
+    setValue('isDefault', address.isDefault);
+  }, [address, setValue]);
 
   const onSubmit: SubmitHandler<IAddressInput> = async (data) => {
     setLoading(true);
-    console.log('_id', _id, 'currentUser', currentUser);
+    console.log('_id', address._id, 'currentUser', currentUser);
     console.log('data', data);
-    const res = await createAddress(_id, currentUser, data.firstname, data.lastname, data.phone, data.address, data.ward, data.district, data.city, data.isDefault);
+    const res = await updateAddress(address._id, currentUser, data.firstname, data.lastname, data.phone, data.address, data.ward, data.district, data.city, data.isDefault);
     if (res.data.data) {
         setOpen(false);
         handleReload();
@@ -140,4 +166,4 @@ function AddressModal({ open, setOpen, handleReload }: Props) {
   );
 }
 
-export default AddressModal;
+export default UpdateAddressModal;

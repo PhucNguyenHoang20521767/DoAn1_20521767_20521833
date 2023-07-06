@@ -1,8 +1,10 @@
 import { mainApi } from './main_api'
 import * as apiEndpoints from './api_endpoints';
+import { baseURL } from './main_api';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadcart } from '@/redux/reducers/cart_reducers';
 import { RootState } from '@/redux/store/store';
+import axios from 'axios';
 
 //change passwords
 export const changePassword = async (idToken: string, oldPassword: string, newPassword: string) => {
@@ -30,6 +32,63 @@ export const createAddress = async (id: string, token: string, firstname: string
         apiEndpoints.getCreateAddressBody(firstname, lastname, phone, address, ward, district, city, isDefault), 
         apiEndpoints.getAccessToken(token)
         );
+}
+
+//delete address
+export const deleteAddress = async (id: string, token: string) => {
+    return await mainApi.delete(
+        apiEndpoints.DELETE_ADDRESS(id),
+        apiEndpoints.getAccessToken(token)
+    );
+}
+
+//get all addresses
+export const getAllAddresses = async (id: string, token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ALL_ADDRESS(id),
+        apiEndpoints.getAccessToken(token)
+    );
+}
+
+//set default address
+export const setDefaultAddress = async (id: string, token: string) => {
+    return await axios({
+        method: 'put',
+        url: `${baseURL}/addresses/setDefaultAddress/${id.toString()}`,
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    });
+    // return await mainApi.put(
+    //     apiEndpoints.SET_DEFAULT_ADDRESS(id),
+    //     apiEndpoints.getAccessToken(token)
+    // );
+}
+
+export const updateAddress = async (id: string, token: string, firstname: string, lastname: string,
+    phone: string, address: string, ward: string, district: string, city: string, isDefault: boolean) => {
+        return await axios({
+            method: 'put',
+            url: `${baseURL}/addresses/updateAddress/${id.toString()}`,
+            data: {
+                receiverFirstName: firstname,
+                receiverLastName: lastname,
+                receiverPhone: phone,
+                receiverAddress: address,
+                receiverWard: ward,
+                receiverDistrict: district,
+                receiverCity: city,
+                isDefault: isDefault
+            },
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        });
+    // return await mainApi.put(
+    //     apiEndpoints.UPDATE_ADDRESS(id),
+    //     apiEndpoints.getCreateAddressBody(firstname, lastname, phone, address, ward, district, city, isDefault),
+    //     apiEndpoints.getAccessToken(token)
+    // );
 }
 
 //get all products
