@@ -12,11 +12,11 @@
 [BACK_END](https://github.com/PhucNguyenHoang20521767/DoAn1_20521767_20521833_BE)
 
 ### 3. Hướng dẫn sử dụng
-*Sử dụng link vercel ở góc phải:*   
-***Tài khoản mẫu cho user(FRONT_END):***   
+*Sử dụng link vercel hoặc tải code về:*   
+***Tài khoản mẫu cho user(FRONT_END): https://do-an1-20521767-20521833.vercel.app/***   
 nguyenthanhsang22vn@gmail.com  
 12345678  
-***Tài khoản mẫu cho admin(ADMIN):***   
+***Tài khoản mẫu cho admin(ADMIN): https://nguyenshomefurniture-admin.vercel.app/***   
 admin@gmail.com  
 admin12345  
 
