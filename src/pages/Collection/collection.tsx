@@ -172,8 +172,8 @@ const Collection: React.FC = () => {
       return;
     }
     try{
-      console.log('infor', currentCart._id, currentUser, product._id, "chooseColor", chooseColor?._id || '', 1)
-      await addItemToCart(currentCart._id, currentUser, product._id, chooseColor?._id || '', quantity)
+      console.log('infor', currentCart._id, currentUser, product._id, "chooseColor", chooseColor?.colorId || '', 1)
+      await addItemToCart(currentCart._id, currentUser, product._id, chooseColor?.colorId || '', quantity)
     }
     catch(error) {
       console.log(error)

@@ -169,7 +169,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       const res = await removeItemFromCart(
         currentCart._id, currentUser, cartItem.productId , cartItem.productColorId
         )
-        setCartItems(prevCartItems => prevCartItems.filter(item => item.productId !== cartItem.productId));
+        setCartItems(prevCartItems => prevCartItems.filter(item => item.productColorId !== cartItem.productColorId));
       
     } catch (error) {
       console.log(error)

@@ -34,10 +34,13 @@ const RootPage = () => {
 
     if (loginType === 'google') {
       fetch('https://nguyenshomefurniture-be.onrender.com/api/auth/google/login/success')
-      .then(response => response.json())
-      .then(data => {
-        dispatch(glogin(data.user));
+      .then(response => {response.json()
+        // alert( response);
       })
+      // .then(data => {
+      //   dispatch(glogin(data));
+      //   console.log(data);        
+      // })
       .catch(error => {
         // handle the error here
         console.log(error);
