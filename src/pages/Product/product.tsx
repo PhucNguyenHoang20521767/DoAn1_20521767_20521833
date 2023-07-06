@@ -10,6 +10,7 @@ import { set } from 'react-hook-form'
 
 interface Product {
   id: string;
+  discount_id: string;
   category_id: string;
   category_slug: string;
   name: string;

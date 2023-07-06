@@ -13,7 +13,7 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
   const [mainImage, setMainImage] = useState<string | undefined>(undefined);
   const [subImages, setSubImages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -36,13 +36,13 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
   };
 
   return (
-    <div className="flex flex-wrap pl-4">
+    <div className="flex flex-wrap">
       {loading && <ProductSkeleton />}
       {loading ? (
         <Skeleton variant="rounded" width={600} height={265} sx={{ marginLeft: 2 }} />
       ) : (
       <>
-      <div className="w-1/4 overflow-y-scroll max-w-[8rem] max-h-[20rem]">
+      <div className="w-1/4 overflow-y-scroll max-w-[11rem] max-h-[25rem]">
         {subImages.map((image) => (
           <div
             key={image}
@@ -58,11 +58,11 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
           </div>
         ))}
       </div>
-      <div className="w-3/4 max-h-[20rem] ml-1">
+      <div className="w-3/4 max-h-[26rem] ml-1 mt-1">
         <img 
           src={mainImage} 
           alt="Main product image" 
-          className="w-full border border-secondary-4 max-h-[20rem]" 
+          className="max-w-full border border-secondary-4 max-h-[26rem]" 
         />
       </div>
       </>

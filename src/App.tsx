@@ -20,6 +20,7 @@ import Information from '@/components/Information';
 import Address from  '@/components/Address';
 import Bill from '@/components/Bill';
 import ResetPassword from '@/components/ResetPassword';
+import Order from "./pages/Order/order";
 import exp from "constants";
 
 const router = createBrowserRouter(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
         <Route path='/' element={<Rootpage/>}>
             <Route index element={<Home />} />
             <Route path="home" element={<Home/>} />
+            <Route path="order" element={<Order/>} />
             <Route path="product" element={<Product/>} >
                 <Route 
                 path=":id" 

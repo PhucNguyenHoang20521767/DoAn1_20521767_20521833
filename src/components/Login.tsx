@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux'
 
 import CircularProgress from '@mui/material/CircularProgress';
 
+import LoginGoogle from './loginGoogle';
+
 interface ILoginInput {
     email: string;
     password: string;
@@ -85,7 +87,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
     const handleLogin = async (currentUser: string, id: string, customerIdToken: string) => {
         try {
             console.log("id", id);
-            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true}
+            const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true, loginType: "email", avatar: ""}
             dispatch(login(userLogin));
             // localStorage.setItem("currentUser", JSON.stringify(currentUser));
             navigate("/home");
@@ -115,7 +117,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
                     <div className="flex items-center">
                         <input type={showPassword ? "text" : "password"} 
-                        {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
+                        {...register("password", { required: true, minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
                         name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
                         autoComplete="current-password"
@@ -173,10 +175,12 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                         <div>
 
                         </div>
-                        <button className='w-5/12 flex justify-center items-center border border-secondary-2 rounded-sm shadow-sm px-2 py-1 hover:font-bold focus:ring focus:ring-secondary-4'>
-                            <svg className = "w-5 h-5 shrink-0 max-[410px]:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg>
+                        {/* <button className='w-5/12 flex justify-center items-center border border-secondary-2 rounded-sm shadow-sm hover:font-bold focus:ring focus:ring-secondary-4'>
+                             <svg className = "w-5 h-5 shrink-0 max-[410px]:hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"/></svg>
                             <div className='text-lg pl-3'>Google</div>
-                        </button>
+                        </button> */}
+                        < LoginGoogle />
+                        
                     </div>
 
                     {/* Help? */}

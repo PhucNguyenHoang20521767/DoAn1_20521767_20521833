@@ -11,10 +11,12 @@ import {
 } from '@mui/material';
 import SimpleMap from '@/components/Map';
 import { blue } from '@mui/material/colors';
+import ScrollToTop from '@/utils/scroll_top';
 
 const AboutUs = () => {
   return (
     <div className="flex flex-col items-center justify-center space-y-8">
+      <ScrollToTop />
       <div className="max-w-4xl text-center">
         <h1 className="text-4xl font-bold mb-4 mt-4">Về chúng tôi</h1>
         <p className="text-lg"> 
@@ -29,18 +31,22 @@ const AboutUs = () => {
       </div>
       <div className="max-w-4xl space-y-8">
         <div className="flex items-center space-x-4">
-          <Avatar alt="Nguyễn Hoàng Phúc" src="https://avatars.githubusercontent.com/u/104909431?v=4" />
+          <Avatar 
+          alt="Nguyễn Hoàng Phúc" 
+          src="https://avatars.githubusercontent.com/u/104909431?v=4" 
+          />
           <div>
             <Typography variant="h6" component="div">
               Nguyễn Hoàng Phúc
             </Typography>
             <Typography component="div">
-              Co-founder and Lead Designer
+              Founder and Lead Designer
             </Typography>
           </div>
         </div>
         <div className="flex items-center space-x-4">
           <Avatar 
+          style={{ marginBottom: 10 }}
           alt="Nguyễn Thanh Sang" 
           src="https://lh3.googleusercontent.com/a/AAcHTtd7cEyJo29sFKl4Q6fyxG1263VlTR32BglWE_8D=s360-c-no" 
           />

@@ -20,6 +20,7 @@ import { Favourite } from '@/components/Favourite';
 
 const CustomDrawer = () => {
   const dispatch = useDispatch();
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const isDrawerOpen = useSelector((state: RootState) => state.drawer.isDrawerOpen);
   const pageDrawer = useSelector((state: RootState) => state.drawer.pageDrawer);
   const widthDrawer = useSelector((state: RootState) => state.drawer.widthDrawer);
@@ -64,12 +65,12 @@ const CustomDrawer = () => {
           {renderList(['Inbox', 'Starred', 'Send email', 'Drafts'])}
         </div>
         <div className='flex justify-center items-center'>   
-          <Link to='product'>
+          <Link to={currentUser ? `product` : 'signin'}>
             <button className={pageDrawer ? 
-            'rounded-sm bg-secondary-1 text-white p-2 px-16 hover:bg-black hover:shadow-lg'
+            'uppercase rounded-sm bg-secondary-1 text-white p-2 px-16 hover:bg-black hover:shadow-lg'
               : 'hidden'
           }>
-                THANH TOÁN
+                {currentUser? "Tiếp tục mua hàng" : "Đăng nhập"}
             </button>
           </Link>
         </div>

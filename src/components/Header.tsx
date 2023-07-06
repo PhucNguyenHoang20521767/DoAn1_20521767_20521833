@@ -15,6 +15,8 @@ import { get } from 'http';
 import cat from '@/utils/image_link';
 import CategoriesById from './CategoriesById';
 import CategoryList from './Categories';
+import SubCategoryList from './SubCategories';
+import { googleLogout } from '@/api/api_function';
 
 type Props = {};
 
@@ -22,6 +24,7 @@ const Header = (props: Props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentUsers = useSelector((state: RootState) => state.auth.id);
+  const loginType = useSelector((state: RootState) => state.auth.loginType)
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
   const [nav, setNav] = useState(false);
   const [loginState, setLoginState] = useState(false);
@@ -31,7 +34,6 @@ const Header = (props: Props) => {
   const [categoryChair, setCategoryChair] = useState<any[]>([]);
   const [categorySofa, setCategorySofa] = useState<any[]>([]);
   const [categoryBed, setCategoryBed] = useState<any[]>([]);
-  const [subCategories, setSubCategories] = useState<any[]>([]);
 
   const handleNav = () => {
     setNav(!nav);
@@ -67,33 +69,17 @@ const Header = (props: Props) => {
           console.log(error);
         })
       dispatch(logout());
-      navigate('/signin');
+
+      if (loginType === 'google') {
+        googleLogout();
+      } else {
+        navigate('/signin');
+      }
     } catch (error: any) {
       console.log(error);
     }
   };
 
-  const getAllSubCategories = async () => {
-    try {
-      const result = await mainApi.get(apiEndpoints.GET_SUBCATEGORIES);
-      const data = result.data.data;
-      setSubCategories(
-        data.map((item: any) => {
-          return {
-            id: item._id,
-            name: item.subcategoryName,
-          };
-        })
-      );
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllSubCategories();
-  }, []);
-  
   return (
     <nav className='shadow-md'>
       {/* Logo + information */}
@@ -231,24 +217,12 @@ const Header = (props: Props) => {
                 </div>
               </div>
               <div className="group/product-nav-item text-center block mt-4 lg:inline-block lg:mt-0 py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <a href="#responsive-header" className="text-primary-0">
+                <a className="text-primary-0">
                   PHÒNG
                 </a>
                 <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
-                  <div className="flex flex-row">
-                  <div>
-                    {subCategories.map((subCategory, index) => {
-                      return (
-                        <Link
-                          key={index}
-                          to={`/category/${subCategory._id}`}
-                          className="block px-4 py-2 hover:bg-gray-200 text-black"
-                        >
-                          {subCategory.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
+                  <div className="flex justify-center">
+                    <SubCategoryList />
                   </div>
                 </div>
               </div>
