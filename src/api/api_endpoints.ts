@@ -104,6 +104,16 @@ export const getCreateAddressBody =
     isDefault: isDefault
 });
 
+export const UPDATE_ADDRESS = (id:string) => `/addresses/updateAddress/${id}`;
+
+//delete address
+export const DELETE_ADDRESS = (id:string) => `/addresses/deleteAddress/${id}`;
+
+//get all customer address
+export const GET_ALL_ADDRESS = (id:string) => `/addresses/getAllCustomerAddresses/${id}`;
+
+//set default address
+export const SET_DEFAULT_ADDRESS = (id:string) => `/addresses/setDefaultAddress/${id}`;
 
 //get subcategories
 export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";

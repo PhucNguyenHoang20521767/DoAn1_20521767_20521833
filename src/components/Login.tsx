@@ -117,7 +117,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
                     <div className="flex items-center">
                         <input type={showPassword ? "text" : "password"} 
-                        {...register("password", { required: "Password is required", minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
+                        {...register("password", { required: true, minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
                         name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
                         autoComplete="current-password"
