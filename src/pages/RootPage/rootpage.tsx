@@ -12,6 +12,23 @@ import LoadAllProduct from '@/components/LoadAllProduct';
 import { createCart, getCustomerCart, getAllCartItem, googleLoginSuccess, loginWithGoogle } from '@/api/api_function'
 import { gglogin } from '@/redux/reducers/auth_reducers';
 import { loadcart } from '@/redux/reducers/cart_reducers';
+import { loadCartItems } from '@/redux/reducers/cartItem_reducers';
+
+
+interface CartItem {
+  _id: string;
+  productId: string;
+  productColorId: string;
+  productQuantity: number;
+  cartId: number;
+  productPrice: number;
+  productDiscount: number;
+  productSalePrice: number;
+}
+
+interface ICartState {
+  cartItems: CartItem[];
+}
 
 const RootPage = () => {
   const navigate = useNavigate();
@@ -61,14 +78,17 @@ const RootPage = () => {
         const res1 = await getCustomerCart(currentUser)
         const cartInfores = res1.data.data
         console.log('ci', cartInfores)
-        const cartInfo = {_id: cartInfores[0]?._id, 
-          customerId: cartInfores[0]?.customerId, 
-          cartStatus: cartInfores[0]?.cartStatus}
+        const cartInfo = {
+          _id: cartInfores[0]._id, 
+          customerId: cartInfores[0].customerId, 
+          cartStatus: cartInfores[0].cartStatus
+        }
         dispatch(loadcart(cartInfo))
 
         if (cartInfores.length > 0) {
           const res2 = await getAllCartItem(cartInfores[0]._id, currentUser)
           const cartItems = res2.data.data
+          // dispatch(loadCartItems(cartItems))
           console.log('aci', cartItems)
         }
       } catch (error) {

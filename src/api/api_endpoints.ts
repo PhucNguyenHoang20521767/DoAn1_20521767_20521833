@@ -16,6 +16,15 @@ export const getLoginGoogleBody = (password: string, firstname: string, lastname
     customerGender: gender,
     customerProvider: provider
 });
+// google login callback
+// export const GOOGLE_LOGIN_CALLBACK = "/auth/google/callback";
+
+// goggle login success
+export const GOOGLE_LOGIN_SUCCESS = "/auth/google/login/success";
+
+// logout google
+// export const GOOGLE_LOGOUT = "/auth/google/logout";
+
 // Signup
 export const SIGNUP = "/customers/registerCustomer";
 export const getSignupBody = (password: string, firstname: string, lastname: string, 
@@ -201,5 +210,14 @@ export const getCreateOrderBody = (customerId:string, orderCode:string, orderSta
     orderShippingFee: orderShippingFee
 });
 
-
-export const GOOGLE_LOGIN_SUCCESS = "/auth/google/login/success";
+//create order item
+export const CREATE_ORDER_ITEM = "/orders/createOrderItem";
+export const getCreateOrderItemBody = (orderId:string, productId:string, productColorId:string,
+    productQuantity:number, productPrice:number, productSalePrice:number) => ({
+    orderId: orderId,
+    productId: productId,
+    productColorId: productColorId,
+    productQuantity: productQuantity,
+    productPrice: productPrice,
+    productSalePrice: productSalePrice
+});

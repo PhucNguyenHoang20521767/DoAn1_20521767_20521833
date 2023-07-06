@@ -39,9 +39,9 @@ const Address = () => {
             getAllAddresses(userId, currentUser)
             .then((res) => {
                 const addr= res.data.data
-                console.log("adr", addr)
+                // console.log("adr", addr)
                 setAddresses(addr)
-                console.log("address", addresses)
+                // console.log("address", addresses)
             })
             .catch((err) => {
                 console.log(err)
