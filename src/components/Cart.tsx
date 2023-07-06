@@ -1,7 +1,7 @@
 import { RootState } from '@/redux/store/store'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { mainApi } from '@/api/main_api'
 import * as apiEndpoints from '@/api/api_endpoints';
@@ -21,6 +21,7 @@ import ManySkeleton from './loaders/manySkeleton';
 import { set } from 'react-hook-form'
 import NumberInput from '@/components/customs/NumberInput'
 import { CircularProgress } from '@mui/material'
+import { loadCartItems } from '@/redux/reducers/cartItem_reducers'
 
 interface Color {
   _id: string;
@@ -31,12 +32,27 @@ interface Color {
   productQuantity: number;
 }
 
+// interface CartItem {
+//   _id: string;
+//   productId: string;
+//   productColorId: string;
+//   productQuantity: number;
+//   cartId: number;
+// }
+
 interface CartItem {
   _id: string;
   productId: string;
   productColorId: string;
   productQuantity: number;
   cartId: number;
+  productPrice: number;
+  productDiscount: number;
+  productSalePrice: number;
+}
+
+interface ICartState {
+  cartItems: CartItem[];
 }
 
 interface CartItemProps {
@@ -44,9 +60,16 @@ interface CartItemProps {
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
+interface CartProps {
+  isCart: boolean;
+}
+
 const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentCart = useSelector((state: RootState) => state.cart)
+  const _cartItems = useSelector((state: RootState) => state.cartItem.cartItems)
+  const isDeleted = useSelector((state: RootState) => state.cartItem.isDeleted)
   const currentUser = useSelector((state: RootState) => state.auth.currentUser)
   const [product, setProduct] = useState<any>(null)
   const [listColor, setListColor] = useState<Color[]>([])
@@ -59,6 +82,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
   const [discountNotExpired, setDiscountNotExpired] = useState<boolean>(true)
   const [priceLoading, setPriceLoading] = useState<boolean>(false)
   const [imageLoading, setImageLoading] = useState<boolean>(true)
+  const [discountDetail, setDiscountDetail] = useState<any>(null)
 
   const discountFailed = () => {
     setDiscountNotExpired(false)
@@ -70,7 +94,17 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     if (discountNotExpired && product && product.productPrice) {
       const newPrice = (tempPrice * (100 - discount)) / 100
       setPrice(newPrice)
-      console.log('newPrice', newPrice)
+      // console.log('newPrice', newPrice)
+
+      setCartItems((prevCartItems) => {
+        const tempCartItems = prevCartItems.map((item: CartItem) => {
+          if (item._id === cartItem._id) {
+            return { ...item, productSalePrice: newPrice }
+          }
+          return item
+        })
+        return tempCartItems
+      })
     }
   }
 
@@ -81,7 +115,17 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
         const product = res3.data.data
         setProduct(product)
         setPrice(product.productPrice)
-        console.log('1product', product)
+
+        setCartItems((prevCartItems) => {
+          const tempCartItems = prevCartItems.map((item: CartItem) => {
+            if (item._id === cartItem._id) {
+              return { ...item, productPrice: product.productPrice }
+            }
+            return item
+          })
+          return tempCartItems
+        })
+        // console.log('1product', product)
 
         // const imageRes = await getProductImagesUrl(cartItem.productId)
         // const productImages = imageRes.data.data
@@ -119,13 +163,34 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           const productDiscountRes = await getDiscountById(product.productDiscountId)
           const productDiscount = productDiscountRes.data.data
           const error = productDiscountRes.data.error
-          console.log('error', error)
+          // console.log('errordiscount', error)
           // console.log('productDiscount', productDiscount)
           if (productDiscount && new Date(productDiscount.discountEndDate) > new Date()) {
             setDiscount(productDiscount.discountPercent)
             setDiscountNotExpired(true)
             handlePrice(product.productPrice)
+            setDiscountDetail(productDiscount)
+            // console.log('productDiscount', productDiscount)
+
+            setCartItems((prevCartItems) => {
+              const tempCartItems = prevCartItems.map((item: CartItem) => {
+                if (item._id === cartItem._id) {
+                  return { ...item, productPrice: product.productPrice, productDiscount: productDiscount.discountPercent }
+                }
+                return item
+              })
+              return tempCartItems
+            })
+          
+          // const tempCartItems = _cartItems.map((item: CartItem) => {
+          //   if (item._id === cartItem._id) {
+          //     return { ...item, productPrice: product.productPrice, productDiscount: productDiscount.discountPercent }
+          //   }
+          //   return item
+          // })
+          // dispatch(loadCartItems({cartItems: tempCartItems}))
           }
+
           else {
             discountFailed()
           }
@@ -140,6 +205,18 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       } catch (error) {
         console.log(error)
       }
+
+      if (new Date(discountDetail?.discountEndDate) > new Date()) {
+        const tempCartItems = _cartItems.map((item: CartItem) => {
+          if (item._id === cartItem._id) {
+            return { ...item, productPrice: product.productPrice, productDiscount: 0 }
+          }
+          return item
+        })
+        // if (isDeleted === false) {
+          dispatch(loadCartItems({cartItems: tempCartItems, isDeleted: false}))
+        // }
+      }
     }
 
     if (currentUser) {
@@ -151,6 +228,15 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     if (discount) {
       handlePrice(product.productPrice)
     }
+    
+    // const tempCartItems = _cartItems.map((item: CartItem) => {
+    //   if (item._id === cartItem._id) {
+    //     return { ...item, productSalePrice: price }
+    //   }
+    //   return item
+    // })
+    // dispatch(loadCartItems({cartItems: tempCartItems}))
+
     setPriceLoading(false)
   }, [discount])
 
@@ -181,6 +267,17 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       currentCart._id, currentUser, cartItem.productId , cartItem.productColorId, quantity
       )
     const cart = cartRes.data.data
+
+    setCartItems((prevCartItems) => {
+      const tempCartItems = prevCartItems.map((item: CartItem) => {
+        if (item._id === cartItem._id) {
+          return { ...item, productQuantity: quantity }
+        }
+        return item
+      })
+      return tempCartItems
+    })
+    handlePrice(product.productPrice)
   }
 
   return (
@@ -192,9 +289,14 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           alt={product?.productName} 
           className='w-16 h-16 object-contain'
           />
-          <Link to={`collection/${cartItem.productId}`}>
-            <div className='text-dark-3'>Xem</div>
-          </Link>
+          {/* <Link to={`collection/${cartItem.productId}`}> */}
+            <button 
+            className='text-dark-3'
+            onClick={() => {navigate(`/collection/${cartItem.productId}`)}}
+            >
+              Xem
+            </button>
+          {/* </Link> */}
         <div>
           <div className='font-bold'>{product?.productName}</div>
           <div>
@@ -224,6 +326,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       <NumberInput value={quantity} onChange={setQuantity} />
       <div className=''>
           <button 
+          key={cartItem.productColorId}
           onClick={() => handleUpdateItemFromCart()}
           className={`w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 
           hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
@@ -238,13 +341,19 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
 
 // Cart
 
-export const Cart = () => {
+export const Cart = ({isCart}: CartProps) => {
   const dispatch = useDispatch()
   const currentUser = useSelector((state: RootState) => state.auth.currentUser)
+  const isDeleted = useSelector((state: RootState) => state.cartItem.isDeleted)
   const currentCart = useSelector((state: RootState) => state.cart)
-  const [cart, setCart] = useState<any[]>([])
+  const [cart, setCart] = useState<CartItem[]>([])
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [pageLoading, setPageLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    setCartItems([])
+    // setPageLoading(true)
+  }, [isDeleted])
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -282,6 +391,15 @@ export const Cart = () => {
     }
   }, [currentUser])
 
+  useEffect(() => {
+    if (cart.length > 0) {
+      console.log('cart', cart)
+      // if (isDeleted === false) {
+        dispatch(loadCartItems({ cartItems: cartItems, isDeleted: false }))
+      // }
+    }
+  }, [cartItems])
+
   if (!currentUser) {
     return (
       <div className='p-5 my-[10rem] text-xl'>Vui lòng đăng nhập để xem giỏ hàng!</div>
@@ -304,7 +422,7 @@ export const Cart = () => {
       ))}
       <div className='flex justify-center'>
         {
-          currentUser &&
+          currentUser && isCart &&
           (
             <Link to={'order'}> 
               <button className={

@@ -9,3 +9,8 @@ export function matchIsNumeric(text: string) {
 export function matchIsString(text: any): boolean {
     return typeof text === 'string' || text instanceof String;
 }
+
+//random number
+export function getRandomNumber(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
