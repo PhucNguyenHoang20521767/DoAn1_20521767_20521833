@@ -5,6 +5,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadcart } from '@/redux/reducers/cart_reducers';
 import { RootState } from '@/redux/store/store';
 import axios from 'axios';
+import { url } from 'inspector';
+
+//google login callback
+export const googleLoginCallback = async () => {
+    window.open(
+        `${baseURL}/auth/google/callback`,
+        "_self"
+      )
+}
+
+//google login success
+export const googleLoginSuccess = async () => {
+    return await mainApi.get(
+        apiEndpoints.GOOGLE_LOGIN_SUCCESS,
+        { withCredentials: true }
+        );
+}
+
+//google logout
+export const googleLogout = async () => {
+    window.open(
+        `${baseURL}/auth/google/logout`,
+        "_self"
+        )
+}
 
 //change passwords
 export const changePassword = async (idToken: string, oldPassword: string, newPassword: string) => {
@@ -237,6 +262,26 @@ export const removeItemFromCart = async (id: string, token: string, pid: string,
 export const removeAllItemFromCart = async (id: string, token: string) => {
     return await mainApi.delete(
         apiEndpoints.REMOVE_ALL_ITEMS_FROM_CART(id),
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//create order
+export const createOrder = async (token: string, customerId:string, orderCode:string, orderStatus:string, 
+    orderNote: string, orderAddress: string, paymentMethod: string, orderShippingFee: number) => {
+    return await mainApi.post(
+        apiEndpoints.CREATE_ORDER,
+        apiEndpoints.getCreateOrderBody(customerId, orderCode, orderStatus, orderNote, orderAddress, paymentMethod, orderShippingFee),
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//create order item
+export const createOrderItem = async (token: string, orderId:string, productId:string, productColorId:string,
+    productQuantity:number, productPrice:number, productSalePrice:number) => {
+    return await mainApi.post(
+        apiEndpoints.CREATE_ORDER_ITEM,
+        apiEndpoints.getCreateOrderItemBody(orderId, productId, productColorId, productQuantity, productPrice, productSalePrice),
         apiEndpoints.getAccessToken(token)
         );
 }

@@ -9,10 +9,27 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomeDrawer from '../Drawer/drawer';
 import LoadAllProduct from '@/components/LoadAllProduct';
-import { createCart, getCustomerCart, getAllCartItem } from '@/api/api_function'
+import { createCart, getCustomerCart, getAllCartItem, googleLoginSuccess } from '@/api/api_function'
 import { gglogin } from '@/redux/reducers/auth_reducers';
 import { glogin } from '@/redux/reducers/google_reducer';
 import { loadcart } from '@/redux/reducers/cart_reducers';
+import { loadCartItems } from '@/redux/reducers/cartItem_reducers';
+
+
+interface CartItem {
+  _id: string;
+  productId: string;
+  productColorId: string;
+  productQuantity: number;
+  cartId: number;
+  productPrice: number;
+  productDiscount: number;
+  productSalePrice: number;
+}
+
+interface ICartState {
+  cartItems: CartItem[];
+}
 
 const RootPage = () => {
   const navigate = useNavigate();
@@ -33,18 +50,8 @@ const RootPage = () => {
     }
 
     if (loginType === 'google') {
-      fetch('https://nguyenshomefurniture-be.onrender.com/api/auth/google/login/success')
-      .then(response => {response.json()
-        // alert( response);
-      })
-      // .then(data => {
-      //   dispatch(glogin(data));
-      //   console.log(data);        
-      // })
-      .catch(error => {
-        // handle the error here
-        console.log(error);
-      });
+      const ggLog = googleLoginSuccess();
+      console.log('ggLog', ggLog)
     }
   }, [isLog]);
 
@@ -54,14 +61,17 @@ const RootPage = () => {
         const res1 = await getCustomerCart(currentUser)
         const cartInfores = res1.data.data
         console.log('ci', cartInfores)
-        const cartInfo = {_id: cartInfores[0]._id, 
+        const cartInfo = {
+          _id: cartInfores[0]._id, 
           customerId: cartInfores[0].customerId, 
-          cartStatus: cartInfores[0].cartStatus}
+          cartStatus: cartInfores[0].cartStatus
+        }
         dispatch(loadcart(cartInfo))
 
         if (cartInfores.length > 0) {
           const res2 = await getAllCartItem(cartInfores[0]._id, currentUser)
           const cartItems = res2.data.data
+          // dispatch(loadCartItems(cartItems))
           console.log('aci', cartItems)
         }
       } catch (error) {

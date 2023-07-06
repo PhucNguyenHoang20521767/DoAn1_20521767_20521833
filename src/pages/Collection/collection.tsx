@@ -171,6 +171,13 @@ const Collection: React.FC = () => {
       navigate('/signin');
       return;
     }
+    else if (chooseColor?.productQuantity && quantity >= chooseColor?.productQuantity) {
+      alert('Số lượng sản phẩm vượt quá số lượng hiện có')
+      return
+    }
+    else if (!chooseColor?.productQuantity) {
+      return
+    }
     try{
       console.log('infor', currentCart._id, currentUser, product._id, "chooseColor", chooseColor?.colorId || '', 1)
       await addItemToCart(currentCart._id, currentUser, product._id, chooseColor?.colorId || '', quantity)

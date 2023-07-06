@@ -7,10 +7,6 @@ interface ICartState {
     cartStatus: string;
 }
 
-// State
-// interface ICartState {
-//     cart: any
-// }
 const initialState = { 
     _id: "",
     customerId: "",

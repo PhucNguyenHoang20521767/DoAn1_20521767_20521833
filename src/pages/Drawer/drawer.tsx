@@ -45,7 +45,7 @@ const CustomDrawer = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {pageDrawer ? <Cart/> : <Favourite/>}
+      {pageDrawer ? <Cart isCart={true}/> : <Favourite/>}
     </Box>
   );
 
