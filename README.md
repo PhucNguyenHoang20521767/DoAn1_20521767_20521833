@@ -13,9 +13,12 @@
 
 ### 3. Hướng dẫn sử dụng
 *Sử dụng link vercel ở góc phải:*   
-***Tài khoản mẫu cho admin:***   
+***Tài khoản mẫu cho user(FRONT_END):***   
+nguyenthanhsang22vn@gmail.com  
+12345678  
+***Tài khoản mẫu cho admin(ADMIN):***   
 admin@gmail.com  
 admin12345  
 
-Mật khẩu mặc định của staff: 12345678  
+Mật khẩu mặc định của staff sau khi admin tạo: 12345678  
 
