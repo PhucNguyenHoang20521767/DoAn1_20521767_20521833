@@ -24,6 +24,23 @@ export const getUserInfo = async (id: string): Promise<UserInfo> => {
     return await mainApi.get(apiEndpoints.GET_USER_INFO(id));
 }
 
+//get avatar url 
+export const getAvatar = async (token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_AVATAR_URL, 
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//save avatar
+export const saveAvatar = async (token: string, avatar: File) => {
+    return await mainApi.post(
+        apiEndpoints.SAVE_AVATAR,
+        File,
+        apiEndpoints.getAccessToken(token)
+    );
+}
+
 //create address
 export const createAddress = async (id: string, token: string, firstname: string, lastname: string, 
     phone: string, address: string, ward: string, district: string, city: string, isDefault: boolean) => {

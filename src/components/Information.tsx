@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { mainApi } from '@/api/main_api';
 import * as apiEndpoints from '@/api/api_endpoints';
-// import { getUserInfo } from '@/api/api_endpoints';
+import { getAvatar, saveAvatar } from '@/api/api_function';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -42,6 +42,7 @@ const Information = (props: Props) => {
     const [lastName, setLastName] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [avatar, setAvatar] = useState(cat);
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [gender, setGender] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -65,6 +66,12 @@ const Information = (props: Props) => {
                     birthday, data.email, data.gender),
                 apiEndpoints.getAccessToken(currentUser)
             );
+
+            if (avatarFile !== null)
+            {
+                const resultAvatar = await saveAvatar(currentUser, avatarFile);
+            }
+            // console.log('avatar', resultAvatar);
 
             console.log('data', result);
         } catch (error: any) {
@@ -90,13 +97,11 @@ const Information = (props: Props) => {
 
     const fetchAvatar = async () => {
         try{
-            const img = await mainApi.get(
-                apiEndpoints.GET_AVATAR_URL, 
-                apiEndpoints.getAccessToken(_idToken));
+            const img = await getAvatar(currentUser)
             const avatar = img.data.data;
-            if(avatar !== null)
-            setAvatar(avatar);
-            console.log('ava', avatar);
+            if(avatar.success)
+                setAvatar(avatar);
+            // console.log('ava', avatar);
         }
         catch(err) {
             console.log(err);
@@ -116,6 +121,7 @@ const Information = (props: Props) => {
                 if (res.customerGender === 'Nam') setGender('Name');
                 else setGender('Nữ');
             })
+            fetchAvatar();
         }
         else if (!isLog) {
             dispatch(logout());
@@ -123,6 +129,9 @@ const Information = (props: Props) => {
         }
     }, [isLog]);
 
+    useEffect(() => {
+        console.log('avatarFile', avatarFile);
+    }, [avatarFile]);
     
     return (
     <div className="pl-[5rem] border-l-2 mt-10 flex justify-start lg:justify-center"> 
@@ -131,7 +140,7 @@ const Information = (props: Props) => {
             <h1 className='flex justify-center text-2xl font-bold text-gray-700 mb-6'>Thông tin tài khoản</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="max-w-full mx-auto mt-2">
                 {/* Basic information */}
-                <div className='flex justify-center'>
+                <div className=''>
                     <div className="mb-1 p-1 pr-2 min-w-fit">
                         <label htmlFor="text" className="font-semibold text-base text-dark-1">Họ:</label>
                         <input 
@@ -144,7 +153,7 @@ const Information = (props: Props) => {
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required 
                         />
                     </div>
-                    <div className="mb-1 p-1 pl-2">
+                    <div className="mb-1 p-1 pr-2">
                         <label htmlFor="text" className="font-semibold text-base text-dark-1">Tên:</label>
                         <input 
                         {...register("firstname", { required: true, maxLength: 20 })}
@@ -159,9 +168,9 @@ const Information = (props: Props) => {
                 </div>
 
                 {/* Date time picker and gender */}
-                <div className='flex justify-start'>
+                <div className='flex justify-between'>
                      {/* Date time picker */}
-                    <div className="mb-1 pl-1 mr-4">
+                    <div className="mb-1 pl-1">
                         <label htmlFor="email" className="font-semibold text-base text-dark-1">Ngày sinh:</label>
                         <div className=''>
                             <div className='relative'>
@@ -179,18 +188,20 @@ const Information = (props: Props) => {
                         </div>
                     </div>
                     {/* Gender */}
-                    <div className="mb-1">
-                        <label className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
-                        <select 
-                        {...register("gender")}
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                        className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
-                            {/* <option selected>Giới tính:</option> */}
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
+                    <div className="mb-1 w-full flex justify-center">
+                        <div>
+                            <label className="min-w-2 font-semibold text-base text-dark-1">Giới tính:</label>
+                            <select 
+                            {...register("gender")}
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                            className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                                {/* <option selected>Giới tính:</option> */}
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -209,13 +220,13 @@ const Information = (props: Props) => {
                 </div>
 
                 {/* Default Address */}
-                <div className="mb-1 p-1">
+                {/* <div className="mb-1 p-1">
                     <label className="font-semibold text-base text-dark-1">Địa chỉ mặc định:</label>
                     <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="Male">2</option>
                             <option value="Female">3</option>
                         </select>
-                </div>
+                </div> */}
 
                 <div className='my-8 p-1'>
                     {/* <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">
@@ -263,6 +274,7 @@ const Information = (props: Props) => {
                                     onChange={(e) => {
                                         const file = e.target?.files?.[0];
                                         if (file) {
+                                        setAvatarFile(file);
                                         const reader = new FileReader();
                                         reader.onload = (event) => {
                                             setAvatar(event.target?.result as string);

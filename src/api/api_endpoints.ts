@@ -86,8 +86,15 @@ export const getAccessToken = (token: string) => ({
         Authorization: "Bearer " + token
     }
 });
+
 //Get avatar URL
 export const GET_AVATAR_URL = `/customers/getCustomerAvatarURL`;
+
+//save avatar
+export const SAVE_AVATAR = `/customers/saveCustomerAvatar`;
+export const getSaveAvatarBody = (avatar: File) => ({
+    customerAvatar: avatar
+});
 
 //create address
 export const CREATE_ADDRESS = (id:string) => `/addresses/createAddress/${id}`;
