@@ -221,3 +221,9 @@ export const getCreateOrderItemBody = (orderId:string, productId:string, product
     productPrice: productPrice,
     productSalePrice: productSalePrice
 });
+
+//get all orders for customer
+export const GET_ALL_ORDERS_FOR_CUSTOMER = `/orders/getAllOrdersForCustomer`;
+
+//get order by id
+export const GET_ORDER_BY_ID = (id:string) => `/orders/getOrderById/${id}`;

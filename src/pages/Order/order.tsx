@@ -149,58 +149,73 @@ const Order = () => {
 
   const handleOrder = async () => {
     setLoading(true)
-    const randomNumber = getRandomNumber(100000, 999999);
-    if (selectedAddress) {
-      // const order = {
-      //   customerId: userId,
-      //   addressId: selectedAddress._id,
-      //   totalPrice: totalPrice,
-      //   status: 'pending',
-      // }
-      console.log("selectedAddress._id.toString()", selectedAddress._id.toString())
-      console.log("648a91e82b36c6bbd96704a4", "648a91e82b36c6bbd96704a4")
-      console.log("orderNote", orderNote)
-      console.log("randomNumber.toString()", randomNumber.toString())
+    if(cartItems.length > 0) {
+      const randomNumber = getRandomNumber(100000, 999999);
+      if (selectedAddress) {
+        // const order = {
+        //   customerId: userId,
+        //   addressId: selectedAddress._id,
+        //   totalPrice: totalPrice,
+        //   status: 'pending',
+        // }
+        console.log("selectedAddress._id.toString()", selectedAddress._id.toString())
+        console.log("648a91e82b36c6bbd96704a4", "648a91e82b36c6bbd96704a4")
+        console.log("orderNote", orderNote)
+        console.log("randomNumber.toString()", randomNumber.toString())
 
-      await createOrder(currentUser, userId, randomNumber.toString(), "Đặt hàng", orderNote, 
-      selectedAddress._id.toString(), "648a91e82b36c6bbd96704a4" , 30000)
-      .then((res) => {
-        const orderId = res.data.data._id
-        cartItems.forEach((item: CartItem) => {
-          // const orderItem = {
-          //   orderId: orderId,
-          //   productId: item.productId,
-          //   productColorId: item.productColorId,
-          //   productQuantity: item.productQuantity,
-          //   productPrice: item.productPrice,
-          //   productSalePrice: item.productSalePrice,
-          // }
-          createOrderItem(currentUser, orderId, item.productId, item.productColorId, item.productQuantity,
-            item.productPrice, item.productSalePrice
-            )
-          .then((res) => {
-            console.log(res)
+        await createOrder(currentUser, userId, randomNumber.toString(), "Đặt hàng", orderNote, 
+        selectedAddress._id.toString(), "648a91e82b36c6bbd96704a4" , 30000)
+        .then((res) => {
+          const orderId = res.data.data._id
+          cartItems.forEach((item: CartItem) => {
+            // const orderItem = {
+            //   orderId: orderId,
+            //   productId: item.productId,
+            //   productColorId: item.productColorId,
+            //   productQuantity: item.productQuantity,
+            //   productPrice: item.productPrice,
+            //   productSalePrice: item.productSalePrice,
+            // }
+            const normalPrice = item.productPrice * item.productQuantity;
+            const checkPrice = item.productSalePrice ? item.productSalePrice : item.productPrice;
+            const finalPrice = checkPrice * item.productQuantity;
+
+            console.log('user', currentUser)
+
+            console.log("orderItem", orderId, item.productId, item.productColorId, item.productQuantity,
+              normalPrice, finalPrice )
+
+            createOrderItem(currentUser, orderId, item.productId, item.productColorId, item.productQuantity,
+              normalPrice, finalPrice
+              )
+            .then((res) => {
+              console.log(res)
+            })
+            .catch((err) => {
+              console.log(err)
+            })
           })
-          .catch((err) => {
+        }).then(async () => {
+          try {
+            const result = await removeAllItemFromCart(cartId, currentUser)
+            console.log("rs", result)
+            handleRemoveCart()
+          }
+          catch (err) {
             console.log(err)
-          })
+          }
         })
-      }).then(async () => {
-        try {
-          const result = await removeAllItemFromCart(cartId, currentUser)
-          console.log("rs", result)
-          handleRemoveCart()
-        }
-        catch (err) {
+        .catch((err) => {
           console.log(err)
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+        })
+      }
+      handleReload()
+    }
+    else {
+      alert("Giỏ hàng trống")
     }
     setLoading(false)
-    handleReload()
+
   }
 
 
