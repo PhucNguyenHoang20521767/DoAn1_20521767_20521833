@@ -59,9 +59,12 @@ export const getAvatar = async (token: string) => {
 
 //save avatar
 export const saveAvatar = async (token: string, avatar: File) => {
+    const formData = new FormData();
+    formData.append("Files[]", avatar);
+
     return await mainApi.post(
         apiEndpoints.SAVE_AVATAR,
-        File,
+        formData,
         apiEndpoints.getAccessToken(token)
     );
 }
