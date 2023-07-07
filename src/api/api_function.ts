@@ -145,6 +145,11 @@ export const getProductById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_PRODUCT_BY_ID(id));
 }
 
+//get categories by id
+export const getCategoriesById = async (id: string) => {
+    return await mainApi.get(apiEndpoints.GET_CATEGORIES_BY_ID(id));
+}
+
 //get all subcategories
 export const getAllSubcategories = async () => {
     return await mainApi.get(apiEndpoints.GET_SUBCATEGORIES);
@@ -301,6 +306,14 @@ export const getAllOrder = async (token: string) => {
 export const getOrderById = async (token: string, id: string) => {
     return await mainApi.get(
         apiEndpoints.GET_ORDER_BY_ID(id),
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//get order item by order
+export const getOrderItemByOrder = async (token: string, id: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ORDER_ITEMS_FOR_ORDER(id),
         apiEndpoints.getAccessToken(token)
         );
 }

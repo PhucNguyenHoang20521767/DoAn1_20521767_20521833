@@ -227,3 +227,6 @@ export const GET_ALL_ORDERS_FOR_CUSTOMER = `/orders/getAllOrdersForCustomer`;
 
 //get order by id
 export const GET_ORDER_BY_ID = (id:string) => `/orders/getOrderById/${id}`;
+
+//get order items for order
+export const GET_ORDER_ITEMS_FOR_ORDER = (id:string) => `/orders/getOrderItemsForOrder/${id}`;

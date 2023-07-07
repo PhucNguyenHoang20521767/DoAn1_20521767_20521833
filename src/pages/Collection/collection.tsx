@@ -10,7 +10,8 @@ import {
   getProductDimensionById,
   getProductRating,
   getDiscountById,
-  addItemToCart
+  addItemToCart,
+  getCategoriesById
 } from '@/api/api_function'
 import { 
   Box, 
@@ -28,6 +29,7 @@ import ProductImages from '@/components/ProductImage'
 import NumberInput from '@/components/customs/NumberInput'
 import moveToProduct from '@/redux/reducers/product_reducers'
 import { set } from 'react-hook-form'
+import ProductSlide from '@/components/ProductSlide'
 
 interface productInfor {
   product: any;
@@ -47,6 +49,7 @@ const Collection: React.FC = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector((state: RootState) => state.auth.currentUser)
   const currentCart = useSelector((state: RootState) => state.cart)
+  const allProduct = useSelector((state: RootState) => state.all.allProduct)
   const { id } = useParams<{ id: string }>()
   const [product, setProduct] = useState<any>(null)
   const [listColor, setListColor] = useState<Color[]>([])
@@ -339,6 +342,16 @@ const Collection: React.FC = () => {
                     </div>
                   )
                 }
+                {/* Description */}
+                {
+                  product.productDescription && (
+                    <div className='flex justify-start'>
+                      <p className='font-bold text-lg'>Mô tả: </p>
+                      <p className='text-lg ml-1'>{product.productDescription}</p>
+                    </div>
+                  )
+                }
+
               </div>
           {/* buy */}
           <div className='flex justify-center my-2'>
@@ -372,6 +385,7 @@ const Collection: React.FC = () => {
       {/* Look like */}
       <div className='mt-4'>
         <div className="py-7 flex justify-center text-xl text-black text-center">Sản phẩm tương tự</div>
+          <ProductSlide product={product} />
       </div>
     </div>
   )
