@@ -17,6 +17,7 @@ import CategoriesById from './CategoriesById';
 import CategoryList from './Categories';
 import SubCategoryList from './SubCategories';
 import { googleLogout } from '@/api/api_function';
+import { FiShoppingCart } from 'react-icons/fi';
 
 type Props = {};
 
@@ -26,6 +27,9 @@ const Header = (props: Props) => {
   const currentUsers = useSelector((state: RootState) => state.auth.id);
   const loginType = useSelector((state: RootState) => state.auth.loginType)
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
+  const cartItems = useSelector((state: RootState) => state.cartItem.cartItems);
+  const cartCount = cartItems.reduce((acc, item) => acc + item.productQuantity, 0);
+  const [cartCountState, setCartCountState] = useState(cartCount);
   const [nav, setNav] = useState(false);
   const [loginState, setLoginState] = useState(false);
 
@@ -34,6 +38,12 @@ const Header = (props: Props) => {
   const [categoryChair, setCategoryChair] = useState<any[]>([]);
   const [categorySofa, setCategorySofa] = useState<any[]>([]);
   const [categoryBed, setCategoryBed] = useState<any[]>([]);
+
+  useEffect (() => {
+    if (currentUsers) {
+      setCartCountState(cartCount);
+    }
+  }, [cartCount]);
 
   const handleNav = () => {
     setNav(!nav);
@@ -121,7 +131,7 @@ const Header = (props: Props) => {
                 </button>
 
                 {/* Cart */}
-                <button className="flex items-center hover:text-gray-200 p-3"
+                {/* <button className="flex items-center hover:text-gray-200 p-3"
                 onClick={() => dispatch(openCart())}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
@@ -132,6 +142,29 @@ const Header = (props: Props) => {
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-1">
                       </span>
                     </span>
+                </button> */}
+                <button
+                  className='flex items-center hover:text-gray-200 p-3 relative'
+                  onClick={() => dispatch(openCart())}
+                >
+                  {/* <FiShoppingCart className='h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7' /> */}
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {cartCountState > 0 && (
+                    // <span className='animate-ping absolute -top-0.5 -right-0.5 bg-red-500 text-white rounded-full px-1 text-xs'>
+                    //   {cartCountState}
+                    // </span>
+                    <span className="flex absolute -mt-5 ml-4">
+                      <span className="animate-ping absolute inline-flex h-5 w-5 rounded-full bg-red-300 opacity-75">
+                      </span>
+                      <span className="relative rounded-full h-5 w-5 bg-red-500 flex items-center justify-center">
+                        <div className='text-white '>
+                          {cartCountState}
+                        </div>
+                      </span>
+                    </span>
+                  )}
                 </button>
 
                 <div className='relative inline-block text-left group'>
