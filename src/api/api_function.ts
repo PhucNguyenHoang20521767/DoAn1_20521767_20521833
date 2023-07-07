@@ -95,6 +95,14 @@ export const getAllAddresses = async (id: string, token: string) => {
     );
 }
 
+//get address by id
+export const getAddressById = async (id: string, token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ADDRESS_BY_ID(id),
+        apiEndpoints.getAccessToken(token)
+    );
+}
+
 //set default address
 export const setDefaultAddress = async (id: string, token: string) => {
     return await axios({
