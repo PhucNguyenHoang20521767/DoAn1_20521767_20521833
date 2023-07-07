@@ -68,11 +68,11 @@ const Header = (props: Props) => {
         ).catch(error => {
           console.log(error);
         })
-      dispatch(logout());
 
       if (loginType === 'google') {
         googleLogout();
       } else {
+        dispatch(logout());
         navigate('/signin');
       }
     } catch (error: any) {

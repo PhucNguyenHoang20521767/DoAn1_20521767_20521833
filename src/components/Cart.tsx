@@ -285,6 +285,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     <div className='flex justify-between'>
       <div className='flex gap-4 items-center'>
           <img 
+          key={cartItem.productColorId}
           src={imageUrls[0]} 
           alt={product?.productName} 
           className='w-16 h-16 object-contain'
@@ -299,10 +300,19 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           {/* </Link> */}
         <div>
           <div className='font-bold'>{product?.productName}</div>
-          <div>
-            {listColor.map((color: Color) => (
-              <span key={color._id} className={`inline-block w-4 h-4 rounded-full mr-2 ${color.colorHex === chooseColor?.colorHex ? 'border-2 border-black' : ''}`} style={{ backgroundColor: color.colorHex }} onClick={() => handleColorClick(color)}></span>
-            ))}
+          <div className='flex'>
+            <div className='font-bold'>
+              Màu: 
+            </div>
+            <div className='ml-1'>
+              {color?.colorName}
+            </div>
+            <div className='flex items-center ml-2'>
+              <span 
+              className={`inline-block w-4 h-4 rounded-full mr-2 bg-${color?.colorHex}`} 
+              style={{ backgroundColor: color?.colorHex }} 
+              />
+            </div>
           </div>
           <div className='flex'>
             <div className='font-bold'>
@@ -318,7 +328,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       <div className='text-red-700 text-xl flex justify-end gap-4'>
         {/* ... */}
         <div className='h-full flex items-center py-4 px-2'>
-          <button onClick={handleRemoveItemFromCart}>X</button>
+          <button key={cartItem.productColorId} onClick={handleRemoveItemFromCart}>X</button>
         </div>
       </div>
     </div>
@@ -415,9 +425,12 @@ export const Cart = ({isCart}: CartProps) => {
   return (
     <>
       {cartItems.map((cartItem: CartItem) => (
-        <div className='mb-2'>
-          <CartItemComponent key={cartItem.productColorId} cartItem={cartItem} 
-          setCartItems={setCartItems}/>
+        <div key={cartItem.productColorId} className='mb-2'>
+          <CartItemComponent 
+            key={cartItem.productColorId} 
+            cartItem={cartItem} 
+            setCartItems={setCartItems}
+          />
         </div>
       ))}
       <div className='flex justify-center'>

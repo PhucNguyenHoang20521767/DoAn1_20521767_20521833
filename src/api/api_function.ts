@@ -286,6 +286,21 @@ export const createOrderItem = async (token: string, orderId:string, productId:s
         );
 }
 
+//get all order
+export const getAllOrder = async (token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ALL_ORDERS_FOR_CUSTOMER,
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//get order by id
+export const getOrderById = async (token: string, id: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ORDER_BY_ID(id),
+        apiEndpoints.getAccessToken(token)
+        );
+}
 
 export const loginWithGoogle = async (password: string, firstname: string, lastname: string, birthday: Date, email: string,  gender: string, provider: string) => {
     return await mainApi.post(

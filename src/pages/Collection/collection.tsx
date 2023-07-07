@@ -58,6 +58,7 @@ const Collection: React.FC = () => {
   const [discount, setDiscount] = useState<number>(0)
   const [discountNotExpired, setDiscountNotExpired] = useState<boolean>(true)
   const [priceLoading, setPriceLoading] = useState<boolean>(false)
+  const [canCheckOut, setCanCheckOut] = useState<boolean>(false)
 
   const discountFailed = () => {
     setDiscountNotExpired(false)
@@ -173,14 +174,18 @@ const Collection: React.FC = () => {
     }
     else if (chooseColor?.productQuantity && quantity >= chooseColor?.productQuantity) {
       alert('Số lượng sản phẩm vượt quá số lượng hiện có')
+      setCanCheckOut(false)
       return
     }
     else if (!chooseColor?.productQuantity) {
+      alert('Sản phẩm hiện không có sẵn')
+      setCanCheckOut(false)
       return
     }
     try{
       console.log('infor', currentCart._id, currentUser, product._id, "chooseColor", chooseColor?.colorId || '', 1)
       await addItemToCart(currentCart._id, currentUser, product._id, chooseColor?.colorId || '', quantity)
+      setCanCheckOut(true)
     }
     catch(error) {
       console.log(error)
@@ -188,7 +193,11 @@ const Collection: React.FC = () => {
   }
 
   function handleCheckout() {
-    throw new Error('Function not implemented.')
+    handleAddToCart()
+    if (canCheckOut)
+    {
+      navigate('/order')
+    }
   }
 
   return (

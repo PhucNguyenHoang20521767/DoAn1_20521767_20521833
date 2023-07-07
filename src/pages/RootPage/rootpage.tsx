@@ -41,13 +41,13 @@ const RootPage = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    if (isLog) {
-      setOpenSnack(true);
-    } else if (!isLog) {
-      dispatch(logout());
-    }
-  }, [isLog]);
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     setOpenSnack(true);
+  //   } else if (!currentUser) {
+  //     dispatch(logout());
+  //   }
+  // }, [currentUser]);
 
   useEffect(() => {
     if (!isLog && loginType === "google" && currentUser === "") {
