@@ -128,6 +128,9 @@ export const DELETE_ADDRESS = (id:string) => `/addresses/deleteAddress/${id}`;
 //get all customer address
 export const GET_ALL_ADDRESS = (id:string) => `/addresses/getAllCustomerAddresses/${id}`;
 
+//get address by id
+export const GET_ADDRESS_BY_ID = (id:string) => `/addresses/getAddressById/${id}`;
+
 //set default address
 export const SET_DEFAULT_ADDRESS = (id:string) => `/addresses/setDefaultAddress/${id}`;
 
