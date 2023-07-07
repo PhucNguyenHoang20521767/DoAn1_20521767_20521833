@@ -62,20 +62,18 @@ const Information = (props: Props) => {
         if(loading) return;
         try {
             setLoading(true);
+            
             const result = await mainApi.put(
                 apiEndpoints.UPDATE_CUSTOMER(_id),
-                apiEndpoints.getUpdateCustomerBody(data.firstname, data.lastname, 
+                apiEndpoints.getUpdateCustomerBody(data.firstname, lastName, 
                     birthday, data.email, data.gender),
                 apiEndpoints.getAccessToken(currentUser)
             );
 
             if (avatarFile !== null)
             {
-                const resultAvatar = await saveAvatar(currentUser, avatarFile);
+                await saveAvatar(currentUser, avatarFile);
             }
-            // console.log('avatar', resultAvatar);
-
-            console.log('data', result);
         } catch (error: any) {
             const message = error.response.data.error;
             setLoading(false);
@@ -99,11 +97,11 @@ const Information = (props: Props) => {
 
     const fetchAvatar = async () => {
         try{
-            const img = await getAvatar(currentUser)
-            const avatar = img.data.data;
-            if(avatar.success)
-                setAvatar(avatar);
-            // console.log('ava', avatar);
+            const img = await getAvatar(currentUser);
+
+            if(img.data.success) {
+                setAvatar(img.data.data);
+            }
         }
         catch(err) {
             console.log(err);
@@ -120,7 +118,7 @@ const Information = (props: Props) => {
                 const date = new Date(res.customerBirthday);
                 handleChange(date);
                 setSelectedDate(date);
-                if (res.customerGender === 'Nam') setGender('Name');
+                if (res.customerGender === 'Nam') setGender('Nam');
                 else setGender('Nữ');
             })
             if (loginType !== 'google') {
@@ -133,9 +131,9 @@ const Information = (props: Props) => {
         }
     }, [isLog]);
 
-    useEffect(() => {
-        console.log('avatarFile', avatarFile);
-    }, [avatarFile]);
+    // useEffect(() => {
+    //     console.log('avatarFile', avatarFile);
+    // }, [avatarFile]);
     
     return (
     <div className="pl-[5rem] border-l-2 mt-10 flex justify-start lg:justify-center"> 
@@ -256,18 +254,6 @@ const Information = (props: Props) => {
                 <div className='flex justify-center'>
                     <div className="mb-1 p-1 pr-2">
                         <div className="mt-[4rem]">
-                            {/* <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary-1 hover:text-primary-2 focus-within:outline-none">
-                                <img src={avatar} 
-                                alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
-                                <input 
-                                id="file-upload" 
-                                name="file-upload" 
-                                type="file" 
-                                className="sr-only" 
-                                value={avatar}
-                                onChange={(e) => setAvatar(e.target.value)}
-                                />
-                            </label> */}
                                 {(loginType === 'google') ? 
                                 (
                                     <img src={googleAvatar.toString()} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
@@ -275,7 +261,13 @@ const Information = (props: Props) => {
                                 :
                                 (
                                     <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-primary-1 hover:text-primary-2 focus-within:outline-none">
-                                        <img src={avatar} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" />
+                                        {/* <img src={avatar} alt="avatar" className="object-scale-down shadow rounded-full max-w-full h-auto align-middle border-none" /> */}
+                                        <div style={{ width: '130px', height: '130px', position: 'relative', overflow: 'hidden', borderRadius: '50%' }}>
+                                            <img src={avatar}
+                                                alt="avatar"
+                                                className="max-w-full h-auto" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+                                        </div>
+                                        
                                         <input 
                                         id="file-upload" 
                                         name="file-upload" 
