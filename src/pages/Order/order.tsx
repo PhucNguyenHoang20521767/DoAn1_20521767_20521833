@@ -247,7 +247,7 @@ const Order = () => {
             </div>
           </div>
         </div>
-        <div className='w-full md:w-2/3 bg-secondary-5 text-xl'>
+        <div className='w-full md:w-2/3 bg-light-4 text-xl'>
         {/* <h1 className='text-2xl font-bold text-gray-700 my-6 flex justify-center'>Chọn địa chỉ giao hàng</h1> */}
         <div className='m-8'>
         <h1 className='flex justify-center text-2xl font-bold text-gray-700 my-6'>Chọn địa chỉ</h1>

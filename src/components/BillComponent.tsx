@@ -92,11 +92,17 @@ const BillComponent = ({order}: IOrderStateProps) => {
     case 'Đặt hàng':
       statusClassName = 'bg-dark-0'
       break
-    case 'Hoàn thành':
+    case 'Đã xác nhận':
       statusClassName = 'bg-primary-0'
       break
-    case 'Đang giao dịch':
+    case 'Đang vận chuyển':
       statusClassName = 'bg-secondary-0'
+      break
+    case 'Đã hoàn tất':
+      statusClassName = 'bg-green-500'
+      break
+    case 'Bị trả lại':
+      statusClassName = 'bg-black'
       break
     default:
       statusClassName = 'bg-red-500'
