@@ -326,6 +326,29 @@ export const getOrderItemByOrder = async (token: string, id: string) => {
         );
 }
 
+//get customer wishlist
+export const getCustomerWishlist = async (token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_CUSTOMER_WISHLIST,
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//add or remove product from wishlist
+export const addOrRemoveProductFromWishlist = async (token: string, productId: string) => {
+    // return await mainApi.put(
+    //     apiEndpoints.ADD_OR_REMOVE_PRODUCT_FROM_WISHLIST(productId),
+    //     apiEndpoints.getAccessToken(token)
+    //     );
+    return await axios({
+        method: 'put',
+        url: `${baseURL}/wishlist/addOrRemoveProductFromWishlist/${productId}`,
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    });
+}
+
 export const loginWithGoogle = async (password: string, firstname: string, lastname: string, birthday: Date, email: string,  gender: string, provider: string) => {
     return await mainApi.post(
         apiEndpoints.LOGIN_GOOGLE,

@@ -8,7 +8,13 @@ import { RootState } from '@/redux/store/store';
 import { moveToProduct } from '@/redux/reducers/product_reducers';
 import IconFavourite from './customs/IconFavourite';
 import { getDiscountById } from '@/api/api_function';
-import { addItemToCart, getProductById, getProductColorById, getProductColor } from '@/api/api_function'
+import { 
+  addItemToCart, 
+  getProductById, 
+  getProductColorById, 
+  getProductColor,
+  addOrRemoveProductFromWishlist
+ } from '@/api/api_function'
 
 interface Product {
   id: string;
@@ -36,9 +42,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     const navigate = useNavigate();
     const [discountPrice, setDiscountPrice] = useState<number>(product.price);
     const [isDiscount, setIsDiscount] = useState<boolean>(true);
-
-  function handleFavourite(): void {}
-
+    
   const handleOnClickView = () => {
     dispatch(moveToProduct({ currentProduct: product.id }));
     navigate(`/collection/${product.id}`);
@@ -102,7 +106,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       }}
     >
       <div className="flex justify-end">
-        <IconFavourite/>
+        <IconFavourite productId={product.id}/>
       </div>
       <CardActionArea
         className="group z-10"

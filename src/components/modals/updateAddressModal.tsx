@@ -11,6 +11,7 @@ import {
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { RootState } from '@/redux/store/store';
 import { useSelector, useDispatch } from 'react-redux';
+import { notify } from '@/redux/reducers/notify_reducers';
 
 interface Props {
     address: IAddress;
@@ -45,6 +46,7 @@ interface IAddressInput {
 
 function UpdateAddressModal({ open, setOpen, handleReload, address }: Props) {
 //   const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [loading, setLoading] = React.useState(false);
@@ -73,6 +75,7 @@ function UpdateAddressModal({ open, setOpen, handleReload, address }: Props) {
         setOpen(false);
         handleReload();
     }
+    dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Sửa địa chỉ thành công"}));
     setLoading(false);
   };
 

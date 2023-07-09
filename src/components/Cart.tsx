@@ -23,6 +23,9 @@ import NumberInput from '@/components/customs/NumberInput'
 import { CircularProgress } from '@mui/material'
 import { loadCartItems } from '@/redux/reducers/cartItem_reducers'
 
+import SuccessNotify from '@/components/customs/SuccessNotify'
+import ErrorNotify from '@/components/customs/ErrorNotify'
+
 interface Color {
   _id: string;
   colorName: string;
@@ -75,6 +78,8 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
   const [priceLoading, setPriceLoading] = useState<boolean>(false)
   const [imageLoading, setImageLoading] = useState<boolean>(true)
   const [discountDetail, setDiscountDetail] = useState<any>(null)
+  const [Open, setOpen] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>('')
 
   const discountFailed = () => {
     setDiscountNotExpired(false)

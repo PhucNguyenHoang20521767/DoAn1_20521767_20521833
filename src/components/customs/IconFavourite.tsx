@@ -1,7 +1,27 @@
 import { Card, CardContent, CardMedia, Typography, Button, IconButton, CardActionArea } from '@mui/material';
+import { addOrRemoveProductFromWishlist } from '@/api/api_function';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import { changeWishlist } from '@/redux/reducers/wishlist_reducers';
+import { notify } from '@/redux/reducers/notify_reducers';
 
-const IconFavourite = () => {
-    function handleFavourite(): void {}
+interface Props { 
+    productId: string;
+}
+
+const IconFavourite = ({productId}: Props) => {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+    
+    function handleFavourite() {
+        if (currentUser) {
+            addOrRemoveProductFromWishlist(currentUser, productId).then((res) => {
+                // console.log(res);
+            dispatch(changeWishlist());
+            dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Thêm vào danh sách yêu thích thành công"}));
+            });
+        }
+    }
 
   return (
     <div>

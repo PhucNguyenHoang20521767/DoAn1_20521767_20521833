@@ -17,6 +17,7 @@ import * as apiEndpoints from '@/api/api_endpoints';
 import { set } from "react-hook-form";
 import { createCart, getCustomerCart } from '@/api/api_function'
 import { RootState } from "@/redux/store/store";
+import { notify } from '@/redux/reducers/notify_reducers';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -71,11 +72,11 @@ const SignIn = () => {
             console.log('n2', result);
 
             setDone(true);
-            alert('Xác nhận thành công!');
+            dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Xác nhận thành công!"}));
 
             handleDone(result.data.token, result.data.data._id, idToken);
         } catch (error: any) {
-            alert('OTP sai!');
+            dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "OTP sai!"}));
         }
             setOpen(false);
       }
@@ -89,14 +90,14 @@ const SignIn = () => {
                 apiEndpoints.getResetPasswordBody(idToken, theOtp, newPassword)
             );
             console.log('fp2', result);
-            alert('Đổi mật khẩu thành công. Hãy đăng nhập lại!');
+            dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Đổi mật khẩu thành công. Hãy đăng nhập lại!"}));
             setIsForgotPassword(false);
             setNewPassword('');
             setOpen(false);
             setIsChangePassword(false);
         }
         catch (error: any) {
-            alert('OTP sai!');
+            dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "OTP sai!"}));
         }
         }
 
@@ -119,7 +120,7 @@ const SignIn = () => {
                 apiEndpoints.VERIFY_OTP,
                 apiEndpoints.sendOTPCustomer(loginEmail)
             );
-            alert('Đã gửi lại mã OTP!');
+            dispatch(notify({isSuccess: false, isError: false, isInfo: true, message: "Đã gửi lại mã OTP!"}));
         } catch (error: any) {
             console.log(error);
         }
@@ -135,13 +136,13 @@ const SignIn = () => {
             );
             console.log('2', result);
             setIdToken(result.data.customerIdToken);
-            alert('Hãy nhập mật khẩu mới!');
+            dispatch(notify({isSuccess: false, isError: false, isInfo: true, message: "Hãy nhập mật khẩu mới!"}));
             handleCloseForgotPassword(e)
             handleOpenCP(e);
             setFpLoading(false);
         }
         catch (error: any) {
-            alert('Email không tồn tại!');
+            dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "Email không tồn tại!"}));
             console.log(error);
             setFpLoading(false);
         }

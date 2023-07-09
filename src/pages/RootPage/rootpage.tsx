@@ -13,7 +13,9 @@ import { createCart, getCustomerCart, getAllCartItem, googleLoginSuccess, loginW
 import { gglogin } from '@/redux/reducers/auth_reducers';
 import { loadcart } from '@/redux/reducers/cart_reducers';
 import { loadCartItems } from '@/redux/reducers/cartItem_reducers';
-
+import SuccessNotify from '@/components/customs/SuccessNotify';
+import InformationNotify from '@/components/customs/InformationNotify';
+import ErrorNotify from '@/components/customs/ErrorNotify';
 
 interface CartItem {
   _id: string;
@@ -107,6 +109,7 @@ const RootPage = () => {
 
     if (currentUser) {
       fetchCart()
+      setOpenSnack(true)
     }
   }, [currentUser])
 
@@ -137,6 +140,10 @@ const RootPage = () => {
       <main className="">
         <div className='mt-40'></div>
         <Outlet />
+        {/* Notify */}
+        <SuccessNotify />
+        <InformationNotify />
+        <ErrorNotify />
         {/* Load all product */}
         <LoadAllProduct />
       </main>
@@ -145,9 +152,12 @@ const RootPage = () => {
 
       <Stack sx={{ width: '90%' }} spacing={2}>
           <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            {/* <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
               Chào mừng bạn đến với NGUYEN'S HOME
-            </Alert>
+            </Alert> */}
+            <p className='bg-white text-dark-0 p-4 border-2 rounded-sm'>
+              Chào mừng bạn đến với NGUYEN'S HOME!
+            </p>
           </Snackbar>
         </Stack>
     </>

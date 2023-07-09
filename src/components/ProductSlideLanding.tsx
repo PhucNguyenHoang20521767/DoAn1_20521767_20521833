@@ -59,7 +59,7 @@ const ProductSlide = () => {
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
           >
-            <RxDotFilled />
+            <RxDotFilled key={slideIndex} />
           </div>
         ))}
       </div>

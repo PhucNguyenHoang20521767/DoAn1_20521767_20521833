@@ -57,7 +57,7 @@ const ProductSlide = ({product}: any) => {
             key={dotIndex}
             onClick={() => goToSlide(dotIndex)}
           >
-            <RxDotFilled />
+            <RxDotFilled key={dotIndex} />
           </div>
         ))}
       </div>
