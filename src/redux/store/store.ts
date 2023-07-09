@@ -35,6 +35,8 @@ import googleReducer from '../reducers/google_reducer';
 import cartReducer from '../reducers/cart_reducers';
 import cartItemReducer from '../reducers/cartItem_reducers';
 import orderReducer from '../reducers/order_reducers';
+import notifyReducer from '../reducers/notify_reducers';
+import wishlistReducer from '../reducers/wishlist_reducers';
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -46,6 +48,8 @@ const rootReducer = combineReducers({
   cartItem: cartItemReducer,
   sub: subCategoryReducer,
   order: orderReducer,
+  notify: notifyReducer,
+  wishlist: wishlistReducer,
 });
 
 // Define your persist config

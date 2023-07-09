@@ -217,7 +217,7 @@ const Collection: React.FC = () => {
         <Breadcrumbs />
         <div className='py-2 flex justify-center'>
             <p className='flex items-center text-lg text-black'>Yêu thích</p>
-            <IconFavourite/>
+            <IconFavourite productId={product._id}/>
         </div>
       </div>
       

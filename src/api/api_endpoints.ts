@@ -233,3 +233,9 @@ export const GET_ORDER_BY_ID = (id:string) => `/orders/getOrderById/${id}`;
 
 //get order items for order
 export const GET_ORDER_ITEMS_FOR_ORDER = (id:string) => `/orders/getOrderItemsForOrder/${id}`;
+
+//get customer wishlist
+export const GET_CUSTOMER_WISHLIST = `/wishlist/getCustomerWishlist`;
+
+//add or remove product from wishlist
+export const ADD_OR_REMOVE_PRODUCT_FROM_WISHLIST = (id:string) => `/wishlist/addOrRemoveProductFromWishlist/${id}`;

@@ -3,6 +3,7 @@ import { setDefaultAddress, deleteAddress } from '@/api/api_function'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store/store';
 import UpdateAddressModal from './modals/updateAddressModal';
+import { notify } from '@/redux/reducers/notify_reducers';
 
 interface IAddress {
   _id: string;
@@ -44,11 +45,12 @@ const AddressItem = ({ address, handleReload }: IAddressItemProps) => {
       return
     try{
       await deleteAddress(address._id, currentUser)
+      dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Xoá địa chỉ thành công"}));
       handleReload()
     }
     catch (err)
     {
-      console.log(err)
+      dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "Có lỗi xảy ra"}));
     }
   }
 
