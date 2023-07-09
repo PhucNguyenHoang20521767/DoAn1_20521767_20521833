@@ -25,6 +25,7 @@ import { loadCartItems } from '@/redux/reducers/cartItem_reducers'
 
 import SuccessNotify from '@/components/customs/SuccessNotify'
 import ErrorNotify from '@/components/customs/ErrorNotify'
+import { notify } from '@/redux/reducers/notify_reducers'
 
 interface Color {
   _id: string;
@@ -122,7 +123,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           })
           return tempCartItems
         })
-        // console.log('1product', product)
+        console.log('1product', product)
 
         // const imageRes = await getProductImagesUrl(cartItem.productId)
         // const productImages = imageRes.data.data
@@ -222,17 +223,16 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
   }, [currentUser])
 
   useEffect(() => {
+    if (cartItem.productQuantity > product?.productQuantity) {
+      handleRemoveItemFromCart()
+      dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "Số lượng vài sản phẩm trong giỏ hàng vượt quá số lượng sản phẩm hiện có"}));
+    }
+  }, [product])
+
+  useEffect(() => {
     if (discount) {
       handlePrice(product.productPrice)
     }
-    
-    // const tempCartItems = _cartItems.map((item: CartItem) => {
-    //   if (item._id === cartItem._id) {
-    //     return { ...item, productSalePrice: price }
-    //   }
-    //   return item
-    // })
-    // dispatch(loadCartItems({cartItems: tempCartItems}))
 
     setPriceLoading(false)
   }, [discount])

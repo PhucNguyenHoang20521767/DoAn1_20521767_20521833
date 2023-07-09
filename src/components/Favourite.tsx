@@ -9,7 +9,7 @@ import FavouriteItem from './FavouriteItem';
 export const Favourite = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
-  const isChange = useSelector((state: RootState) => state.wishlist.isChange);
+  // const isChange = useSelector((state: RootState) => state.wishlist.isChange);
   const [wishlist, setWishlist] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -36,7 +36,7 @@ export const Favourite = () => {
         });
     }
     setLoading(false);
-  }, [isChange]);
+  }, [currentUser]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);

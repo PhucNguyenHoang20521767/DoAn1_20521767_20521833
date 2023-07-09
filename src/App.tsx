@@ -18,7 +18,9 @@ import Rootpage from '@/pages/RootPage/rootpage';
 import Notfound from '@/pages/NotFound/notfound';
 import Information from '@/components/Information';
 import Address from  '@/components/Address';
+import BillLayout from '@/components/BillLayout';
 import Bill from '@/components/Bill';
+import Bill_item from '@/components/Bill_item';
 import ResetPassword from '@/components/ResetPassword';
 import Order from "./pages/Order/order";
 import exp from "constants";
@@ -45,7 +47,16 @@ const router = createBrowserRouter(
                 <Route index element={<Information />} />
                 <Route path="information" element={<Information/>} ></Route>
                 <Route path='address' element={<Address/>}></Route>
-                <Route path='bill' element={<Bill/>}></Route>
+                <Route path='bill' element={<BillLayout/>}>
+                    <Route 
+                    index 
+                    element={<Bill/>} 
+                    />
+                    <Route 
+                    path=":id" 
+                    element={<Bill_item/>}
+                    />
+                </Route>
                 <Route path='resetpassword' element={<ResetPassword/>}></Route>
             </Route>
 
