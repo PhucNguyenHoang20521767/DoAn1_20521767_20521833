@@ -10,7 +10,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { notify } from '@/redux/reducers/notify_reducers';
-import { changeWishlist } from '@/redux/reducers/wishlist_reducers';
+// import { changeWishlist } from '@/redux/reducers/wishlist_reducers';
 
 interface Props {
     item: any;
@@ -40,13 +40,14 @@ const FavouriteItem = ({item, setWishlist}: Props) => {
     };
 
     function handleRemoveItemFromCart() {
-        const currentProduct = item.productId;
+        const currentProduct = item?.productId;
         try {
             if (currentUser) {
                 addOrRemoveProductFromWishlist(currentUser, item.productId).then(
                     (res) => {
                         console.log(res);
-                        dispatch(changeWishlist());
+                        // dispatch(changeWishlist());
+                        setWishlist((prev) => prev.filter((pd) => pd?.productId !== currentProduct));
                         dispatch(notify({isSuccess: true, isError: false, isInfo: false, message: "Xoá sản phẩm khỏi danh sách yêu thích thành công!"}));
                     });
                 }

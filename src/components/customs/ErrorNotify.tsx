@@ -37,7 +37,7 @@ const message = useSelector((state: any) => state.notify.message)
                 open={open}
                 onClose={handleClose}
             >
-              <Alert severity="info">{message}</Alert>
+              <Alert severity="error">{message}</Alert>
             </Snackbar>
         </Box>
     </>

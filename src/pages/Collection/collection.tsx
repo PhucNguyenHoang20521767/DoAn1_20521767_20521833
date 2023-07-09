@@ -30,6 +30,7 @@ import NumberInput from '@/components/customs/NumberInput'
 import moveToProduct from '@/redux/reducers/product_reducers'
 import { set } from 'react-hook-form'
 import ProductSlide from '@/components/ProductSlide'
+import { notify } from '@/redux/reducers/notify_reducers';
 
 interface productInfor {
   product: any;
@@ -170,18 +171,25 @@ const Collection: React.FC = () => {
     )
   }
 
+  const handleScrollToReviews = () => {
+    const reviewsSection = document.getElementById('reviews');
+    if (reviewsSection) {
+      reviewsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   async function handleAddToCart() {
     if(!currentUser) {
       navigate('/signin');
       return;
     }
     else if (chooseColor?.productQuantity && quantity >= chooseColor?.productQuantity) {
-      alert('Số lượng sản phẩm vượt quá số lượng hiện có')
+      dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "Số lượng sản phẩm vượt quá số lượng hiện có"}));
       setCanCheckOut(false)
       return
     }
     else if (!chooseColor?.productQuantity) {
-      alert('Sản phẩm hiện không có sẵn')
+      dispatch(notify({isSuccess: false, isError: true, isInfo: false, message: "Sản phẩm hiện không có sẵn"}));
       setCanCheckOut(false)
       return
     }
@@ -242,7 +250,12 @@ const Collection: React.FC = () => {
                 <h1 className='text-2xl font-bold'>{product.productName}</h1>
                 <div className='flex justify-normal'>
                   <Rating name="read-only" precision={0.5} value={rating ? rating : 0} readOnly />   
-                  <p className='text-md ml-2 text-gray-600'>Đã bán: </p>
+                  <p
+                    onClick={handleScrollToReviews}
+                    className='text-md ml-2 text-gray-600'
+                  >
+                    Đã bán: 
+                  </p>
                   <p className='text-md ml-1 text-gray-600'>{product.productSold}</p>
                 </div>
                 {/* price */}
@@ -386,6 +399,11 @@ const Collection: React.FC = () => {
       <div className='mt-4'>
         <div className="py-7 flex justify-center text-xl text-black text-center">Sản phẩm tương tự</div>
           <ProductSlide product={product} />
+      </div>
+      {/* Rating */}
+      <div className='mt-4'>
+        <div id='reviews' className="py-7 flex justify-center text-xl text-black text-center">Đánh giá</div>
+          
       </div>
     </div>
   )

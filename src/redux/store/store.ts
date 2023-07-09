@@ -49,7 +49,6 @@ const rootReducer = combineReducers({
   sub: subCategoryReducer,
   order: orderReducer,
   notify: notifyReducer,
-  wishlist: wishlistReducer,
 });
 
 // Define your persist config

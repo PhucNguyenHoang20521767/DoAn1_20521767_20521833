@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store/store'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllOrder, getOrderItemByOrder, getAddressById, getProductById } from '@/api/api_function'
 
 import Backdrop from '@mui/material/Backdrop';
@@ -141,29 +141,23 @@ const BillComponent = ({order}: IOrderStateProps) => {
                 <div className='my-2'>
                     <p className='text-base'>Ghi chú: {order.orderNote}</p>
                 </div>
-                <div className='my-2 flex justify-end'>
-                    <p className='text-base'>Tổng giá trị: {(finalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }))}</p>
-                </div>
             </div>
         </div>
-        <div className='w-1/3'>
-            <div className='flex flex-col items-center'>
-                <div className='flex flex-col items-center'>
+        <div className='w-1/3 flex flex-col'>
+                <div className='my-8 pt-4'>
                     {/* <p className='text-lg font-bold text-gray-700 my-2'>Danh sách sản phẩm</p> */}
-                    <div className='flex flex-col items-center'>
-                        {orderItems.map((orderItem) => {
-                            return (
-                                <div key={orderItem.productColorId} className='flex flex-row items-center'>
-                                    {/* <p className='text-base'>{orderItem.productQuantity} x </p> */}
-                                    {
-
-                                    }
-                                </div>
-                            )}
-                        )}
+                    <div className=''>
+                      <Link 
+                      to={`${order._id}`}
+                      className='text-lg italic text-gray-700 my-2'
+                      >Danh sách sản phẩm</Link>
                     </div>
                 </div>
-            </div>
+                <div className='mt-10'>
+                  <div className='mt-10 pb-2'>
+                      <p className='text-base font-semibold'>Tổng giá trị: {(finalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }))}</p>
+                  </div>
+                </div>
         </div>
     </div>
   )
