@@ -20,7 +20,7 @@ import Information from '@/components/Information';
 import Address from  '@/components/Address';
 import BillLayout from '@/components/BillLayout';
 import Bill from '@/components/Bill';
-import Bill_item from '@/components/Bill_item';
+import BillItem from '@/components/BillItem';
 import ResetPassword from '@/components/ResetPassword';
 import Order from "./pages/Order/order";
 import exp from "constants";
@@ -54,7 +54,7 @@ const router = createBrowserRouter(
                     />
                     <Route 
                     path=":id" 
-                    element={<Bill_item/>}
+                    element={<BillItem/>}
                     />
                 </Route>
                 <Route path='resetpassword' element={<ResetPassword/>}></Route>

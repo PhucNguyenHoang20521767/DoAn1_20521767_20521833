@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@/redux/store/store'
-import { useNavigate } from 'react-router-dom'
-import { getAllOrder, getOrderItemByOrder } from '@/api/api_function'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store/store';
+import { useNavigate } from 'react-router-dom';
+import { getAllOrder, getOrderItemByOrder } from '@/api/api_function';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { updateOrder } from '@/redux/reducers/order_reducers'
-import BillComponent from './BillComponent'
+import { updateOrder } from '@/redux/reducers/order_reducers';
+import BillComponent from './BillComponent';
 
 interface IOrderState {
   _id: string;
@@ -36,25 +36,26 @@ interface OrderItem {
 }
 
 const Bill = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const currentUser = useSelector((state: RootState) => state.auth.currentUser)
-  const [order, setOrder] = useState<IOrderState[]>([])
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  const [orders, setOrders] = useState<IOrderState[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
 
   useEffect(() => {
     if (currentUser) {
-        setLoading(true)
-        getAllOrder(currentUser).then((res) => {
-            const orderRes = res.data.data
-            setOrder(orderRes)
-            setLoading(false)
-        })
+      setLoading(true);
+      getAllOrder(currentUser).then((res) => {
+        const orderRes = res.data.data;
+        const sortedOrders = sortOrders(orderRes, sortOrder);
+        setOrders(sortedOrders);
+        setLoading(false);
+      });
+    } else {
+      navigate('/signin');
     }
-    else {
-      navigate('signin')
-    }
-  }, [currentUser])
+  }, [currentUser, sortOrder]);
 
   const handleClose = () => {
     setLoading(false);
@@ -63,28 +64,38 @@ const Bill = () => {
     setLoading(true);
   };
 
+  const handleSortOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOrder(event.target.value as 'newest' | 'oldest');
+  };
+
+  const sortOrders = (orders: IOrderState[], order: 'newest' | 'oldest') => {
+    if (order === 'newest') {
+      return orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } else {
+      return orders.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    }
+  };
+
   return (
     <>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-        onClick={handleClose}
-      >
+      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading} onClick={handleClose}>
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      {
-        order.map((item) => {
-            return (
-                <BillComponent
-                order={item}
-                key={item._id}
-                />
-            )
-        })
-      }
-    </>
-  )
-}
+      <div className="flex justify-end mb-5 mx-2">
+        <div className="relative">
+          <select className="border border-gray-300 rounded-sm py-2 px-3 w-48 my-2" value={sortOrder} onChange={handleSortOrderChange}>
+            <option value="newest">Mới nhất</option>
+            <option value="oldest">Cũ nhất</option>
+          </select>
+        </div>
+      </div>
 
-export default Bill
+      {orders.map((order) => {
+        return <BillComponent order={order} key={order._id} />;
+      })}
+    </>
+  );
+};
+
+export default Bill;

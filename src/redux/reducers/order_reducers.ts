@@ -29,11 +29,11 @@ interface OrderItem {
 } 
 
 interface IAllOrderState {
-    order: IOrderState[];
+    order: any;
 }
 
 const initialState = { 
-    order: [],
+    order: null,
 } as IAllOrderState;
 
 // Actions

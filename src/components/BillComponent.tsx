@@ -6,6 +6,7 @@ import { getAllOrder, getOrderItemByOrder, getAddressById, getProductById } from
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import { updateOrder } from '@/redux/reducers/order_reducers'
 
 interface IOrderState {
   _id: string;
@@ -54,7 +55,6 @@ const BillComponent = ({order}: IOrderStateProps) => {
         const orderItemRes = res.data.data
         setOrderItems(orderItemRes)
         console.log('orderItemRes', orderItemRes)
-        setLoading(false)
 
         getAddressById(order.orderAddress, currentUser).then((res) => {
             const addressRes = res.data.data
@@ -67,10 +67,12 @@ const BillComponent = ({order}: IOrderStateProps) => {
                 setProduct(productRes)
             })
         })
+        setLoading(false)
       })
+      dispatch(updateOrder({ order: order }))
     }
     else {
-      navigate('signin')
+      navigate('/signin');
     }
   }, [currentUser])
 
@@ -150,7 +152,9 @@ const BillComponent = ({order}: IOrderStateProps) => {
                       <Link 
                       to={`${order._id}`}
                       className='text-lg italic text-gray-700 my-2'
-                      >Danh sách sản phẩm</Link>
+                      >
+                        Chi tiết đơn hàng
+                      </Link>
                     </div>
                 </div>
                 <div className='mt-10'>
