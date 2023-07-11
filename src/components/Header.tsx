@@ -18,6 +18,9 @@ import CategoryList from './Categories';
 import SubCategoryList from './SubCategories';
 import { googleLogout } from '@/api/api_function';
 import { FiShoppingCart } from 'react-icons/fi';
+import { removeSub } from '@/redux/reducers/subCategories';
+import { notProduct } from '@/redux/reducers/slug_reducers';
+import HeaderSearch from './HeaderSearch';
 
 type Props = {};
 
@@ -33,11 +36,10 @@ const Header = (props: Props) => {
   const [nav, setNav] = useState(false);
   const [loginState, setLoginState] = useState(false);
 
-  const [categories, setCategories] = useState<any[]>([]);
-  const [categoryTable, setCategoryTable] = useState<any[]>([]);
-  const [categoryChair, setCategoryChair] = useState<any[]>([]);
-  const [categorySofa, setCategorySofa] = useState<any[]>([]);
-  const [categoryBed, setCategoryBed] = useState<any[]>([]);
+  const handleRemoveSub = () => {
+    dispatch(removeSub());
+    dispatch(notProduct());
+  };
 
   useEffect (() => {
     if (currentUsers) {
@@ -113,13 +115,7 @@ const Header = (props: Props) => {
               {/* Icon */}
               <div className="hidden xl:flex items-center space-x-8">
                 {/* Search */}
-                <div className="flex flex-row items-center border-2 border-dark-1 rounded-full px-5 py-2 group/search-header hover:bg-dark-1 focus-within:bg-dark-1 cursor-pointer">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 stroke-dark-1 group-hover/search-header:stroke-white group-focus-within/search-header:stroke-white" fill="none" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  <input placeholder="Nhập sản phẩm cần tìm" className="w-0 h-0 border-none rounded-lg ml-2 p-2 text-dark-1 text-lg focus:w-60 focus:h-8 group-hover/search-header:w-60 group-hover/search-header:h-8 transition-width duration-700" />
-                  <div className="pl-2 text-xl text-dark-1 font-medium group-hover/search-header:text-white group-focus-within/search-header:text-white">Tìm kiếm</div>
-                </div>
+                <HeaderSearch />
 
                 {/* Favourite */}
                 <button className="flex items-center hover:text-gray-200 p-3"
@@ -251,13 +247,16 @@ const Header = (props: Props) => {
           <div className="lg:w-auto lg:flex">
             <div className="text-base md:shrink-0">
               <div className="group/product-nav-item text-center block lg:inline-block py-3 px-12 header-nav-item header-nav-item-underline header-nav-item-underline-color">
-                <Link to="product" className="text-primary-0">
+                <Link
+                  to="product" 
+                  className="text-primary-0"
+                  onClick={handleRemoveSub}>
                   SẢN PHẨM
                 </Link>
                 <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className='flex justify-center'>
                     <CategoryList />
-                    <Link to={'product'} className='hidden md:p-1 md:block'>
+                    <Link to={'product'} onClick={handleRemoveSub} className='hidden md:p-1 md:block'>
                     <div className='pl-5'>
                       <img 
                       src="https://media.designcafe.com/wp-content/uploads/2021/12/27144355/design-cafe-modular-furniture-benefits.jpg" 

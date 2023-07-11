@@ -4,6 +4,7 @@ import * as apiEndpoints from '@/api/api_endpoints';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { redirectSub } from "@/redux/reducers/subCategories";
+import { removeSearch } from '@/redux/reducers/search_reducers';
 
 interface Category {
   id: string;
@@ -17,6 +18,7 @@ const CategoryList: React.FC = () => {
 
   function handleCategory(categorySlug: any) {
     dispatch(redirectSub(categorySlug));
+    dispatch(removeSearch());
   }
 
   useEffect(() => {

@@ -37,6 +37,7 @@ import cartItemReducer from '../reducers/cartItem_reducers';
 import orderReducer from '../reducers/order_reducers';
 import notifyReducer from '../reducers/notify_reducers';
 import wishlistReducer from '../reducers/wishlist_reducers';
+import searchReducer from '../reducers/search_reducers';
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   sub: subCategoryReducer,
   order: orderReducer,
   notify: notifyReducer,
+  search: searchReducer,
 });
 
 // Define your persist config

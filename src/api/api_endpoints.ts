@@ -137,7 +137,7 @@ export const SET_DEFAULT_ADDRESS = (id:string) => `/addresses/setDefaultAddress/
 //get subcategories
 export const GET_SUBCATEGORIES = "/subcategories/getAllSubcategories";
 //get subcategories by id
-export const GET_SUBCATEGORIES_BY_ID = (id:string) => `/subcategories/getSubcategoryById/${id}`;
+export const GET_SUBCATEGORIES_BY_ID = (id:string) => `/subcategories/getSubCategoryById/${id}`;
 
 //get categories
 export const GET_CATEGORIES = "/categories/getAllCategories";
