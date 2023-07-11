@@ -8,8 +8,8 @@ interface ISlugState {
 }
 const initialState = { 
     slugId: "",
-    slugCategoryName: "",
-    slugCategorySlug: "",
+    slugCategoryName: "Tất cả sản phẩm",
+    slugCategorySlug: "Tất cả sản phẩm",
 } as ISlugState;
 
 // Actions
@@ -28,8 +28,8 @@ const authReducer = createReducer(
     })
     .addCase(notProduct, (state) => {
         state.slugId = "";
-        state.slugCategoryName = "";
-        state.slugCategorySlug = "";
+        state.slugCategoryName = "Tất cả sản phẩm";
+        state.slugCategorySlug = "Tất cả sản phẩm";
     });
 });
 

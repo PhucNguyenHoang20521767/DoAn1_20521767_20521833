@@ -25,7 +25,7 @@ interface Props {
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
-  crumbs?: Crumb;
+  selectedColor: string;
   // selectedColor: string;
   // setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
   // selectedDimension: string;
@@ -37,6 +37,8 @@ interface Product {
   discount_id: string;
   category_id: string;
   category_slug: string;
+  sub_category_id: string;
+  sub_category_slug: string;
   name: string;
   description: string;
   price: number;
@@ -44,15 +46,17 @@ interface Product {
   create_at: string | number | Date;
   update_at: string | number | Date;
   sold: number;
+  color: string[];
 }
 
-const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter, crumbs }) => {
+const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter, selectedColor }) => {
   // const [products, setProducts] = useState<Product[]>([]);
   const dispatch = useDispatch();
   const currentPage = useSelector((state: RootState) => state.sub.currentPage);
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
-  const [selectedColor, setSelectedColor] = useState('');
+  const currentSearch = useSelector((state: RootState) => state.search.value);
   const [selectedDimension, setSelectedDimension] = useState('');
+  const [haveProduct, setHaveProduct] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,10 +66,29 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
   const sortedProducts = useMemo(() => {
     let filteredProducts = products;
 
-    if (crumbs?.en === 'product') {
+    if(currentSearch) {
+      filteredProducts = products.filter((product) => product.name.toLowerCase().includes(currentSearch.toLowerCase()));
+      console.log('filteredProducts', filteredProducts);
+    }
+
+    if (!currentPage && !currentSearch) {
       filteredProducts = products;
-    } else if (crumbs && crumbs.en) {
-      filteredProducts = products.filter((product) => product.category_slug === crumbs.en);
+      setHaveProduct(false);
+    } else if (currentPage && !currentSearch) {
+      filteredProducts = products.filter((product) => product.category_slug === currentPage.slug);
+      if (filteredProducts.length === 0) {
+        filteredProducts = products.filter((product) => product.sub_category_slug === currentPage.slug);
+      }
+      setHaveProduct(true);
+    }
+
+    if (filteredProducts.length === 0) {
+      setHaveProduct(false);
+    }
+
+    if (selectedColor) {
+      filteredProducts = filteredProducts.filter((product) => product.color.includes(selectedColor));
+      console.log('filteredProducts', filteredProducts);
     }
 
     if (filter === 'New') {
@@ -87,13 +110,19 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
     } else {
       return filteredProducts;
     }
-  }, [filter, products, crumbs]);
+  }, [filter, products, currentPage, currentSearch, selectedColor]);
 
   return (
     <>
       <LoadAllProduct />
+        {sortedProducts?.length === 0 && !haveProduct && (
+          <div className="text-center text-2xl font-semibold text-red-500">
+            Không tìm thấy sản phẩm nào thuộc thể loại này
+          </div>
+          )
+        }
       <div className="mb-3 product-list-container grid grid-cols-1 md:grid-cols-4">
-        {sortedProducts.length === 0 && <ManySkeleton />}
+        {sortedProducts?.length === 0 && haveProduct && <ManySkeleton />}
         {sortedProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

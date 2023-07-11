@@ -168,6 +168,11 @@ export const getSubcategoriesById = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_SUBCATEGORIES_BY_ID(id));
 }
 
+//get all color
+export const getAllColors = async () => {
+    return await mainApi.get(apiEndpoints.GET_ALL_COLORS);
+}
+
 //get all products color
 export const getProductColor = async (id: string) => {
     return await mainApi.get(apiEndpoints.GET_ALL_PRODUCT_COLORS(id));
