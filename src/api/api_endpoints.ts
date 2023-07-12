@@ -239,3 +239,41 @@ export const GET_CUSTOMER_WISHLIST = `/wishlist/getCustomerWishlist`;
 
 //add or remove product from wishlist
 export const ADD_OR_REMOVE_PRODUCT_FROM_WISHLIST = (id:string) => `/wishlist/addOrRemoveProductFromWishlist/${id}`;
+
+//get all product feedbacks
+export const GET_ALL_PRODUCT_FEEDBACKS = (id:string) => `/feedbacks/getAllProductFeedbacks/${id}`;
+
+//get feedback by id
+export const GET_FEEDBACK_BY_ID = (id:string) => `/feedbacks/getFeedbackById/${id}`;
+
+//create feedback
+export const CREATE_FEEDBACK = "/feedbacks/createFeedback";
+export const getCreateFeedbackBody = ( 
+    customerId: string,
+    productId: string,
+    productColorId: string,
+    orderId: string,
+    feedbackRating: number,
+    feedbackTitle: string,
+    feedbackContent: string
+    ) => ({
+    customerId: customerId,
+    productId: productId,
+    productColorId: productColorId,
+    orderId: orderId,
+    feedbackRating: feedbackRating,
+    feedbackTitle: feedbackTitle,
+    feedbackContent: feedbackContent
+});
+
+//delete feedback
+export const DELETE_FEEDBACK = (id:string) => `/feedbacks/deleteFeedback/${id}`;
+
+//get all feedback images
+export const GET_ALL_FEEDBACK_IMAGES = (id:string) => `/feedbacks/getAllFeedbackImages/${id}`;
+
+//save feedback images
+export const SAVE_FEEDBACK_IMAGES = (id:string) => `/feedbacks/saveFeedbackImage/${id}`;
+
+//delete feedback images
+export const DELETE_FEEDBACK_IMAGES = (id:string) => `/feedbacks/deleteFeedbackImage/${id}`;
