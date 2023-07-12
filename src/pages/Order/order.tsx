@@ -15,6 +15,7 @@ import {
 import { CircularProgress } from '@mui/material'
 import { getRandomNumber } from '@/utils/function'
 import { removeCartItems } from '@/redux/reducers/cartItem_reducers'
+import { notify } from '@/redux/reducers/notify_reducers';
 
 interface CartItem {
   _id: string;
@@ -158,24 +159,16 @@ const Order = () => {
         //   totalPrice: totalPrice,
         //   status: 'pending',
         // }
-        console.log("selectedAddress._id.toString()", selectedAddress._id.toString())
-        console.log("648a91e82b36c6bbd96704a4", "648a91e82b36c6bbd96704a4")
-        console.log("orderNote", orderNote)
-        console.log("randomNumber.toString()", randomNumber.toString())
+        // console.log("selectedAddress._id.toString()", selectedAddress._id.toString())
+        // console.log("648a91e82b36c6bbd96704a4", "648a91e82b36c6bbd96704a4")
+        // console.log("orderNote", orderNote)
+        // console.log("randomNumber.toString()", randomNumber.toString())
 
         await createOrder(currentUser, userId, randomNumber.toString(), "Đặt hàng", orderNote, 
         selectedAddress._id.toString(), "648a91e82b36c6bbd96704a4" , 30000)
         .then((res) => {
           const orderId = res.data.data._id
           cartItems.forEach((item: CartItem) => {
-            // const orderItem = {
-            //   orderId: orderId,
-            //   productId: item.productId,
-            //   productColorId: item.productColorId,
-            //   productQuantity: item.productQuantity,
-            //   productPrice: item.productPrice,
-            //   productSalePrice: item.productSalePrice,
-            // }
             const normalPrice = item.productPrice * item.productQuantity;
             const checkPrice = item.productSalePrice ? item.productSalePrice : item.productPrice;
             const finalPrice = checkPrice * item.productQuantity;
@@ -192,17 +185,39 @@ const Order = () => {
               console.log(res)
             })
             .catch((err) => {
-              console.log(err)
+              dispatch(
+                notify({
+                  message: `${err}`,
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false,
+                })
+              );
             })
           })
         }).then(async () => {
           try {
+            dispatch(
+              notify({
+                message: 'Đặt hàng thành công',
+                isError: false,
+                isSuccess: true,
+                isInfo: false,
+              })
+            );
             const result = await removeAllItemFromCart(cartId, currentUser)
             console.log("rs", result)
             handleRemoveCart()
           }
           catch (err) {
-            console.log(err)
+            dispatch(
+              notify({
+                message: `${err}`,
+                isError: true,
+                isSuccess: false,
+                isInfo: false,
+              })
+            );
           }
         })
         .catch((err) => {

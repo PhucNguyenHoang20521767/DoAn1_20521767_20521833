@@ -3,13 +3,15 @@ import { changePassword } from '@/api/api_function'
 // import { mainApi } from '@/api/main_api';
 // import * as apiEndpoint from '@/api/api_endpoints';
 
-import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { notify } from '@/redux/reducers/notify_reducers';
 
 import {CircularProgress} from '@mui/material';
 import { InputPassword } from '@/components/customs/nhPassword'
 
 const ResetPassword = () => {
+    const dispatch = useDispatch();
     const uid = useSelector((state: RootState) => state.auth.customerIdToken);
     const [showPassword, setShowPassword] = useState(false);
     const [password, setPassword] = useState('');
@@ -64,12 +66,26 @@ const ResetPassword = () => {
         setLoading(true);
         const res = await changePassword(uid, password, password2)
         if (res.data.success === true) {
-            alert('Đổi mật khẩu thành công');
+            dispatch(
+                notify({
+                  message: 'Đổi mật khẩu thành công',
+                  isError: false,
+                  isSuccess: true,
+                  isInfo: false,
+                })
+              );
             setPassword('');
             setPassword1('');
             setPassword2('');
         } else {
-            alert('Đổi mật khẩu thất bại');
+            dispatch(
+                notify({
+                  message: 'Đổi mật khẩu thất bại',
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false
+                })
+              );
         }
         setLoading(false);
     }

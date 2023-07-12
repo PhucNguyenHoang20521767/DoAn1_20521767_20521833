@@ -42,6 +42,14 @@ const SignIn = () => {
     const handleLogin = () => {
         setIsLogin(true);
         setIsSignUp(false);
+        // dispatch(
+        //     notify({
+        //       message: 'Đăng nhập thành công',
+        //       isError: false,
+        //       isSuccess: true,
+        //       isInfo: false,
+        //     })
+        //   );
     }
 
     const handleSignUp = () => {

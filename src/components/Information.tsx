@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import cat from '@/utils/image_link';
 import { current } from '@reduxjs/toolkit';
 import { CircularProgress } from '@mui/material';
+import { notify } from '@/redux/reducers/notify_reducers';
 
 interface IInfoInput {
     email: string;
@@ -74,8 +75,23 @@ const Information = (props: Props) => {
             {
                 await saveAvatar(currentUser, avatarFile);
             }
+            dispatch(
+                notify({
+                  message: 'Thay đổi thông tin thành công',
+                  isError: false,
+                  isSuccess: true,
+                  isInfo: false,
+                })
+              );
         } catch (error: any) {
-            const message = error.response.data.error;
+            dispatch(
+                notify({
+                  message: 'Thay đổi thất bại',
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false
+                })
+              );
             setLoading(false);
         }
         setLoading(false);
