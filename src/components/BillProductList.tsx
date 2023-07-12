@@ -14,6 +14,7 @@ import {
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { set } from 'react-hook-form';
+import ReviewModal from './modals/reviewModal';
 
 interface OrderItem {
   _id: string;
@@ -53,6 +54,7 @@ const BillProductList = ({ orderItem, orderInfo }: BillProductListProps) => {
   const [color, setProductColor] = useState<any>(null);
   const [productImageUrl, setProductImageUrl] = useState<string[] | null>(null);
   const [canReview, setCanReview] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (orderInfo?.orderStatus === 'Đã hoàn tất') {
@@ -86,6 +88,16 @@ const BillProductList = ({ orderItem, orderInfo }: BillProductListProps) => {
 
   return (
     <>
+    {
+      orderInfo && orderItem && product && color && productImageUrl &&
+      <ReviewModal 
+      open={open} 
+      setOpen={setOpen}
+      productId={orderItem.productId}
+      productColorId={orderItem.productColorId}
+      orderId={orderInfo._id}
+      />
+    }
         {
             orderItem && product && color && productImageUrl && (
             <div className='max-w-3xl rounded overflow-hidden shadow m-2 px-4'>
@@ -121,11 +133,12 @@ const BillProductList = ({ orderItem, orderInfo }: BillProductListProps) => {
                 <div>
                     {
                         canReview && (
-                            <Link to={`/review/${orderItem.productId}/${orderItem.productColorId}`}>
-                                <button className="bg-dark-2 hover:bg-black text-white font-bold py-2 px-4 rounded">
+                                <button 
+                                className="bg-dark-2 hover:bg-black text-white font-bold py-2 px-4 rounded"
+                                onClick={() => setOpen(true)}
+                                >
                                     Đánh giá
                                 </button>
-                            </Link>
                         )
                     }
                 </div>

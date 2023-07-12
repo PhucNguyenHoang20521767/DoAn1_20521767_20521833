@@ -6,6 +6,7 @@ import { loadcart } from '@/redux/reducers/cart_reducers';
 import { RootState } from '@/redux/store/store';
 import axios from 'axios';
 import { url } from 'inspector';
+import useToken from 'antd/es/theme/useToken';
 
 //google login callback
 // export const googleLoginCallback = async () => {
@@ -47,6 +48,14 @@ interface UserInfo {
   }  
 export const getUserInfo = async (id: string): Promise<UserInfo> => {
     return await mainApi.get(apiEndpoints.GET_USER_INFO(id));
+}
+
+//get customer by id
+export const getCustomerById = async (id: string, token: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_USER_INFO(id),
+        apiEndpoints.getAccessToken(token)
+        );
 }
 
 //get avatar url 
@@ -352,6 +361,38 @@ export const addOrRemoveProductFromWishlist = async (token: string, productId: s
             Authorization: "Bearer " + token
         }
     });
+}
+
+//get all prouct feedback
+export const getAllProductFeedback = async (productId: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ALL_PRODUCT_FEEDBACKS(productId)
+        );
+}
+
+//create feedback
+export const createFeedback = async (   
+    token: string,
+    customerId: string,
+    productId: string,
+    productColorId: string,
+    orderId: string,
+    feedbackRating: number,
+    feedbackTitle: string,
+    feedbackContent: string) => {
+    return await mainApi.post(
+        apiEndpoints.CREATE_FEEDBACK,
+        apiEndpoints.getCreateFeedbackBody(
+            customerId,
+            productId,
+            productColorId,
+            orderId,
+            feedbackRating,
+            feedbackTitle,
+            feedbackContent
+        ),
+        apiEndpoints.getAccessToken(token)
+        );
 }
 
 export const loginWithGoogle = async (password: string, firstname: string, lastname: string, birthday: Date, email: string,  gender: string, provider: string) => {

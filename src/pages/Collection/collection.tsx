@@ -11,7 +11,8 @@ import {
   getProductRating,
   getDiscountById,
   addItemToCart,
-  getCategoriesById
+  getCategoriesById,
+  getAllProductFeedback
 } from '@/api/api_function'
 import { 
   Box, 
@@ -31,6 +32,7 @@ import moveToProduct from '@/redux/reducers/product_reducers'
 import { set } from 'react-hook-form'
 import ProductSlide from '@/components/ProductSlide'
 import { notify } from '@/redux/reducers/notify_reducers';
+import Feedback from '@/components/Feedback'
 
 interface productInfor {
   product: any;
@@ -63,6 +65,7 @@ const Collection: React.FC = () => {
   const [discountNotExpired, setDiscountNotExpired] = useState<boolean>(true)
   const [priceLoading, setPriceLoading] = useState<boolean>(false)
   const [canCheckOut, setCanCheckOut] = useState<boolean>(false)
+  const [productFeedback, setProductFeedback] = useState<any[]>([])
 
   const discountFailed = () => {
     setDiscountNotExpired(false)
@@ -159,6 +162,21 @@ const Collection: React.FC = () => {
   const handleColorClick = (color: Color) => {
     setChooseColor(color)
   }
+
+  useEffect(() => {
+    try{
+      if(id){
+        getAllProductFeedback(id).then((res) => {
+          if(res.data.data){
+            setProductFeedback(res.data.data)
+          }
+        })
+      }
+    }
+    catch(err){
+      console.log(err)
+    }
+  }, [id])
 
   if (!product) {
     return (
@@ -327,11 +345,11 @@ const Collection: React.FC = () => {
                   <p className='font-bold text-lg'>Số lượng: </p>
                   <p className='text-lg ml-1'>{product.productQuantity}</p>
                 </div>
-                {/*
+                
                 <div className='flex justify-start'>
                   <p className='font-bold text-lg'>Đã bán: </p>
                   <p className='text-lg ml-1'>{product.productSold}</p>
-                </div> */}
+                </div>
               </div>
               <div>
 
@@ -402,8 +420,20 @@ const Collection: React.FC = () => {
       </div>
       {/* Rating */}
       <div className='mt-4'>
-        <div id='reviews' className="py-7 flex justify-center text-xl text-black text-center">Đánh giá</div>
-          
+        <div id='reviews' className="py-7 flex justify-center text-xl text-black text-center">{`Đánh giá (${productFeedback?.length}):`}</div>
+        {
+          productFeedback ?
+          (
+            productFeedback.map((feedback: any) => (
+              <Feedback key={feedback._id} feedback={feedback} />
+            ))
+          )
+          : (
+            <div className='flex justify-center'>
+              <p>Chưa có đánh giá nào</p>
+            </div>
+          )
+        }
       </div>
     </div>
   )
