@@ -56,12 +56,12 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
   const currentSearch = useSelector((state: RootState) => state.search.value);
   const [selectedDimension, setSelectedDimension] = useState('');
-  const [haveProduct, setHaveProduct] = useState(false);
+  const [haveProduct, setHaveProduct] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
       setProducts(allProducts.filter((product) => product !== undefined));
-  }, []);
+  }, [allProducts]);
 
   const sortedProducts = useMemo(() => {
     let filteredProducts = products;
@@ -110,22 +110,29 @@ const ProductList: React.FC<Props> = ({ products, setProducts, filter, setFilter
     } else {
       return filteredProducts;
     }
-  }, [filter, products, currentPage, currentSearch, selectedColor]);
+  }, [filter, products, currentPage, currentSearch, selectedColor, allProducts]);
 
   return (
     <>
       <LoadAllProduct />
-        {sortedProducts?.length === 0 && !haveProduct && (
+        {sortedProducts?.length === 0 && allProducts && 
+        selectedColor && currentPage && currentSearch && (
           <div className="text-center text-2xl font-semibold text-red-500">
             Không tìm thấy sản phẩm nào thuộc thể loại này
           </div>
           )
         }
       <div className="mb-3 product-list-container grid grid-cols-1 md:grid-cols-4">
-        {sortedProducts?.length === 0 && haveProduct && <ManySkeleton />}
-        {sortedProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {allProducts.length === 0 
+        ? 
+        <ManySkeleton />
+        :
+          (
+            sortedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )
+      }
       </div>
     </>
   );
