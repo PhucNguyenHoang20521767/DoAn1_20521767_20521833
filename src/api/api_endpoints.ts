@@ -274,6 +274,8 @@ export const GET_ALL_FEEDBACK_IMAGES = (id:string) => `/feedbacks/getAllFeedback
 
 //save feedback images
 export const SAVE_FEEDBACK_IMAGES = (id:string) => `/feedbacks/saveFeedbackImage/${id}`;
-
 //delete feedback images
 export const DELETE_FEEDBACK_IMAGES = (id:string) => `/feedbacks/deleteFeedbackImage/${id}`;
+
+//preview attachment
+export const PREVIEW_ATTACHMENT = (id:string) => `/attachments/previewAttachment/${id}`;

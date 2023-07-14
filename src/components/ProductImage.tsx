@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAllProductImageUrlByColor } from '@/api/api_function';
+import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
 import Skeleton from '@mui/material/Skeleton';
-
 import ProductSkeleton from '@/components/loaders/productSkeleton';
 
 interface Props {
@@ -42,7 +42,7 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
         <Skeleton variant="rounded" width={600} height={265} sx={{ marginLeft: 2 }} />
       ) : (
       <>
-      <div className="w-1/4 overflow-y-scroll max-w-[11rem] max-h-[25rem]">
+      <div className="w-1/4 overflow-y-scroll overflow-x-hidden max-w-[12rem] max-h-[25rem]">
         {subImages.map((image) => (
           <div
             key={image}
@@ -50,20 +50,56 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
             onClick={() => handleSelectMainImage(image)}
             onMouseEnter={() => setMainImage(image)}
           >
-            <img 
+            {/* <img 
             src={image} 
             alt="Sub product image" 
             className="border border-secondary-4 hover:border-2 w-full hover:opacity-75 transition-opacity duration-300"
+            /> */}
+            <LazyLoadImage
+            className="h-full w-full object-cover"
+            alt="Sub product image"
+            height={140}
+            src={image}
+            width={280}
+            onError={(e: any) => {
+              e.currentTarget.src =
+                'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg';
+            }}
+            style={{ transition: 'transform 0.3s ease' }}
+            onMouseEnter={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
             />
           </div>
         ))}
       </div>
       <div className="w-3/4 max-h-[26rem] ml-1 mt-1">
-        <img 
+        {/* <img 
           src={mainImage} 
           alt="Main product image" 
           className="max-w-full border border-secondary-4 max-h-[26rem]" 
-        />
+        /> */}
+        <LazyLoadImage
+            className="h-full w-full object-cover"
+            alt="Main product image" 
+            height={140}
+            src={mainImage}
+            width={280}
+            onError={(e: any) => {
+              e.currentTarget.src =
+                'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg';
+            }}
+            style={{ transition: 'transform 0.3s ease' }}
+            onMouseEnter={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            />
       </div>
       </>
       )}

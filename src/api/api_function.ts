@@ -7,6 +7,9 @@ import { RootState } from '@/redux/store/store';
 import axios from 'axios';
 import { url } from 'inspector';
 import useToken from 'antd/es/theme/useToken';
+import { UploadFile } from 'antd';
+import { getBase64 } from '@/utils/function';
+import { get } from 'http';
 
 //google login callback
 // export const googleLoginCallback = async () => {
@@ -392,6 +395,46 @@ export const createFeedback = async (
             feedbackContent
         ),
         apiEndpoints.getAccessToken(token)
+        );
+}
+
+//get all feedback images
+export const getAllFeedbackImages = async (feedbackId: string) => {
+    return await mainApi.get(
+        apiEndpoints.GET_ALL_FEEDBACK_IMAGES(feedbackId)
+        );
+}
+
+//save feedback image
+export const saveFeedbackImage = async (token: string, feedbackId: string, images: UploadFile[]) => {
+    const formData = new FormData();
+    for (const image of images) {
+        if (!image.originFileObj)
+            continue;
+        formData.append("Files[]", image.originFileObj);
+    }
+
+    console.log(formData);
+    
+    return await mainApi.post(
+        apiEndpoints.SAVE_FEEDBACK_IMAGES(feedbackId),
+        formData,
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//delete feedback image
+export const deleteFeedbackImage = async (token: string, feedbackId: string) => {
+    return await mainApi.delete(
+        apiEndpoints.DELETE_FEEDBACK_IMAGES(feedbackId),
+        apiEndpoints.getAccessToken(token)
+        );
+}
+
+//preview attachment
+export const previewAttachment = async ( attachmentId: string) => {
+    return await mainApi.get(
+        apiEndpoints.PREVIEW_ATTACHMENT(attachmentId)
         );
 }
 

@@ -90,7 +90,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
             const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true, loginType: "email", avatar: ""}
             dispatch(login(userLogin));
             // localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            navigate("/home");
+            navigate('/');
             setLoading(false);
         } catch (error) {
             console.log(error);

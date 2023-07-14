@@ -123,14 +123,15 @@ const product = () => {
             </div>
             <div className="flex justify-center text-xl fotn-bold text-black text-center">Màu</div>
             {/* <div className="flex justify-center text-xl text-black text-center">Lọc theo kích thước</div> */}
-            <div className="flex flex-wrap justify-center">
+            <div className="grid grid-cols-3 gap-0">
             {colors.map((color) => (
-              <div
-                key={color._id}
-                className={`w-8 h-8 rounded-full m-1 cursor-pointer ${selectedColor === color._id ? 'border-2 border-black' : ''}`}
-                style={{ backgroundColor: color.colorHex }}
-                onClick={() => handleColorClick(color)}
-              />
+              <div key={color._id} className='flex justify-center items-center'>
+                <div
+                  className={`w-8 h-8 rounded-full m-1 cursor-pointer ${selectedColor === color._id ? 'border-2 border-black' : ''}`}
+                  style={{ backgroundColor: color.colorHex }}
+                  onClick={() => handleColorClick(color)}
+                />
+              </div>
             ))}
           </div>
           </div>

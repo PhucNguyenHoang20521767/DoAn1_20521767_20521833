@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { style } from '@/utils/ui';
 import {
-  createFeedback
+  createFeedback,
+  saveFeedbackImage
 } from '@/api/api_function';
 import { RootState } from '@/redux/store/store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,6 +19,7 @@ import {
     LinearProgress
    } from '@mui/material';
 import ImagesUploader from '../customs/ImageUploader';
+import { UploadFile } from 'antd';
 
 interface Props {
     open: boolean;
@@ -42,6 +44,7 @@ function ReviewModal({ open, setOpen, productId, productColorId, orderId }: Prop
     const [rating, setRating] = React.useState<number | null>(0)
     const [title, setTitle] = React.useState<string>('')
     const [reviewDetail, setReviewDetail] = React.useState<string>('')
+    const [fileList, setFileList] = React.useState<UploadFile[]>([]); // [{file: File, data_url: string}
     const currentUser = useSelector((state: RootState) => state.auth.currentUser);
     const _id = useSelector((state: RootState) => state.auth.id);
 
@@ -61,6 +64,17 @@ function ReviewModal({ open, setOpen, productId, productColorId, orderId }: Prop
     )
       .then((res) => {
         console.log(res.data);
+        if (fileList.length > 0) {
+          const feedbackId = res.data.data._id;
+          saveFeedbackImage(currentUser, feedbackId, fileList)
+            .then((res) => {
+              console.log(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+
         dispatch(
           notify({
             message: 'Đánh giá thành công',
@@ -131,14 +145,10 @@ function ReviewModal({ open, setOpen, productId, productColorId, orderId }: Prop
             </div>
             <div className='my-1'>
                 <label htmlFor="text" className="font-semibold text-base text-dark-1">Thêm hình ảnh (nếu có):</label>
-                {/* <ImagesUploader
-                index={index}
-                URLsList={URLsList}
-                setURLsList={setURLsList}
-                filesList={filesList}
-                setFilesList={setFilesList}
-                setImageIDsToDelete={setImageIDsToDelete} />
-                /> */}
+                <ImagesUploader
+                    fileList={fileList}
+                    setFileList={setFileList}
+                />
             </div>
             <button 
                 type="submit"

@@ -19,6 +19,7 @@ import { createCart,
 } from '@/api/api_function'
 import ManySkeleton from './loaders/manySkeleton';
 import { set } from 'react-hook-form'
+import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
 import NumberInput from '@/components/customs/NumberInput'
 import { CircularProgress } from '@mui/material'
 import { loadCartItems } from '@/redux/reducers/cartItem_reducers'
@@ -281,13 +282,32 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     <>
     <div className='flex justify-between'>
       <div className='flex gap-4 items-center'>
-          <img 
+          {/* <img 
           key={cartItem.productColorId}
           src={imageUrls[0]} 
           alt={product?.productName} 
           className='w-16 h-16 object-contain'
-          />
-          {/* <Link to={`collection/${cartItem.productId}`}> */}
+          /> */}
+          <LazyLoadImage
+            key={cartItem.productColorId}
+            className="w-32 h-16 object-contain"
+            alt={product?.productName}
+            height={32}
+            src={imageUrls[0]}
+            width={16}
+            onError={(e: any) => {
+              e.currentTarget.src =
+                'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg';
+            }}
+            style={{ transition: 'transform 0.3s ease' }}
+            onMouseEnter={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1.1)';
+            }}
+            onMouseLeave={(e: any) => {
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+            /> 
+          {/* <Link to={`collection/${cartItem.productId}`}>
             <button 
             className='text-dark-3'
             onClick={() => {navigate(`/collection/${cartItem.productId}`)}}
