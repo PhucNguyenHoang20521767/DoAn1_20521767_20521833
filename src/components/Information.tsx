@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { mainApi } from '@/api/main_api';
 import * as apiEndpoints from '@/api/api_endpoints';
+import { updateCustomer } from '@/api/api_function';
 import { getAvatar, saveAvatar } from '@/api/api_function';
 import DatePicker from "react-datepicker";
 
@@ -57,24 +58,36 @@ const Information = (props: Props) => {
           }
 	};
 
-    const birthday = selectedDate.toLocaleDateString('vi-VN');
+    // const birthday = selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1) + '/' + selectedDate.getFullYear();
 
     const onSubmit: SubmitHandler<IInfoInput> = async (data) => {
+        const birthday = selectedDate.toLocaleDateString('vi-VN');
         if(loading) return;
         try {
             setLoading(true);
             
-            const result = await mainApi.put(
-                apiEndpoints.UPDATE_CUSTOMER(_id),
-                apiEndpoints.getUpdateCustomerBody(data.firstname, lastName, 
-                    birthday, data.email, data.gender),
-                apiEndpoints.getAccessToken(currentUser)
-            );
+            // const result = await mainApi.put(
+            //     apiEndpoints.UPDATE_CUSTOMER(_id),
+            //     apiEndpoints.getUpdateCustomerBody(data.firstname, lastName, 
+            //         birthday, data.email, data.gender),
+            //     apiEndpoints.getAccessToken(currentUser)
+            // ).then(async () => {
+            //     console.log('result', result);
+            // if (avatarFile !== null)
+            // {
+            //     await saveAvatar(currentUser, avatarFile);
+            // }
+            // })
 
-            if (avatarFile !== null)
-            {
-                await saveAvatar(currentUser, avatarFile);
-            }
+            const result = updateCustomer(_id, currentUser, data.firstname, lastName,
+                birthday, data.email, data.gender).then(async () => {
+                    console.log('result', result);
+                    if (avatarFile !== null)
+                    {
+                        await saveAvatar(currentUser, avatarFile);
+                    }
+                })
+                
             dispatch(
                 notify({
                   message: 'Thay đổi thông tin thành công',
@@ -236,15 +249,6 @@ const Information = (props: Props) => {
                     className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required 
                     />
                 </div>
-
-                {/* Default Address */}
-                {/* <div className="mb-1 p-1">
-                    <label className="font-semibold text-base text-dark-1">Địa chỉ mặc định:</label>
-                    <select className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="Male">2</option>
-                            <option value="Female">3</option>
-                        </select>
-                </div> */}
 
                 <div className='my-8 p-1'>
                     {/* <button type="submit" className="w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50">

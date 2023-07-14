@@ -23,6 +23,7 @@ import Bill from '@/components/Bill';
 import BillItem from '@/components/BillItem';
 import ResetPassword from '@/components/ResetPassword';
 import Order from "./pages/Order/order";
+import OrderSuccess from "./pages/Order/orderSuccess";
 import exp from "constants";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +34,9 @@ const router = createBrowserRouter(
         <Route path='/' element={<Rootpage/>}>
             <Route index element={<Home />} />
             <Route path="home" element={<Home/>} />
-            <Route path="order" element={<Order/>} />
+            <Route path="order" element={<Order/>} >
+                <Route path="success" element={<OrderSuccess/>} />
+            </Route>
             <Route path="product" element={<Product/>} >
                 <Route 
                 path=":id" 

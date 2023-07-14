@@ -20,7 +20,7 @@ import { createCart,
 import ManySkeleton from './loaders/manySkeleton';
 import { set } from 'react-hook-form'
 import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
-import NumberInput from '@/components/customs/NumberInput'
+import NumberInputCart from '@/components/customs/NumberInputCart'
 import { CircularProgress } from '@mui/material'
 import { loadCartItems } from '@/redux/reducers/cartItem_reducers'
 
@@ -82,6 +82,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
   const [discountDetail, setDiscountDetail] = useState<any>(null)
   const [Open, setOpen] = useState<boolean>(false)
   const [message, setMessage] = useState<string>('')
+  const [totalPrice, setTotalPrice] = useState<number>(0)
 
   const discountFailed = () => {
     setDiscountNotExpired(false)
@@ -238,6 +239,12 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
     setPriceLoading(false)
   }, [discount])
 
+  useEffect(() => {
+    if (product) {
+      setTotalPrice(price * quantity)
+    }
+  }, [product, quantity, discount, price])
+
   if (!product) {
     return <ManySkeleton />
   }
@@ -331,15 +338,15 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
               />
             </div>
           </div>
-          <div className='flex'>
+          {/* <div className='flex'>
             <div className='font-bold'>
               Số lượng: 
             </div>
             <div className='ml-1'>
               {cartItem.productQuantity}
             </div>
-          </div>
-          <div>{(price * (cartItem.productQuantity)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>
+          </div> */}
+          <div>{(totalPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</div>
         </div>
       </div>
       <div className='text-red-700 text-xl flex justify-end gap-4'>
@@ -354,8 +361,15 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
       </div>
     </div>
     <div className='flex items-center justify-center my-2'>
-      <NumberInput value={quantity} onChange={setQuantity} />
-      <div className=''>
+      <NumberInputCart 
+      value={quantity} 
+      onChange={setQuantity}
+      cartItem={cartItem}
+      setCartItems={setCartItems}
+      product={product}
+      setPrice={setPrice}
+      />
+      {/* <div className=''>
           <button 
           key={cartItem.productColorId}
           onClick={() => handleUpdateItemFromCart()}
@@ -364,15 +378,7 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           `}>
               Xác nhận
           </button>
-          {/* <button
-            onClick={() => handleUpdateItemFromCart()}
-            className='px-3 py-1 text-dark-0'
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </button> */}
-      </div>
+      </div> */}
     </div>
     </>
   )

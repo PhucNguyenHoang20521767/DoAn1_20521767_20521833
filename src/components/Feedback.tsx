@@ -9,6 +9,7 @@ import {
 } from '@/api/api_function'
 import { Rating } from '@mui/material'
 import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
+import FeedbackImage from './FeedbackImage';
 
 const Feedback = ({feedback}: any) => {
     const dispatch = useDispatch();
@@ -53,6 +54,17 @@ const Feedback = ({feedback}: any) => {
                 <div>
                     <div className='text-md text-gray-600'>{feedback.feedbackTitle}</div>
                     <div className='text-lg text-black font-bold'>{feedback.feedbackContent}</div>
+                    <div>
+                        {
+                            productImageUrl.map((image: any, index: number) => {
+                                return (
+                                    <div key={index} className='inline-block mr-2'>
+                                        <FeedbackImage image={productImageUrl} />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
                 <div className='mt-2'>
                     <div className='text-md text-gray-700'>{createdAtDateString}</div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import Cart from '@/components/Cart'
 import BreadcrumbsOrder from '@/components/BreadcrumbsOrder'
+import { useNavigate } from 'react-router-dom'
 import { RootState } from '@/redux/store/store'
 import { set } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -42,6 +43,7 @@ interface IAddress {
 }
 
 const Order = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cartItem.cartItems)
   const currentUser = useSelector((state: RootState) => state.auth.currentUser)
@@ -225,6 +227,7 @@ const Order = () => {
         })
       }
       handleReload()
+      navigate('/success')
     }
     else {
       alert("Giỏ hàng trống")

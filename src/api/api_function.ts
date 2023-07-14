@@ -61,6 +61,26 @@ export const getCustomerById = async (id: string, token: string) => {
         );
 }
 
+//update customer
+export const updateCustomer = async (id: string, token: string, customerFirstName: string,
+    customerLastName: string, customerBirthday: string, customerEmail: string, customerGender: string
+    ) => {
+    return await axios({
+        method: 'put',
+        url: `${baseURL}/customers/updateCustomer/${id.toString()}`,
+        data: {
+            "customerFirstName": customerFirstName,
+            "customerLastName": customerLastName,
+            "customerBirthday": customerBirthday,
+            "customerEmail": customerEmail,
+            "customerGender": customerGender
+        },
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    });
+}
+
 //get avatar url 
 export const getAvatar = async (token: string) => {
     return await mainApi.get(
