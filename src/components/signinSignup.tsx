@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import DateTimePick from "./Daypicker"
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-
-import { mainApi } from '@/api/main_api'
-import * as apiEndpoints from '@/api/api_endpoints';
-import { useDispatch } from 'react-redux'
-import { login } from '@/redux/reducers/auth_reducers';
-
 import CircularProgress from '@mui/material/CircularProgress';
+import DateTimePick from './Daypicker';
+import { useDispatch } from 'react-redux';
+import { login } from '@/redux/reducers/auth_reducers';
+import { mainApi } from '@/api/main_api';
+import * as apiEndpoints from '@/api/api_endpoints';
 
 enum GenderEnum {
     female = "female",
@@ -22,6 +20,7 @@ interface ISignUpInput {
     birthday: string; 
     email: string;
     gender: GenderEnum;
+    confirmpassword: string;
 }
 
 type Props = {
@@ -46,7 +45,7 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
     //Date time picker
     const [date, setDate] = useState(new Date());
 
-    const { register, formState: { errors }, handleSubmit } = useForm<ISignUpInput>();
+    const { register, handleSubmit, formState: { errors } } = useForm<ISignUpInput>();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -63,7 +62,7 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
         secondDivRef.current.style.width = firstDivRef.current.offsetWidth + 'px';
         }
     }, []);
-
+    
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (error) {
@@ -75,13 +74,15 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
       }, [error]);
     
     // const birthday = date.toISOString().split('T')[0];
-    const birthday = date.toLocaleDateString('vi-VN');
+    const birthday = date.toString();
     // console.log('birthday', birthday);
 
     const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
         if(loading) return;
-        // console.log('date', date)
-        // console.log('birthday', birthday);
+        if(data.password !== confirmPassword) {
+            setError('Mật khẩu không khớp');
+            return;
+        }
         try {
             setLoading(true);
             const result = await mainApi.post(
@@ -124,18 +125,24 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                 {/* Basic information */}
                 <div className='flex justify-center'>
                     <div className="mb-1 p-1 pr-2">
-                        <label htmlFor="text" className="font-semibold text-base text-dark-1">Họ:</label>
+                        <label className="font-semibold text-base text-dark-1">Họ:</label>
                         <input type="text" 
-                        {...register("lastname", { pattern: /^[A-Za-z]+$/i })}
-                        name="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                        {...register("lastname", { pattern: /^[A-Za-z]+$/i, required: true })}
+                        value={lastName} 
+                        onChange={(e) => setLastName(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
+                        { errors.lastname && <div className="text-red-700 text-md">Hãy nhập họ</div> }
                     </div>
                     <div className="mb-1 p-1 pl-2">
-                        <label htmlFor="text" className="font-semibold text-base text-dark-1">Tên:</label>
-                        <input type="text" 
+                        <label className="font-semibold text-base text-dark-1">Tên:</label>
+                        <input 
+                        type="text" 
                         {...register("firstname", { required: true, maxLength: 20 })}
-                        name="firstname" value={firstName} onChange={(e) => setFirstName(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                        name="firstname" 
+                        value={firstName} 
+                        onChange={(e) => setFirstName(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
+                        { errors.firstname && <div className="text-red-700 text-md">Hãy nhập tên</div> }
                     </div>
                 </div>
 
@@ -157,12 +164,13 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                     <div className="mb-1 min-[508px]:pr-[10.4rem]">
                         <label htmlFor="email" className="min-w-10 font-semibold text-base text-dark-1">Giới tính:</label>
                         <select 
-                        {...register("gender")}
+                        {...register("gender", { required: true })}
                         className="bg-white border border-secondary-1 text-gray-900 text-sm focus:ring-white focus:border-black focus:border-2 block w-full p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             {/* <option selected>Giới tính:</option> */}
                             <option value="Nam" >Nam</option>
                             <option value="Nữ">Nữ</option>
                         </select>
+                        { errors.gender && <div className="text-red-700 text-md">Hãy chọn giới tính</div> }
                     </div>
                 </div>
 
@@ -170,9 +178,10 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-dark-1">Email:</label>
                     <input type="email"
-                    {...register("email", { required: "Hãy nhập email!"})}
+                    {...register("email", { required: true})}
                     name="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
+                    { errors.email && <div className="text-red-700 text-md">Hãy nhập email hợp lệ</div> }
                 </div>
 
                 {/* Password */}
@@ -184,7 +193,7 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                         name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" 
                         autoComplete="current-password"
-                        required />
+                        />
                         <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
@@ -197,14 +206,21 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                         }
                         </button>
                     </div>
+                    { errors.password  && errors.password?.type !== "minLength" && <div className="text-red-700 text-md">Hãy nhập password</div> }
+                    { errors.password?.type === "minLength" && <div className="text-red-700 text-md">Password ít nhất 8 ký tự</div> }
                 </div>
 
                 {/* Confirm password */}
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="confirmPassword" className="font-semibold block text-dark-1">Xác nhận mật khẩu:</label>
                     <div className="flex items-center">
-                        <input type={showConfirmPassword ? "text" : "password"} id="password" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                        <input 
+                        type={showConfirmPassword ? "text" : "password"} 
+                        id="cpassword" 
+                        value={confirmPassword} 
+                        {...register("confirmpassword", { required: true, minLength: { value: 8, message: "Password ít nhất 8 kí tự"} })}
+                        onChange={(e) => setConfirmPassword(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
                         <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                         {showConfirmPassword ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
@@ -217,6 +233,7 @@ const Signup = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail}: Pr
                         }
                         </button>
                     </div>
+                    { errors.confirmpassword && <div className="text-red-700 text-md">Hãy nhập mật khẩu xác nhận</div> }
                 </div>
                 {
                     error && <p className='text-red-700'>{error}</p>

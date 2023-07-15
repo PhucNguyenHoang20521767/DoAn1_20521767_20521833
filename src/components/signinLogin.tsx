@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm, SubmitHandler, set } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom';
-
-import { mainApi } from '@/api/main_api'
-import * as apiEndpoints from '@/api/api_endpoints';
-import { login } from '@/redux/reducers/auth_reducers';
-import { useDispatch } from 'react-redux'
-
 import CircularProgress from '@mui/material/CircularProgress';
-
 import LoginGoogle from './loginGoogle';
+import { mainApi } from '@/api/main_api';
+import { login } from '@/redux/reducers/auth_reducers';
+import * as apiEndpoints from '@/api/api_endpoints';
 
 interface ILoginInput {
     email: string;
@@ -106,12 +103,11 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-gray-700">Email:</label>
                     <input type="email" 
-                    {...register("email", { required: "Email is required", maxLength: { value: 40, message: "Email chỉ có thể nhỏ hơn 40 kí tự" } })} 
+                    {...register("email", { required: true, maxLength: { value: 40, message: "Email chỉ có thể nhỏ hơn 40 kí tự" } })} 
                     name="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} 
-                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required />
+                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" />
                 </div>
-
-                {errors.email && <span><p className='text-red-800 pl-1'>{errors.email.message}</p></span>}
+                {errors.email && <span><p className='text-red-700 pl-1'>Hãy nhập email</p></span>}
 
                 <div className="mb-1 p-1 relative">
                     <label htmlFor="password" className="font-semibold block text-gray-700">Mật khẩu:</label>
@@ -121,7 +117,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                         name="password" value={password} onChange={(e) => setPassword(e.target.value)} 
                         className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
                         autoComplete="current-password"
-                        required />
+                        />
                         <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? (
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
@@ -135,8 +131,8 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                         </button>
                     </div>
                 </div>
-
-                {errors.password && <span> <p className='text-red-800 pl-1'>{errors.password.message}</p></span>}
+                {errors.password && errors.password?.type !== "minLength" && <span> <p className='text-red-700 pl-1'>Hãy nhập password</p></span>}
+                {errors.password?.type === "minLength" && <span> <p className='text-red-700 pl-1'>Password ít nhất 8 kí tự</p></span>}
                 <div className='mt-3 p-1'>
                     <button 
                     type="submit" 

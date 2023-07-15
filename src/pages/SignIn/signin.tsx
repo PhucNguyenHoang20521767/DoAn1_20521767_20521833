@@ -1,23 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import Login from '@/components/Login';
-import Signup from "@/components/Signup";
-import { useMediaQuery } from 'react-responsive';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from "@/redux/reducers/auth_reducers";
-
-import {Box, Button, Typography, Modal, LinearProgress} from '@mui/material';
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { Box, Button, LinearProgress, Modal, Typography } from '@mui/material';
 import { MuiOtpInput } from 'mui-one-time-password-input';
+import Input from '@/components/customs/nhTextField';
+import Login from '@/components/signinLogin';
+import Signup from "@/components/signinSignup";
+import { createCart, getCustomerCart } from '@/api/api_function';
+import { mainApi } from '@/api/main_api';
+import * as apiEndpoints from '@/api/api_endpoints';
+import { login } from "@/redux/reducers/auth_reducers";
+import { notify } from '@/redux/reducers/notify_reducers';
+import { RootState } from "@/redux/store/store";
 import { matchIsNumeric } from '@/utils/function';
 import { style, nhButton } from '@/utils/ui';
-import Input from '@/components/customs/nhTextField';
-
-import { mainApi } from '@/api/main_api'
-import * as apiEndpoints from '@/api/api_endpoints';
-import { set } from "react-hook-form";
-import { createCart, getCustomerCart } from '@/api/api_function'
-import { RootState } from "@/redux/store/store";
-import { notify } from '@/redux/reducers/notify_reducers';
+import { useMediaQuery } from 'react-responsive';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -89,7 +86,7 @@ const SignIn = () => {
             setOpen(false);
       }
 
-      const handleCompleteFP = async (finalValue: string) => {
+    const handleCompleteFP = async (finalValue: string) => {
         const theOtp = finalValue;
         try {
             console.log('fp1', idToken, theOtp, newPassword);
@@ -109,7 +106,7 @@ const SignIn = () => {
         }
         }
 
-        const handleDone = async (currentUser: string, id: string, customerIdToken: string) => {
+    const handleDone = async (currentUser: string, id: string, customerIdToken: string) => {
         try {
             const userLogin = {currentUser: currentUser, id: id, customerIdToken: customerIdToken, isLogin: true, loginType: "email", avatar: ""}
             dispatch(login(userLogin));
@@ -155,6 +152,7 @@ const SignIn = () => {
             setFpLoading(false);
         }
     }
+
     const handleOpen = () => { setOpen(true); };
     const handleClose = (event: React.SyntheticEvent | MouseEvent, reason?: string) => {
         if (reason && reason === "backdropClick") {
@@ -324,7 +322,7 @@ const SignIn = () => {
                                 name="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} 
                                 className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
                                 autoComplete="current-password"
-                                required />
+                                />
                                 <button type="button" className="absolute right-0 px-3 py-2 rounded-md focus:outline-none" onClick={() => setShowPassword(!showPassword)}>
                                 {showPassword ? (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-secondary-0">
