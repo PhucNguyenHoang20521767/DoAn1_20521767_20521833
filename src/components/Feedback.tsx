@@ -10,6 +10,7 @@ import {
 import { Rating } from '@mui/material'
 import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image-component';
 import FeedbackImage from './FeedbackImage';
+import { set } from 'react-hook-form'
 
 const Feedback = ({feedback}: any) => {
     const dispatch = useDispatch();
@@ -20,7 +21,6 @@ const Feedback = ({feedback}: any) => {
     const [color, setProductColor] = useState<any>(null);
     const [productImageUrl, setProductImageUrl] = useState<any[]>([]);
     const [open, setOpen] = useState<boolean>(false);
-    const [listImage, setListImage] = useState<any[]>([]);
 
     const createdAtDate = new Date(feedback.createdAt)
     const createdAtDateString = createdAtDate.toLocaleDateString('vi-VN', {
@@ -32,34 +32,30 @@ const Feedback = ({feedback}: any) => {
     useEffect(() => {
         getCustomerById(feedback.customerId, currentUser).then((res) => {
             setCustomer(res.data.data);
-            // console.log('customer', res.data.data);
-            // getAvatar(currentUser).then((res) => {
-            //     setAvatar(res.data.data);
-            //     console.log('avatar', res.data.data);
-            // });
             getAllFeedbackImages(feedback._id).then((res) => {
                 setProductImageUrl(res.data.data);
-                setListImage(res.data.data);
             });
         });
     }, [feedback]);
 
     return (
-        <div key={feedback._id} className='grid grid-cols-2 md:grid-cols-4 mb-4'>
+        <>
+        <hr />
+        <div key={feedback._id} className='grid grid-cols-2 md:grid-cols-4 mb-4 border-l border-r'>
             <div className='flex items-center space-x-2'>
                 <Rating name="read-only" precision={0.5} value={feedback.feedbackRating} readOnly />
                 <div className='text-sm font-medium'>{customer?.customerLastName + ' ' + customer?.customerFirstName}</div>
             </div>
-            <div  className='ml-2'>
+            <div className='ml-2 col-span-2 md:col-span-3'>
                 <div>
                     <div className='text-md text-gray-600'>{feedback.feedbackTitle}</div>
-                    <div className='text-lg text-black font-bold'>{feedback.feedbackContent}</div>
+                    <div className='text-lg text-black font-semibold'>{feedback.feedbackContent}</div>
                     <div>
                         {
                             productImageUrl.map((image: any, index: number) => {
                                 return (
                                     <div key={index} className='inline-block mr-2'>
-                                        <FeedbackImage image={productImageUrl} />
+                                        <FeedbackImage image={image} />
                                     </div>
                                 )
                             })
@@ -71,6 +67,8 @@ const Feedback = ({feedback}: any) => {
                 </div>
             </div>
         </div>
+        {/* <hr className='w-full'/> */}
+        </>
     )
 }
 

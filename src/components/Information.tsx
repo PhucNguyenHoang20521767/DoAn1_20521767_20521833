@@ -137,10 +137,10 @@ const Information = (props: Props) => {
                 setSelectedDate(date);
                 // if (res.customerGender === 'Nam') setGender('Nam');
                 // else setGender('Nữ');
-                setValue('email', res.customerEmail);
-                setValue('firstname', res.customerFirstName);
-                setValue('lastname', res.customerLastName);
-                setValue('gender', res.customerGender);
+                setValue('email', res.customerEmail, { shouldTouch: true });
+                setValue('firstname', res.customerFirstName, { shouldTouch: true });
+                setValue('lastname', res.customerLastName, { shouldTouch: true });
+                setValue('gender', res.customerGender, { shouldTouch: true });
             })
             if (loginType !== 'google') {
                 fetchAvatar();
