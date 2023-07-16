@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/redux/store/store';
 import { login, logout } from '@/redux/reducers/auth_reducers';
@@ -15,7 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import cat from '@/utils/image_link';
 import { current } from '@reduxjs/toolkit';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, selectClasses } from '@mui/material';
 import { notify } from '@/redux/reducers/notify_reducers';
 
 interface IInfoInput {
@@ -41,16 +41,16 @@ const Information = (props: Props) => {
     const loginType = useSelector((state: RootState) => state.auth.loginType);
     const googleAvatar = useSelector((state: RootState) => state.auth.avatar);
     const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [firstName, setFirstName] = useState('');
+    // const [lastName, setLastName] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [avatar, setAvatar] = useState(cat);
     const [avatarFile, setAvatarFile] = useState<File | null>(null);
     const [gender, setGender] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { register, formState: { errors }, setError, handleSubmit } = useForm<IInfoInput>();
+    const { register, formState: { errors }, setValue, handleSubmit } = useForm<IInfoInput>();
 
     const handleChange = (date: Date | null) => {
         if (date !== null) {
@@ -61,25 +61,13 @@ const Information = (props: Props) => {
     // const birthday = selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1) + '/' + selectedDate.getFullYear();
 
     const onSubmit: SubmitHandler<IInfoInput> = async (data) => {
-        const birthday = selectedDate.toLocaleDateString('vi-VN');
+        // const birthday = selectedDate.toLocaleDateString('vi-VN');
+        const birthday = selectedDate.toString();
         if(loading) return;
         try {
             setLoading(true);
-            
-            // const result = await mainApi.put(
-            //     apiEndpoints.UPDATE_CUSTOMER(_id),
-            //     apiEndpoints.getUpdateCustomerBody(data.firstname, lastName, 
-            //         birthday, data.email, data.gender),
-            //     apiEndpoints.getAccessToken(currentUser)
-            // ).then(async () => {
-            //     console.log('result', result);
-            // if (avatarFile !== null)
-            // {
-            //     await saveAvatar(currentUser, avatarFile);
-            // }
-            // })
 
-            const result = updateCustomer(_id, currentUser, data.firstname, lastName,
+            const result = updateCustomer(_id, currentUser, data.firstname, data.lastname,
                 birthday, data.email, data.gender).then(async () => {
                     console.log('result', result);
                     if (avatarFile !== null)
@@ -141,14 +129,18 @@ const Information = (props: Props) => {
     useEffect(() => {
         if(isLog) {
             fetchInfo().then((res) => {
-                setEmail(res.customerEmail);
-                setFirstName(res.customerFirstName);
-                setLastName(res.customerLastName);
+                // setEmail(res.customerEmail);
+                // setFirstName(res.customerFirstName);
+                // setLastName(res.customerLastName);
                 const date = new Date(res.customerBirthday);
                 handleChange(date);
                 setSelectedDate(date);
-                if (res.customerGender === 'Nam') setGender('Nam');
-                else setGender('Nữ');
+                // if (res.customerGender === 'Nam') setGender('Nam');
+                // else setGender('Nữ');
+                setValue('email', res.customerEmail, { shouldTouch: true });
+                setValue('firstname', res.customerFirstName, { shouldTouch: true });
+                setValue('lastname', res.customerLastName, { shouldTouch: true });
+                setValue('gender', res.customerGender, { shouldTouch: true });
             })
             if (loginType !== 'google') {
                 fetchAvatar();
@@ -175,26 +167,29 @@ const Information = (props: Props) => {
                     <div className="mb-1 p-1 pr-2 min-w-fit">
                         <label htmlFor="text" className="font-semibold text-base text-dark-1">Họ:</label>
                         <input 
-                        {...register("lastname", { pattern: /^[A-Za-z]+$/i })}
+                        {...register("lastname", { pattern: /^[A-Za-z]+$/i, required: true, maxLength: 20 })}
                         type="text" 
                         id="lastname" 
                         name="lastname" 
-                        value={lastName} 
-                        onChange={(e) => setLastName(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required 
+                        // value={lastName} 
+                        // onChange={(e) => setLastName(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" 
                         />
+                        {errors.lastname && <span className='text-red-700'>Hãy nhập họ</span>}
                     </div>
                     <div className="mb-1 p-1 pr-2">
-                        <label htmlFor="text" className="font-semibold text-base text-dark-1">Tên:</label>
+                        <label className="font-semibold text-base text-dark-1">Tên:</label>
                         <input 
-                        {...register("firstname", { required: true, maxLength: 20 })}
+                        {...register("firstname", {required: true, maxLength: 20 })}
                         type="text" 
                         id="firstname" 
                         name="firstname" 
-                        value={firstName} 
-                        onChange={(e) => setFirstName(e.target.value)} 
-                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required 
+                        // value={firstName} 
+                        // onChange={(e) => setFirstName(e.target.value)} 
+                        className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" 
                         />
+                        {errors.lastname && errors.lastname?.type !== "maxLength" && <span className='text-red-700'>Hãy nhập tên</span>}
+                        {errors.lastname?.type === "maxLength" && <span className='text-red-700'>Hãy nhập tên</span>}
                     </div>
                 </div>
 
@@ -223,7 +218,7 @@ const Information = (props: Props) => {
                         <div>
                             <label className="min-w-2 font-semibold text-base text-dark-1">Giới tính:</label>
                             <select 
-                            {...register("gender")}
+                            {...register("gender", {required: true})}
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
                             className="bg-white border border-secondary-1 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block p-1.5 dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -240,13 +235,13 @@ const Information = (props: Props) => {
                 <div className="mb-1 p-1">
                     <label htmlFor="email" className="font-semibold text-base text-dark-1">Email:</label>
                     <input 
-                    {...register("email", { required: "Hãy nhập email!"})}
+                    {...register("email", {required: true})}
                     type="email" 
                     id="email" 
                     name="email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black" required 
+                    // value={email} 
+                    // onChange={(e) => setEmail(e.target.value)} 
+                    className="w-full px-3 py-1 placeholder-gray-400 border border-secondary-1 rounded-sm shadow-sm appearance-none focus:outline-none focus:ring-1 focus:ring-black focus:border-black"  
                     />
                 </div>
 
@@ -255,7 +250,7 @@ const Information = (props: Props) => {
                         CẬP NHẬT
                     </button> */}
                     <button 
-                    type="submit" 
+                    type="submit"
                     className={`w-full px-3 py-1 text-white bg-primary-1 border rounded-sm border-secondary-1 
                     hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
                     ${loading ? 'cursor-not-allowed' : 'cursor-pointer'}

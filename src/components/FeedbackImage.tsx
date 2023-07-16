@@ -1,32 +1,30 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import {
-    previewAttachment
-} from '@/api/api_function'
+import React, { useState, useEffect } from 'react';
+import { previewAttachment } from '@/api/api_function';
 
-const FeedbackImage = ({image}: any) => {
-    const [imagePreview, setImagePreview] = useState<any>();
-    useEffect(() => {
-        console.log('image', image);
-        previewAttachment(image[0].feedbackImage).then((res) => {
-            setImagePreview(res.data.attachmentURL)
-            console.log('imagePreview', res.data);
-        });
-    }, [image]);
+type Props = {
+  image: any;
+};
+
+const FeedbackImage = ({ image }: Props) => {
+  const [imageShow, setImageShow] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (image) {
+      previewAttachment(image.feedbackImage).then((res) => {
+        setImageShow(res.data.attachmentURL);
+      });
+    }
+  }, [image]);
 
   return (
-<>
-    {
-        imagePreview ? (
-            <div className='w-full h-40'>
-                <img src={imagePreview} className='w-full h-full object-cover' />
-            </div>
-        ) : (
- <> </>
-        )
-    }
-</>
-  )
-}
+    <>
+      {imageShow && (
+        <div className='w-full h-40 flex justify-center'>
+          <img src={imageShow} className='w-full h-full object-cover' />
+        </div>
+      )}
+    </>
+  );
+};
 
-export default FeedbackImage
+export default FeedbackImage;
