@@ -57,6 +57,7 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                 handleLogin(result.data.token, result.data.data._id, result.data.customerIdToken)
                 
             } else {
+                handleOpen();
                 const resultOtp = await mainApi.post(
                     apiEndpoints.VERIFY_OTP,
                     apiEndpoints.sendOTPCustomer(loginEmail)
@@ -64,7 +65,6 @@ const Login = ({idToken, setIdToken, handleOpen, loginEmail, setLoginEmail, hand
                 console.log("resultOtp", resultOtp);
                 setIdToken(result.data.customerIdToken);
                 console.log(result.data.customerIdToken);
-                handleOpen();
             }
 
             //handleLogin(result.data.token);
