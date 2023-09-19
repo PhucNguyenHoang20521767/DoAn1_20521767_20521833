@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const fetchData = () => {
-  return (
-    <div>fetchData</div>
-  )
-}
+  return <div>fetchData</div>;
+};
 
-export default fetchData
+export default fetchData;

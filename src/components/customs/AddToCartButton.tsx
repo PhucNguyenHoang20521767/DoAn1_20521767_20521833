@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/store';
+import { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 // import { addToCart } from '@/redux/actions/cartActions';
 // import { cache } from '@/utils/cache';
 
@@ -15,18 +15,12 @@ const AddToCartButton: React.FC<Props> = ({ productId }) => {
 
   function handleClick() {
     if (user) {
-      
     } else {
-
     }
   }
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      onClick={handleClick}
-    >
+    <Button variant="contained" color="primary" onClick={handleClick}>
       Thêm vào giỏ
     </Button>
   );

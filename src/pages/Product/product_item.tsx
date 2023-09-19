@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const product_item = () => {
   return (
@@ -7,11 +7,11 @@ const product_item = () => {
       to alter in route. But because back-end just support load all product 
       so i think don't need load by  */}
     </div>
-  )
-}
+  );
+};
 
-export default product_item
+export default product_item;
 
 export const product_itemLoader = () => {
-    return import(/* webpackChunkName: "product_item" */ './product_item')
-}
+  return import(/* webpackChunkName: "product_item" */ "./product_item");
+};

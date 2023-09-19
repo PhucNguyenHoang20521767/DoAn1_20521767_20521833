@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { mainApi } from '@/api/main_api';
-import * as apiEndpoints from '@/api/api_endpoints';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { mainApi } from "@/api/main_api";
+import * as apiEndpoints from "@/api/api_endpoints";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { redirectSub } from "@/redux/reducers/subCategories";
-import { removeSearch } from '@/redux/reducers/search_reducers';
+import { removeSearch } from "@/redux/reducers/search_reducers";
 
 interface Category {
   id: string;
@@ -51,7 +51,7 @@ const CategoryList: React.FC = () => {
             <div key={category.id}>
               <Link
                 to={`/product/${category.slug}`}
-                className="block px-[10rem] md:px-10 py-2 font-semibold text-base text-black hover:bg-gray-200"
+                className="block px-[10rem] py-2 text-base font-semibold text-black hover:bg-gray-200 md:px-10"
                 onClick={() => handleCategory(category)}
               >
                 {category.name}

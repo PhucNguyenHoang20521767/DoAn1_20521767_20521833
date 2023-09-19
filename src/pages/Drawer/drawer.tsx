@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Box,
   Button,
@@ -9,34 +9,43 @@ import {
   ListItemIcon,
   ListItemText,
   SwipeableDrawer,
-} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { openCart, openFavourite, closeDrawer } from '@/redux/reducers/drawer_reducers';
-import { RootState } from '@/redux/store/store';
-import { Link } from 'react-router-dom';
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  openCart,
+  openFavourite,
+  closeDrawer,
+} from "@/redux/reducers/drawer_reducers";
+import { RootState } from "@/redux/store/store";
+import { Link } from "react-router-dom";
 
-import { Cart } from '@/components/Cart';
-import { Favourite } from '@/components/Favourite';
+import { Cart } from "@/components/Cart";
+import { Favourite } from "@/components/Favourite";
 
 const CustomDrawer = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
-  const isDrawerOpen = useSelector((state: RootState) => state.drawer.isDrawerOpen);
+  const isDrawerOpen = useSelector(
+    (state: RootState) => state.drawer.isDrawerOpen
+  );
   const pageDrawer = useSelector((state: RootState) => state.drawer.pageDrawer);
-  const widthDrawer = useSelector((state: RootState) => state.drawer.widthDrawer);
+  const widthDrawer = useSelector(
+    (state: RootState) => state.drawer.widthDrawer
+  );
   // const [isOpen, setIsOpen] = React.useState(false);
 
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-    // setIsOpen(open);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      // setIsOpen(open);
+    };
 
   const renderList = (items: string[]) => (
     <Box
@@ -45,7 +54,7 @@ const CustomDrawer = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {pageDrawer ? <Cart isCart={true}/> : <Favourite/>}
+      {pageDrawer ? <Cart isCart={true} /> : <Favourite />}
     </Box>
   );
 
@@ -58,19 +67,24 @@ const CustomDrawer = () => {
         onClose={() => dispatch(closeDrawer())}
         onOpen={toggleDrawer(true)}
       >
-        <div className='flex justify-center items-center'>
-          <h3 className='text-bold text-xl text-secondary-0 mt-3'>{pageDrawer ? "Giỏ hàng" : "Sản phẩm đã thích" }</h3>
+        <div className="flex items-center justify-center">
+          <h3 className="text-bold mt-3 text-xl text-secondary-0">
+            {pageDrawer ? "Giỏ hàng" : "Sản phẩm đã thích"}
+          </h3>
         </div>
-        <div className='mx-2 my-4 border-y-2 border-secondary-4'>
-          {renderList(['Inbox', 'Starred', 'Send email', 'Drafts'])}
+        <div className="mx-2 my-4 border-y-2 border-secondary-4">
+          {renderList(["Inbox", "Starred", "Send email", "Drafts"])}
         </div>
-        <div className='flex justify-center items-center'>   
-          <Link to={currentUser ? `product` : 'signin'}>
-            <button className={pageDrawer ? 
-            'uppercase rounded-sm bg-secondary-1 text-white p-2 px-16 hover:bg-black hover:shadow-lg'
-              : 'hidden'
-          }>
-                {currentUser? "Tiếp tục mua hàng" : "Đăng nhập"}
+        <div className="flex items-center justify-center">
+          <Link to={currentUser ? `product` : "signin"}>
+            <button
+              className={
+                pageDrawer
+                  ? "rounded-sm bg-secondary-1 p-2 px-16 uppercase text-white hover:bg-black hover:shadow-lg"
+                  : "hidden"
+              }
+            >
+              {currentUser ? "Tiếp tục mua hàng" : "Đăng nhập"}
             </button>
           </Link>
         </div>
@@ -81,7 +95,8 @@ const CustomDrawer = () => {
 
 export default CustomDrawer;
 
-{/* <List>
+{
+  /* <List>
 {items.map((text, index) => (
   <ListItem key={text} disablePadding>
     <ListItemButton>
@@ -122,4 +137,5 @@ export default CustomDrawer;
     </ListItemButton>
   </ListItem>
 ))}
-</List> */}
+</List> */
+}

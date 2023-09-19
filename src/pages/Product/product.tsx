@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import { useLoaderData, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { useLoaderData, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { Skeleton } from '@mui/material'
-import { getAllColors } from '@/api/api_function'
+import { Skeleton } from "@mui/material";
+import { getAllColors } from "@/api/api_function";
 
-import Breadcrumbs from '@/components/Breadcrumbs'
-import ImageSlider from '@/components/ImageSlider'
-import ProductList from '@/components/ProductList'
-import { set } from 'react-hook-form'
-import { get } from 'http';
+import Breadcrumbs from "@/components/Breadcrumbs";
+import ImageSlider from "@/components/ImageSlider";
+import ProductList from "@/components/ProductList";
+import { set } from "react-hook-form";
+import { get } from "http";
 
 interface Product {
   id: string;
@@ -42,13 +42,15 @@ interface SubCategory {
 const product = () => {
   const dispatch = useDispatch();
   const currentPage = useSelector((state: RootState) => state.sub.currentPage);
-  const currentProduct = useSelector((state: RootState) => state.product.currentProduct);
+  const currentProduct = useSelector(
+    (state: RootState) => state.product.currentProduct
+  );
   const currentSearch = useSelector((state: RootState) => state.search.value);
-  const [filter, setFilter] = useState('')
+  const [filter, setFilter] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedDimension, setSelectedDimension] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedDimension, setSelectedDimension] = useState("");
   const [colors, setColors] = useState<any[]>([]);
 
   useEffect(() => {
@@ -63,81 +65,89 @@ const product = () => {
   };
 
   function handleResetColor() {
-    setSelectedColor('');
+    setSelectedColor("");
   }
 
   return (
-    <div className='mx-10'>
+    <div className="mx-10">
       <div></div>
       <ImageSlider></ImageSlider>
-      <Breadcrumbs/>
-      {
-        currentPage ? 
-        <div className="py-7 flex justify-center text-xl text-black text-center">
+      <Breadcrumbs />
+      {currentPage ? (
+        <div className="flex justify-center py-7 text-center text-xl text-black">
           {currentPage?.name}
         </div>
-        :
-        <div className="py-7 flex justify-center text-xl text-black text-center">
+      ) : (
+        <div className="flex justify-center py-7 text-center text-xl text-black">
           {currentProduct ? currentProduct.slugCategorySlug : "Tất cả sản phẩm"}
         </div>
-      }
-        <div className='flex flex-wrap'>
-          {/* product list here */}
-          <div className='w-full lg:w-10/12'>
-            <div className="max-w-max bg-white border border-secondary-1 hover:border-2 text-gray-900 text-sm rounded-sm focus:ring-white focus:border-black focus:border-2 block w-full dark:bg-dark-1 dark:border-gray-600 dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <div className="mb-1 flex flex-column">
-                <div className='flex content-center'>
-                  <label htmlFor='filter-select' className="p-2 ml-2 text-lg text-dark-0 font-extrabold">Lọc theo:</label>
-                  <select 
-                    id='filter-select'
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="max-w-max bg-white text-md text-gray-900 block w-full border-none hover:border-none focus:outline-none focus:ring-0"
-                  >
-                    {/* <option selected>Giới tính:</option> */}
-                    <option value="New">Mới nhất</option>
-                    <option value="Sold">Bán chạy nhất</option>
-                    <option value="PriceLow">Giá: thấp - cao</option>
-                    <option value="PriceHigh">Giá: cao - thấp</option>
-                  </select>
-                </div>
+      )}
+      <div className="flex flex-wrap">
+        {/* product list here */}
+        <div className="w-full lg:w-10/12">
+          <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:border-gray-600 dark:bg-dark-1 dark:text-white dark:placeholder-white dark:focus:border-blue-500 dark:focus:ring-blue-500">
+            <div className="flex-column mb-1 flex">
+              <div className="flex content-center">
+                <label
+                  htmlFor="filter-select"
+                  className="ml-2 p-2 text-lg font-extrabold text-dark-0"
+                >
+                  Lọc theo:
+                </label>
+                <select
+                  id="filter-select"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="text-md block w-full max-w-max border-none bg-white text-gray-900 hover:border-none focus:outline-none focus:ring-0"
+                >
+                  {/* <option selected>Giới tính:</option> */}
+                  <option value="New">Mới nhất</option>
+                  <option value="Sold">Bán chạy nhất</option>
+                  <option value="PriceLow">Giá: thấp - cao</option>
+                  <option value="PriceHigh">Giá: cao - thấp</option>
+                </select>
               </div>
             </div>
-            <ProductList 
-            products={products} 
-            setProducts={setProducts} 
+          </div>
+          <ProductList
+            products={products}
+            setProducts={setProducts}
             filter={filter}
             setFilter={setFilter}
             selectedColor={selectedColor}
-            />
-          </div>
-          {/* Filter by color and dimension */}
-          <div className='w-full lg:w-2/12 max-md:border-t-2 md:border-l-2 mb-4'>
-            <div className='flex justify-center'>
-              <button 
+          />
+        </div>
+        {/* Filter by color and dimension */}
+        <div className="mb-4 w-full max-md:border-t-2 md:border-l-2 lg:w-2/12">
+          <div className="flex justify-center">
+            <button
               onClick={handleResetColor}
-              className='border text-lg p-2 m-1 bg-white text-md text-gray-900 hover:font-bold border-secondary-1 hover:border-2 focus:outline-none focus:ring-0'
-              >
-                Reset bộ lọc
-              </button>
-            </div>
-            <div className="flex justify-center text-xl fotn-bold text-black text-center">Màu</div>
-            {/* <div className="flex justify-center text-xl text-black text-center">Lọc theo kích thước</div> */}
-            <div className="grid grid-cols-3 gap-0">
+              className="text-md m-1 border border-secondary-1 bg-white p-2 text-lg text-gray-900 hover:border-2 hover:font-bold focus:outline-none focus:ring-0"
+            >
+              Reset bộ lọc
+            </button>
+          </div>
+          <div className="fotn-bold flex justify-center text-center text-xl text-black">
+            Màu
+          </div>
+          {/* <div className="flex justify-center text-xl text-black text-center">Lọc theo kích thước</div> */}
+          <div className="grid grid-cols-3 gap-0">
             {colors.map((color) => (
-              <div key={color._id} className='flex justify-center items-center'>
+              <div key={color._id} className="flex items-center justify-center">
                 <div
-                  className={`w-8 h-8 rounded-full m-1 cursor-pointer ${selectedColor === color._id ? 'border-2 border-black' : ''}`}
+                  className={`m-1 h-8 w-8 cursor-pointer rounded-full ${
+                    selectedColor === color._id ? "border-2 border-black" : ""
+                  }`}
                   style={{ backgroundColor: color.colorHex }}
                   onClick={() => handleColorClick(color)}
                 />
               </div>
             ))}
           </div>
-          </div>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default product
+export default product;
