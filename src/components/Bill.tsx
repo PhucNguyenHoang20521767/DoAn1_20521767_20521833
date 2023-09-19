@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux/store/store';
-import { useNavigate } from 'react-router-dom';
-import { getAllOrder, getOrderItemByOrder } from '@/api/api_function';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
+import { useNavigate } from "react-router-dom";
+import { getAllOrder, getOrderItemByOrder } from "@/api/api_function";
 
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import { updateOrder } from '@/redux/reducers/order_reducers';
-import BillComponent from './BillComponent';
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import { updateOrder } from "@/redux/reducers/order_reducers";
+import BillComponent from "./BillComponent";
 
 interface IOrderState {
   _id: string;
@@ -41,7 +41,7 @@ const Bill = () => {
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const [orders, setOrders] = useState<IOrderState[]>([]);
   const [loading, setLoading] = useState(false);
-  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
 
   useEffect(() => {
     if (currentUser) {
@@ -53,7 +53,7 @@ const Bill = () => {
         setLoading(false);
       });
     } else {
-      navigate('/signin');
+      navigate("/signin");
     }
   }, [currentUser, sortOrder]);
 
@@ -64,27 +64,43 @@ const Bill = () => {
     setLoading(true);
   };
 
-  const handleSortOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOrder(event.target.value as 'newest' | 'oldest');
+  const handleSortOrderChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSortOrder(event.target.value as "newest" | "oldest");
   };
 
-  const sortOrders = (orders: IOrderState[], order: 'newest' | 'oldest') => {
-    if (order === 'newest') {
-      return orders.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const sortOrders = (orders: IOrderState[], order: "newest" | "oldest") => {
+    if (order === "newest") {
+      return orders.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     } else {
-      return orders.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      return orders.sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
     }
   };
 
   return (
     <>
-      <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading} onClick={handleClose}>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+        onClick={handleClose}
+      >
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <div className="flex justify-end mb-5 mx-2">
+      <div className="mx-2 mb-5 flex justify-end">
         <div className="relative">
-          <select className="border border-gray-300 rounded-sm py-2 px-3 w-48 my-2" value={sortOrder} onChange={handleSortOrderChange}>
+          <select
+            className="my-2 w-48 rounded-sm border border-gray-300 px-3 py-2"
+            value={sortOrder}
+            onChange={handleSortOrderChange}
+          >
             <option value="newest">Mới nhất</option>
             <option value="oldest">Cũ nhất</option>
           </select>

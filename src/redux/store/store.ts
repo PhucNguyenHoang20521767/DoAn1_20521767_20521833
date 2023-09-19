@@ -1,17 +1,3 @@
-// import { configureStore } from '@reduxjs/toolkit'
-// import authReducer from '../reducers/auth_reducers';
-
-// export const store = configureStore({
-//     reducer: {
-//         auth: authReducer
-//     }
-// });
-
-// // Get RootState and AppDispatch from store
-// export type RootState = ReturnType<typeof store.getState>;
-
-// export type AppDispatch = typeof store.dispatch;
-
 import {
   persistStore,
   persistReducer,
@@ -21,23 +7,23 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import storageSession from 'redux-persist/lib/storage/session';
-import { PersistPartial } from 'redux-persist/es/persistReducer';
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import authReducer from '../reducers/auth_reducers';
-import drawerReducer from '../reducers/drawer_reducers';
-import productReducer from '../reducers/product_reducers';
-import allProductReducer from '../reducers/allProduct_reducers';
-import subCategoryReducer from '../reducers/subCategories';
-import googleReducer from '../reducers/google_reducer';
-import cartReducer from '../reducers/cart_reducers';
-import cartItemReducer from '../reducers/cartItem_reducers';
-import orderReducer from '../reducers/order_reducers';
-import notifyReducer from '../reducers/notify_reducers';
-import wishlistReducer from '../reducers/wishlist_reducers';
-import searchReducer from '../reducers/search_reducers';
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import storageSession from "redux-persist/lib/storage/session";
+import { PersistPartial } from "redux-persist/es/persistReducer";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import authReducer from "../reducers/auth_reducers";
+import drawerReducer from "../reducers/drawer_reducers";
+import productReducer from "../reducers/product_reducers";
+import allProductReducer from "../reducers/allProduct_reducers";
+import subCategoryReducer from "../reducers/subCategories";
+import googleReducer from "../reducers/google_reducer";
+import cartReducer from "../reducers/cart_reducers";
+import cartItemReducer from "../reducers/cartItem_reducers";
+import orderReducer from "../reducers/order_reducers";
+import notifyReducer from "../reducers/notify_reducers";
+import wishlistReducer from "../reducers/wishlist_reducers";
+import searchReducer from "../reducers/search_reducers";
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -55,7 +41,7 @@ const rootReducer = combineReducers({
 
 // Define your persist config
 const persistConfig = {
-  key: 'root',
+  key: "root",
   version: 1.1,
   storage: storageSession,
 };
@@ -67,12 +53,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActionPaths: ['payload.headers'],
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActionPaths: ["payload.headers"],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);
