@@ -13,7 +13,7 @@
 
 ### 3. Hướng dẫn sử dụng
 *Sử dụng link vercel hoặc tải code về:*   
-***Tài khoản mẫu cho user(FRONT_END): nguyenshome.vercel.app/***   
+***Tài khoản mẫu cho user(FRONT_END): https://nguyenshome.vercel.app/***   
 nguyenthanhsang22vn@gmail.com  
 12345678  
 ***Tài khoản mẫu cho admin(ADMIN): https://nguyenshomefurniture-admin.vercel.app/***   
@@ -38,7 +38,7 @@ Mật khẩu mặc định của staff sau khi admin tạo: 12345678
 - [Back-end](https://github.com/PhucNguyenHoang611/DoAn1_20521767_20521833_BE)
 
 ### 4. Deployment
-- [Front-end (Website for Customers)](nguyenshome.vercel.app/)  
+- [Front-end (Website for Customers)](https://nguyenshome.vercel.app/)  
 - [Front-end (Website for Admin & Staffs)](https://nguyenshomefurniture-admin.vercel.app)  
 - [Back-end](https://nguyenshomefurniture-be.onrender.com)
 
