@@ -7,7 +7,7 @@
 </ul>
 
 ### 2. Link Github
-[FRONT_END](https://github.com/sang1833/DoAn1_20521767_20521833)  
+[FRONT_END](https://github.com/sang1833/nguyenshome_20521767_20521833)  
 [ADMIN](https://github.com/PhucNguyenHoang20521767/DoAn1_20521767_20521833_ADMIN)  
 [BACK_END](https://github.com/PhucNguyenHoang20521767/DoAn1_20521767_20521833_BE)
 
@@ -33,12 +33,12 @@ Mật khẩu mặc định của staff sau khi admin tạo: 12345678
 - Nguyễn Thanh Sang - [Personal Github](https://github.com/sang1833)
 
 ### 3. Github
-- [Front-end (Website for Customers)](https://github.com/sang1833/DoAn1_20521767_20521833)  
+- [Front-end (Website for Customers)](https://github.com/sang1833/nguyenshome_20521767_20521833)  
 - [Front-end (Website for Admin & Staffs)](https://github.com/PhucNguyenHoang611/DoAn1_20521767_20521833_ADMIN)  
 - [Back-end](https://github.com/PhucNguyenHoang611/DoAn1_20521767_20521833_BE)
 
 ### 4. Deployment
-- [Front-end (Website for Customers)](https://do-an1-20521767-20521833.vercel.app)  
+- [Front-end (Website for Customers)](nguyenshome.vercel.app/)  
 - [Front-end (Website for Admin & Staffs)](https://nguyenshomefurniture-admin.vercel.app)  
 - [Back-end](https://nguyenshomefurniture-be.onrender.com)
 
