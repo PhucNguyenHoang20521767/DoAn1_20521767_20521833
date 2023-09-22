@@ -13,7 +13,7 @@
 
 ### 3. Hướng dẫn sử dụng
 *Sử dụng link vercel hoặc tải code về:*   
-***Tài khoản mẫu cho user(FRONT_END): https://do-an1-20521767-20521833.vercel.app/***   
+***Tài khoản mẫu cho user(FRONT_END): nguyenshome.vercel.app/***   
 nguyenthanhsang22vn@gmail.com  
 12345678  
 ***Tài khoản mẫu cho admin(ADMIN): https://nguyenshomefurniture-admin.vercel.app/***   
