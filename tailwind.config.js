@@ -3,15 +3,15 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
     "./node_modules/tailwind-datepicker-react/dist/**/*.js",
-    "./src/**/*.{js,jsx,ts,tsx}", "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
   ],
   theme: {
     extend: {
       transitionProperty: {
-        'width': 'width',
-        'height': 'height',
+        width: "width",
+        height: "height",
       },
       colors: {
         "primary-0": "#886059",
@@ -44,24 +44,21 @@ module.exports = {
         "cormorant-garamond": ["Cormorant Garamond", "serif"],
       },
       screens: {
-        'phone': '444px',
+        phone: "444px",
         // => @media (min-width: 640px) { ... }
 
-        'phone-1': '516px',
+        "phone-1": "516px",
         // => @media (min-width: 640px) { ... }
 
-        'tablet': '640px',
+        tablet: "640px",
         // => @media (min-width: 640px) { ... }
-  
-        'laptop': '1024px',
+
+        laptop: "1024px",
         // => @media (min-width: 1024px) { ... }
-  
-        'desktop': '1280px',
+
+        desktop: "1280px",
         // => @media (min-width: 1280px) { ... }
       },
     },
   },
-  plugins: [
-      require('flowbite/plugin')
-  ],
-}
+};
