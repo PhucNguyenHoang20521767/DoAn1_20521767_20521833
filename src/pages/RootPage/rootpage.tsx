@@ -49,14 +49,7 @@ const RootPage = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     setOpenSnack(true);
-  //   } else if (!currentUser) {
-  //     dispatch(logout());
-  //   }
-  // }, [currentUser]);
-
+  // Login
   useEffect(() => {
     if (!isLog && loginType === "google" && currentUser === "") {
       handleLoginWithGoogle();
@@ -133,6 +126,7 @@ const RootPage = () => {
     }
   }, [currentUser]);
 
+  // Scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
