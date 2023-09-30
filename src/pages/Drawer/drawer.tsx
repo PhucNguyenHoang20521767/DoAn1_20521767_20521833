@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 
 import { Cart } from "@/components/Cart";
 import { Favourite } from "@/components/Favourite";
+import zIndex from "@mui/material/styles/zIndex";
 
 const CustomDrawer = () => {
   const dispatch = useDispatch();
@@ -59,13 +60,14 @@ const CustomDrawer = () => {
   );
 
   return (
-    <div className="bg-light-5">
+    <div className=" bg-light-5">
       {/* <Button onClick={() => setIsOpen(true)}>Open Drawer</Button> */}
       <SwipeableDrawer
         anchor="right"
         open={isDrawerOpen}
         onClose={() => dispatch(closeDrawer())}
         onOpen={toggleDrawer(true)}
+        style={{ zIndex: 9000 }}
       >
         <div className="flex items-center justify-center">
           <h3 className="text-bold mt-3 text-xl text-secondary-0">

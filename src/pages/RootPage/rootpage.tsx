@@ -22,6 +22,7 @@ import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 import SuccessNotify from "@/components/customs/SuccessNotify";
 import InformationNotify from "@/components/customs/InformationNotify";
 import ErrorNotify from "@/components/customs/ErrorNotify";
+import Chatbot from "@/components/Chatbot";
 
 interface CartItem {
   _id: string;
@@ -165,6 +166,7 @@ const RootPage = () => {
         <ErrorNotify />
         {/* Load all product */}
         <LoadAllProduct />
+        <Chatbot></Chatbot>
       </main>
       <Footer />
       <CustomeDrawer />
