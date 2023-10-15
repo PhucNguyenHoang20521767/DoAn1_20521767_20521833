@@ -269,20 +269,20 @@ const Collection: React.FC = () => {
       <ScrollToTop />
       {/* product Currently unavailable */}
       {!product.productStatus && (
-        <div className="mt-2 flex justify-center p-2 text-xl font-bold text-red-700">
+        <section className="mt-2 flex justify-center p-2 text-xl font-bold text-red-700">
           Sản phẩm này hiện không có sẵn
-        </div>
+        </section>
       )}
       {/* top */}
-      <div className="flex justify-between">
+      <section className="flex justify-between">
         <Breadcrumbs />
         <div className="flex justify-center py-2">
           <p className="flex items-center text-lg text-black">Yêu thích</p>
           <IconFavourite productId={product._id} />
         </div>
-      </div>
+      </section>
 
-      <div className="md:flex md:flex-wrap">
+      <section className="md:flex md:flex-wrap">
         {/* mid left */}
         <div className="md:w-2/3">
           {chooseColor && (
@@ -454,21 +454,36 @@ const Collection: React.FC = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Look like */}
-      <div className="mt-4">
+      <section className="mt-4">
         <div className="flex justify-center py-7 text-center text-xl text-black">
           Sản phẩm tương tự
         </div>
         <ProductSlide product={product} />
-      </div>
+      </section>
       {/* Rating */}
-      <div className="mt-4">
+      <section className="mx-auto mt-2 max-w-screen-md shadow-xl">
         <div
           id="reviews"
           className="flex justify-center py-7 text-center text-xl text-black"
-        >{`Đánh giá (${productFeedback?.length}):`}</div>
+        >
+          {`Đánh giá (tổng ${productFeedback?.length} đánh giá):`}
+        </div>
+        <div className="mx-4 bg-primary-5 ">
+          <div className="h-max-content flex flex-col items-center justify-center space-y-1">
+            <div className=" text-2xl">{rating ? rating : "0"} trên 5</div>
+            <div>
+              <Rating
+                name="read-only"
+                precision={0.5}
+                value={rating ? rating : 0}
+                readOnly
+              />
+            </div>
+          </div>
+        </div>
         {productFeedback ? (
           productFeedback.map((feedback: any) => (
             <Feedback key={feedback._id} feedback={feedback} />
@@ -478,7 +493,7 @@ const Collection: React.FC = () => {
             <p>Chưa có đánh giá nào</p>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 };

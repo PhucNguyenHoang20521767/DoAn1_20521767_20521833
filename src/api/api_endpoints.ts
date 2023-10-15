@@ -126,6 +126,10 @@ export const getAccessToken = (token: string) => ({
 //Get avatar URL
 export const GET_AVATAR_URL = `/customers/getCustomerAvatarURL`;
 
+//Get customer avatar URL by id
+export const GET_AVATAR_URL_BY_ID = (id: string) =>
+  `/customers/getCustomerAvatarURLById/${id}`;
+
 //save avatar
 export const SAVE_AVATAR = `/customers/saveCustomerAvatar`;
 export const getSaveAvatarBody = (avatar: File) => ({

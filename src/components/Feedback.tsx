@@ -6,13 +6,15 @@ import {
   getAvatar,
   getAllFeedbackImages,
   previewAttachment,
+  getAvatarById,
 } from "@/api/api_function";
-import { Rating } from "@mui/material";
+import { Rating, Avatar, Stack } from "@mui/material";
 import {
   LazyLoadImage,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 import FeedbackImage from "./FeedbackImage";
+import FeedbackRespone from "./FeedbackRespone";
 import { set } from "react-hook-form";
 
 const Feedback = ({ feedback }: any) => {
@@ -23,6 +25,7 @@ const Feedback = ({ feedback }: any) => {
   const [product, setProduct] = useState<any>(null);
   const [color, setProductColor] = useState<any>(null);
   const [productImageUrl, setProductImageUrl] = useState<any[]>([]);
+  const [feedbackRespone, setFeedbackRespone] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false);
 
   const createdAtDate = new Date(feedback.createdAt);
@@ -33,8 +36,13 @@ const Feedback = ({ feedback }: any) => {
   });
 
   useEffect(() => {
+    setFeedbackRespone(feedback.feedbackResponse);
     getCustomerById(feedback.customerId, currentUser).then((res) => {
       setCustomer(res.data.data);
+      getAvatarById(res.data.data._id).then((res) => {
+        setAvatar(res.data.data);
+        console.log("ava", res.data.data);
+      });
       getAllFeedbackImages(feedback._id).then((res) => {
         setProductImageUrl(res.data.data);
       });
@@ -43,30 +51,36 @@ const Feedback = ({ feedback }: any) => {
 
   return (
     <>
-      <hr />
-      <div
-        key={feedback._id}
-        className="mb-4 grid grid-cols-2 border-l border-r md:grid-cols-4"
-      >
-        <div className="flex items-center space-x-2">
-          <Rating
-            name="read-only"
-            precision={0.5}
-            value={feedback.feedbackRating}
-            readOnly
-          />
-          <div className="text-sm font-medium">
-            {customer?.customerLastName + " " + customer?.customerFirstName}
-          </div>
-        </div>
-        <div className="col-span-2 ml-2 md:col-span-3">
-          <div>
+      <section key={feedback._id} className="mx-auto my-2 max-w-screen-md">
+        <div>
+          {/* Feedback */}
+          <section className="flex items-center">
+            <section className="ml-10">
+              <Avatar alt="User" src={avatar} />
+            </section>
+            <div className="ml-2">
+              <div className="text-md font-medium">
+                {customer?.customerLastName + " " + customer?.customerFirstName}
+              </div>
+              <div className="pt-2">
+                <Rating
+                  name="read-only"
+                  precision={0.5}
+                  value={feedback.feedbackRating}
+                  readOnly
+                />
+              </div>
+            </div>
+          </section>
+          <section className="ml-10">
             <div className="text-md text-gray-600">
-              {feedback.feedbackTitle}
+              {feedback.feedbackTitle} {"("}
+              {createdAtDateString.replace(/\//g, ".")}
+              {")"}
             </div>
-            <div className="text-lg font-semibold text-black">
-              {feedback.feedbackContent}
-            </div>
+
+            <div className="text-lg text-black">{feedback.feedbackContent}</div>
+
             <div>
               {productImageUrl.map((image: any, index: number) => {
                 return (
@@ -76,12 +90,11 @@ const Feedback = ({ feedback }: any) => {
                 );
               })}
             </div>
-          </div>
-          <div className="mt-2">
-            <div className="text-md text-gray-700">{createdAtDateString}</div>
-          </div>
+          </section>
         </div>
-      </div>
+        <FeedbackRespone feedbackRespone={feedbackRespone}></FeedbackRespone>
+        <hr className="mx-4" />
+      </section>
       {/* <hr className='w-full'/> */}
     </>
   );

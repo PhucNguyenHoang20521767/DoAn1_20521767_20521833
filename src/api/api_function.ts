@@ -102,6 +102,11 @@ export const getAvatar = async (token: string) => {
   );
 };
 
+//get avatar url by id
+export const getAvatarById = async (id: string) => {
+  return await mainApi.get(apiEndpoints.GET_AVATAR_URL_BY_ID(id));
+};
+
 //save avatar
 export const saveAvatar = async (token: string, avatar: File) => {
   const formData = new FormData();
