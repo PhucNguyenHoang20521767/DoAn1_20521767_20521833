@@ -6,7 +6,7 @@ const FeedbackRespone = ({ feedbackRespone }: any) => {
       {feedbackRespone && (
         <section className="my-2 ml-10 bg-secondary-5">
           <section className="ml-4">
-            <div className="text-lg font-medium">Phản hồi từ cửa hàng</div>
+            <div className="text-base font-medium">Phản hồi từ cửa hàng</div>
             <div className="text-lg text-black">{feedbackRespone}</div>
           </section>
         </section>
