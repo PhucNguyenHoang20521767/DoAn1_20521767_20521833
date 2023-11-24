@@ -24,10 +24,9 @@ import BillItem from "@/components/BillItem";
 import ResetPassword from "@/components/ResetPassword";
 import Order from "./pages/Order/order";
 import OrderSuccess from "./pages/Order/orderSuccess";
-import exp from "constants";
-
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./redux/store/store";
+import { Blog } from "./pages/Blog/Blog";
+import Title from "./pages/Blog/Component/Title/Title";
+import Content from "./pages/Blog/Component/Content/Content";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +40,10 @@ const router = createBrowserRouter(
         <Route path=":id" element={<Product_item />} />
       </Route>
       <Route path="collection/:id" element={<Collection />} />
+      <Route path="blog" element={<Blog />}>
+        <Route path="news" element={<Title />} />
+        <Route path="content/:id" element={<Content />} />
+      </Route>
       <Route path="aboutus" element={<Aboutus />} />
       <Route path="signin" element={<Signin />} />
       <Route path="account" element={<Account />}>

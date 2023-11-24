@@ -10,7 +10,6 @@ import ProductSlideLanding from "@/components/ProductSlideLanding";
 const Home = () => {
   return (
     <div>
-      <div></div>
       <Hero></Hero>
       <div className="flex justify-center py-7 text-center text-xl text-black">
         Trải nghiệm những thiết kế sang trọng, chất lượng cao dành cho ngôi nhà

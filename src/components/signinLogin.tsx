@@ -31,7 +31,6 @@ const Login = ({
   handleForgotPassword,
 }: Props) => {
   // const [email, setEmail] = useState('');
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   // const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,8 +56,8 @@ const Login = ({
 
   const onSubmit: SubmitHandler<ILoginInput> = async (data) => {
     if (loading) return;
+    setLoading(true);
     try {
-      setLoading(true);
       const result = await mainApi.post(
         apiEndpoints.LOGIN,
         apiEndpoints.getLoginBody(data.email, data.password)
@@ -96,7 +95,13 @@ const Login = ({
           type: "manual",
           message: "Mật khẩu không chính xác",
         });
+      } else if (errorMessage === "Bad credentials") {
+        setError("email", {
+          type: "manual",
+          message: "Người dùng không tồn tại",
+        });
       }
+
       setLoading(false);
     }
   };
@@ -172,15 +177,12 @@ const Login = ({
             <div className="flex items-center">
               <input
                 type={showPassword ? "text" : "password"}
+                className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                autoComplete="current-password"
                 {...register("password", {
                   required: true,
                   minLength: { value: 8, message: "Password ít nhất 8 kí tự" },
                 })}
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                autoComplete="current-password"
               />
               <button
                 type="button"
