@@ -363,3 +363,10 @@ export const DELETE_FEEDBACK_IMAGES = (id: string) =>
 //preview attachment
 export const PREVIEW_ATTACHMENT = (id: string) =>
   `/attachments/previewAttachment/${id}`;
+
+//get all blog posts
+export const GET_ALL_BLOG_POSTS = (
+  search: string,
+  page: number,
+  limit: number
+) => `/posts/getAllBlogPosts/${search}/${page}/${limit}`;

@@ -259,6 +259,7 @@ const SignIn = () => {
       return;
     }
     setIsChangePassword(false);
+    navigate("/");
   };
 
   return (

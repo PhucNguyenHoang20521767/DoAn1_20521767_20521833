@@ -597,3 +597,24 @@ export const googleLoginSuccess = async () => {
 export const googleLogout = () => {
   window.open(`${baseURL}/auth/google/logout`, "_self");
 };
+
+export const getAllBlogPosts = async (
+  search: string,
+  page: number,
+  limit: number
+) => {
+  // return await mainApi.get(
+  //   apiEndpoints.GET_ALL_BLOG_POSTS(search, page, limit)
+  // );
+  if (search == "") {
+    return await axios({
+      method: "get",
+      url: `${baseURL}/posts/getAllBlogPosts?page=${page}&limit=${limit}`,
+    });
+  } else {
+    return await axios({
+      method: "get",
+      url: `${baseURL}/posts/getAllBlogPosts?search=${search}&page=${page}&limit=${limit}`,
+    });
+  }
+};

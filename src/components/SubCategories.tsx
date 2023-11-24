@@ -55,7 +55,7 @@ const SubCategoryList = () => {
             to={`/product/${subCategory.slug}`}
             onClick={() => handleSubCategory(subCategory)}
           >
-            <p className="w-full py-2 text-lg font-semibold text-black hover:bg-gray-200">
+            <p className="w-full py-2 text-base font-semibold text-black hover:bg-gray-200">
               {subCategory.name}
             </p>
           </Link>
