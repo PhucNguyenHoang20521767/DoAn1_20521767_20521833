@@ -36,6 +36,7 @@
     "react-router": "6.4",
     "react-router-dom": "^6.11.0",
     "redux-persist": "^6.0.0",
+    "remark-gfm": "^4.0.0",
     "tailwind-datepicker-react": "^1.2.3"
   },
   "devDependencies": {

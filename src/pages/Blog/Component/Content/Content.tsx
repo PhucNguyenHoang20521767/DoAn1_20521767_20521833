@@ -10,6 +10,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import ReactMarkdown from "react-markdown";
 import { set } from "react-hook-form";
 import { convertTagToVietnamese } from "../Title/BlogList";
+import remarkGfm from "remark-gfm";
 
 const Content = () => {
   const { id } = useParams<{ id: string }>();
@@ -67,7 +68,9 @@ const Content = () => {
             <p className="prose lg:prose-xl">{blogPost?.blogPostDescription}</p>
           </div>
           <div className="markdown prose space-y-4 lg:prose-xl">
-            <ReactMarkdown>{blogPost?.blogPostContent || ""}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {blogPost?.blogPostContent || ""}
+            </ReactMarkdown>
           </div>
           <div>
             {/* author */}
