@@ -2,6 +2,7 @@ import { getLatestBlogPost } from "@/api/api_function";
 import React from "react";
 import { IBlogPost } from "./Title/BlogList";
 import NewestRow from "./NewestRow";
+import { convertTagToVietnamese } from "./Title/BlogList";
 
 const Newest = () => {
   const [blogPosts, setBlogPosts] = React.useState<IBlogPost[]>([]);
@@ -24,9 +25,11 @@ const Newest = () => {
         <h2 className="text-2xl">Bài viết mới nhất</h2>
         <hr className="border" />
         {blogPosts.map((blogPost) => {
+          const vietnameseTag = convertTagToVietnamese(blogPost.blogPostTag);
+          const updatedBlogPost = { ...blogPost, blogPostTag: vietnameseTag };
           return (
             <NewestRow
-              blogPost={blogPost}
+              blogPost={updatedBlogPost}
               height={12}
               width={20}
               key={blogPost._id}

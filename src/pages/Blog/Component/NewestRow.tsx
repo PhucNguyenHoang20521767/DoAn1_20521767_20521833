@@ -23,7 +23,7 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
     <article className="my-8">
       <div className="flex gap-4">
         <div
-          className="min-h-12 min-w-20 max-w-20 max-h-12 w-1/3 overflow-hidden"
+          className="min-h-12 min-w-20 max-w-20 max-h-12 w-1/3 cursor-pointer overflow-hidden"
           onClick={() => {
             navigate(`/blog/content/${blogPost._id}`);
           }}
@@ -50,7 +50,14 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
         </div>
 
         <div className="flex w-2/3 flex-col gap-2">
-          <h1 className="text-xl font-semibold">{blogPost.blogPostTitle}</h1>
+          <h1
+            className="cursor-pointer text-xl font-semibold"
+            onClick={() => {
+              navigate(`/blog/content/${blogPost._id}`);
+            }}
+          >
+            {blogPost.blogPostTitle}
+          </h1>
           <p className="text-md text-gray-500">{blogPost.blogPostTag}</p>
         </div>
       </div>
