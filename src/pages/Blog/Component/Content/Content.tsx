@@ -9,6 +9,7 @@ import {
 import "react-lazy-load-image-component/src/effects/blur.css";
 import ReactMarkdown from "react-markdown";
 import { set } from "react-hook-form";
+import { convertTagToVietnamese } from "../Title/BlogList";
 
 const Content = () => {
   const { id } = useParams<{ id: string }>();
@@ -58,7 +59,9 @@ const Content = () => {
           </div>
           <div className="my-8 space-y-4 md:min-w-[60rem]">
             <h1 className="text-4xl font-bold">{blogPost?.blogPostTitle}</h1>
-            <p className="text-2xl text-gray-500">{blogPost?.blogPostTag}</p>
+            <p className="text-2xl text-gray-500">
+              {blogPost && convertTagToVietnamese(blogPost.blogPostTag)}
+            </p>
             <p className="prose lg:prose-xl">{blogPost?.blogPostDescription}</p>
           </div>
           <div className="markdown prose space-y-4 lg:prose-xl">
@@ -66,9 +69,9 @@ const Content = () => {
           </div>
           <div>
             {/* author */}
-            <div className="my-8 flex items-center gap-4">
-              <div>
-                <h1 className="text-2xl font-bold">Tác giả</h1>
+            <div className="my-8 flex items-center justify-center gap-4">
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold">Tác giả:</h1>
                 <p className="text-xl text-gray-500">
                   {blogPost?.blogPostAuthor}
                 </p>
