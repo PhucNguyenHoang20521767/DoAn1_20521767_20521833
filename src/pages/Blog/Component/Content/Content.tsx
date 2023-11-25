@@ -58,7 +58,9 @@ const Content = () => {
             <p className="text-2xl text-gray-500">{date}</p>
           </div>
           <div className="my-8 space-y-4 md:min-w-[60rem]">
-            <h1 className="text-4xl font-bold">{blogPost?.blogPostTitle}</h1>
+            <h1 className="w-[624px] text-4xl font-bold">
+              {blogPost?.blogPostTitle}
+            </h1>
             <p className="text-2xl text-gray-500">
               {blogPost && convertTagToVietnamese(blogPost.blogPostTag)}
             </p>
