@@ -50,3 +50,7 @@ body,
   background-color: #716864;
   border-radius: 10px;
 }
+
+/* .markdown > * {
+  all: revert;
+} */

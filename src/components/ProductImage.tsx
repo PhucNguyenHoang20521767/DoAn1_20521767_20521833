@@ -100,6 +100,11 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
                 e.currentTarget.src =
                   "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
               }}
+              effect="blur"
+              wrapperProps={{
+                // If you need to, you can tweak the effect transition using the wrapper style.
+                style: { transitionDelay: "1s" },
+              }}
               style={{ transition: "transform 0.3s ease" }}
               onMouseEnter={(e: any) => {
                 e.currentTarget.style.transform = "scale(1.1)";

@@ -370,3 +370,10 @@ export const GET_ALL_BLOG_POSTS = (
   page: number,
   limit: number
 ) => `/posts/getAllBlogPosts/${search}/${page}/${limit}`;
+
+//get blog post by id
+export const GET_BLOG_POST_BY_ID = (id: string) =>
+  `/posts/getBlogPostById/${id}`;
+
+// get latest blog posts
+export const GET_LATEST_BLOG_POSTS = `/posts/getLatestBlogPosts`;

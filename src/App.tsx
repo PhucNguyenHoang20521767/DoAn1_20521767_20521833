@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, lazy } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -25,8 +25,18 @@ import ResetPassword from "@/components/ResetPassword";
 import Order from "./pages/Order/order";
 import OrderSuccess from "./pages/Order/orderSuccess";
 import { Blog } from "./pages/Blog/Blog";
-import Title from "./pages/Blog/Component/Title/Title";
-import Content from "./pages/Blog/Component/Content/Content";
+// import Title from "./pages/Blog/Component/Title/Title";
+// import Content from "./pages/Blog/Component/Content/Content";
+const Title = lazy(() => import("./pages/Blog/Component/Title/Title"));
+const Content = lazy(() =>
+  delayFunction(import("./pages/Blog/Component/Content/Content"))
+);
+
+function delayFunction(promise: any) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 100);
+  }).then(() => promise);
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(

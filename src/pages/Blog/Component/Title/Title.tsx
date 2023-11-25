@@ -5,8 +5,8 @@ import BlogList from "./BlogList";
 const Title = () => {
   const [search, setSearch] = React.useState("");
 
-  function onSearchChange(e: any) {
-    setSearch(e.target.value);
+  function onSearchChange(value: any) {
+    setSearch(value);
   }
 
   return (

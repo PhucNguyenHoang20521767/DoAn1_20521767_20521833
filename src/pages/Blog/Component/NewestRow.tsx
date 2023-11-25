@@ -1,5 +1,5 @@
 import React from "react";
-import { IBlogPost } from "./BlogList";
+import { IBlogPost } from "./Title/BlogList";
 import {
   LazyLoadImage,
   trackWindowScroll,
@@ -23,7 +23,7 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
     <article className="my-8">
       <div className="flex gap-4">
         <div
-          className="min-h-48 min-w-80 max-w-80 max-h-48 w-1/3 overflow-hidden"
+          className="min-h-12 min-w-20 max-w-20 max-h-12 w-1/3 overflow-hidden"
           onClick={() => {
             navigate(`/blog/content/${blogPost._id}`);
           }}
@@ -49,10 +49,9 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
           />
         </div>
 
-        <div className="flex w-2/3 flex-col gap-4">
-          <h1 className="text-xl font-bold">{blogPost.blogPostTitle}</h1>
-          <p className="text-xl text-gray-500">{blogPost.blogPostTag}</p>
-          <p>{blogPost.blogPostDescription}</p>
+        <div className="flex w-2/3 flex-col gap-2">
+          <h1 className="text-xl font-semibold">{blogPost.blogPostTitle}</h1>
+          <p className="text-md text-gray-500">{blogPost.blogPostTag}</p>
         </div>
       </div>
     </article>

@@ -618,3 +618,12 @@ export const getAllBlogPosts = async (
     });
   }
 };
+
+export const getBlogPostById = async (id: string) => {
+  return await mainApi.get(apiEndpoints.GET_BLOG_POST_BY_ID(id));
+};
+
+// get lastest blog post
+export const getLatestBlogPost = async () => {
+  return await mainApi.get(apiEndpoints.GET_LATEST_BLOG_POSTS);
+};

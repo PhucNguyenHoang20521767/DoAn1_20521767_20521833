@@ -24,19 +24,23 @@ const BlogList = ({ search }: Props) => {
 
   useEffect(() => {
     try {
-      getAllBlogPosts(search, 1, 10).then((res) => {
+      getAllBlogPosts(search, 1, 10).then(async (res) => {
         const blogPostsRes = res.data.data;
-        blogPostsRes.sort((a: any, b: any) => {
+        const Res2 = await blogPostsRes.sort((a: IBlogPost, b: IBlogPost) => {
           return (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
         });
-        setBlogPosts(blogPostsRes);
+        const Res3 = Res2.filter((blogPost: IBlogPost) => {
+          return !blogPost.isHidden;
+        });
+        console.log("rs2", Res2);
+        if (Res3) setBlogPosts(Res3);
       });
     } catch (error) {
       console.log(error);
     }
-  }, []);
+  }, [search]);
 
   return (
     <div>
