@@ -7,10 +7,11 @@ import {
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 import { set } from "react-hook-form";
 import { convertTagToVietnamese } from "../Title/BlogList";
-import remarkGfm from "remark-gfm";
+// import remarkGfm from "remark-gfm";
+import MarkdownComponent from "./MarkdownComponent";
 
 const Content = () => {
   const { id } = useParams<{ id: string }>();
@@ -68,9 +69,10 @@ const Content = () => {
             <p className="prose lg:prose-xl">{blogPost?.blogPostDescription}</p>
           </div>
           <div className="markdown prose space-y-4 lg:prose-xl">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {blogPost?.blogPostContent || ""}
-            </ReactMarkdown>
+            </ReactMarkdown> */}
+            <MarkdownComponent markdown={blogPost?.blogPostContent || ""} />
           </div>
           <div>
             {/* author */}
