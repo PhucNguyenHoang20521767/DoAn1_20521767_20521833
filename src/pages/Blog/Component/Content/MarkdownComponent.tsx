@@ -3,20 +3,24 @@ import ReactMarkdown from "react-markdown";
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx";
 import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
+import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
 import scss from "react-syntax-highlighter/dist/esm/languages/prism/scss";
 import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
 import markdown from "react-syntax-highlighter/dist/esm/languages/prism/markdown";
 import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
+import cshtml from "react-syntax-highlighter/dist/esm/languages/prism/markup";
 import rangeParser from "parse-numeric-range";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import remarkGfm from "remark-gfm";
 
 SyntaxHighlighter.registerLanguage("tsx", tsx);
 SyntaxHighlighter.registerLanguage("typescript", typescript);
+SyntaxHighlighter.registerLanguage("javascript", javascript);
 SyntaxHighlighter.registerLanguage("scss", scss);
 SyntaxHighlighter.registerLanguage("bash", bash);
 SyntaxHighlighter.registerLanguage("markdown", markdown);
 SyntaxHighlighter.registerLanguage("json", json);
+SyntaxHighlighter.registerLanguage("cshtml", cshtml);
 
 type MarkdownProps = {
   markdown: string;

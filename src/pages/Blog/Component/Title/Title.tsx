@@ -12,11 +12,13 @@ const Title = () => {
   return (
     <div className="ml-4 flex flex-col">
       <section>
-        <div className="flex items-center justify-between gap-4">
+        <div className="gap-4 md:flex md:items-center md:justify-between">
           <h1 className="text-center text-3xl font-semibold text-gray-700">
             Tin tức
           </h1>
-          <Search onSearchChange={onSearchChange}></Search>
+          <div className="block">
+            <Search onSearchChange={onSearchChange}></Search>
+          </div>
         </div>
       </section>
       <section>
