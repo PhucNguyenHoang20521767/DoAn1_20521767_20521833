@@ -41,8 +41,8 @@ const Content = () => {
   return (
     <>
       {!blogPost?.isHidden ? (
-        <div>
-          <div className="overflow-hidden max-md:h-[6rem] max-md:w-[10rem] md:max-h-[36rem] md:min-h-[36rem] md:min-w-[60rem] md:max-w-[60rem]">
+        <div className="mx-auto flex min-w-full flex-col">
+          <div className="min-h-[12rem] min-w-[20rem] overflow-hidden max-md:h-[6rem] max-md:w-[10rem] md:max-h-[36rem] md:max-w-[60rem]">
             <LazyLoadImage
               className="object-cover"
               height={576}
@@ -57,18 +57,18 @@ const Content = () => {
             />
           </div>
           <div>
-            <p className="text-2xl text-gray-500">{date}</p>
+            <p className="text-xl text-gray-500 lg:text-2xl">{date}</p>
           </div>
           <div className="my-8 space-y-4 md:min-w-[60rem]">
-            <h1 className="w-[624px] text-4xl font-bold">
+            <h1 className="text-3xl font-bold lg:w-[624px] lg:text-4xl">
               {blogPost?.blogPostTitle}
             </h1>
-            <p className="text-2xl text-gray-500">
+            <p className="text-xl text-gray-500 lg:text-2xl">
               {blogPost && convertTagToVietnamese(blogPost.blogPostTag)}
             </p>
             <p className="prose lg:prose-xl">{blogPost?.blogPostDescription}</p>
           </div>
-          <div className="markdown prose space-y-4 lg:prose-xl">
+          <div className="markdown prose space-y-4 lg:prose-xl ">
             {/* <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {blogPost?.blogPostContent || ""}
             </ReactMarkdown> */}

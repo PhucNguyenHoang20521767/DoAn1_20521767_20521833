@@ -8,6 +8,7 @@ import { RootState } from "@/redux/store/store";
 const ProductSlide = () => {
   const slides = useSelector((state: RootState) => state.all.allProduct);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [productsPerPage, setProductsPerPage] = useState(5);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -25,7 +26,25 @@ const ProductSlide = () => {
     setCurrentIndex(slideIndex);
   };
 
-  const productsPerPage = 5;
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth < 768) {
+        setProductsPerPage(2);
+      } else if (windowWidth < 1024) {
+        setProductsPerPage(3);
+      } else {
+        setProductsPerPage(5);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // const productsPerPage = 5;
   const startIndex = currentIndex * productsPerPage;
   const endIndex = startIndex + productsPerPage;
   //   const currentProducts = slides.sort((a: any, b: any) => a.price - b.price);
@@ -41,7 +60,7 @@ const ProductSlide = () => {
 
   return (
     <div className="group relative m-auto h-[600px] w-full max-w-[1400] px-4 pb-8">
-      <div className="grid grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
         {currentProducts.map((product: any) => (
           <ProductCard key={product._id} product={product} />
         ))}

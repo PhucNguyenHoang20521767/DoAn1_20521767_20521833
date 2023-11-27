@@ -20,10 +20,10 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
   }
   const navigate = useNavigate();
   return (
-    <article className="my-8">
-      <div className="flex gap-4">
+    <article className="my-4">
+      <div className="gap-4 md:flex">
         <div
-          className="min-h-48 min-w-80 max-w-80 max-h-48 w-1/3 cursor-pointer overflow-hidden"
+          className="min-h-48 min-w-80 max-w-80 max-h-48 cursor-pointer overflow-hidden md:w-1/3"
           onClick={() => {
             navigate(`/blog/content/${blogPost._id}`);
           }}
@@ -49,7 +49,7 @@ const BlogListRow = ({ blogPost, height, width }: Props) => {
           />
         </div>
 
-        <div className="flex w-2/3 flex-col gap-4">
+        <div className="flex flex-col gap-4 md:w-2/3">
           <h1
             className="cursor-pointer text-xl font-bold"
             onClick={() => {

@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const notfound = () => {
   return (
-    <>
+    <section className="my-8 pt-8">
       <div className="flex justify-center">
         <div className="grid-flow-col text-center">
           <img className="pl-2" src="/sorry.jpg" alt="sorry" />
@@ -22,7 +22,7 @@ const notfound = () => {
           </p>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

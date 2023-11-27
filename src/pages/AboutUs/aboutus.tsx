@@ -27,7 +27,7 @@ const AboutUs = () => {
         </p>
       </div>
       <h2 className="my-1 text-3xl font-bold">Địa chỉ</h2>
-      <div className="flex max-w-4xl justify-center">
+      <div className="flex w-full max-w-4xl justify-center">
         <SimpleMap />
       </div>
       <div className="max-w-4xl space-y-8">

@@ -95,7 +95,7 @@ const Footer = (props: Props) => {
                   <li>
                     <Link
                       className="block pb-2 text-white hover:text-primary-1"
-                      to={"/inspiration"}
+                      to={"/blog/news"}
                     >
                       Góc cảm hứng
                     </Link>

@@ -11,11 +11,11 @@ export const Blog = () => {
     <div>
       <ScrollToTop />
       <Breadcrumbs></Breadcrumbs>
-      <div className="mx-[6rem] flex justify-center gap-4">
+      <div className="flex justify-center gap-4 md:mx-[6rem]">
         <div className="max-sm:hidden md:w-3/12">
           <Newest></Newest>
         </div>
-        <div className="md:w-9/12">
+        <div className="w-full md:w-9/12">
           <Suspense fallback={<LoadingPage />}>
             <Outlet />
           </Suspense>

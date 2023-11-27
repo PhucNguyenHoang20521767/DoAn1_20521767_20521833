@@ -53,7 +53,6 @@ const BlogList = ({ search }: Props) => {
         const Res3 = Res2.filter((blogPost: IBlogPost) => {
           return !blogPost.isHidden;
         });
-        console.log("rs2", Res2);
         if (Res3) setBlogPosts(Res3);
         if (Res3.length === 0) {
           setPage(1);
@@ -65,7 +64,7 @@ const BlogList = ({ search }: Props) => {
   }, [search, page]);
 
   return (
-    <div>
+    <div className="grid grid-cols-1">
       {blogPosts.map((blogPost) => {
         const vietnameseTag = convertTagToVietnamese(blogPost.blogPostTag);
         const updatedBlogPost = { ...blogPost, blogPostTag: vietnameseTag };

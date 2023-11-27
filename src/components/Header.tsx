@@ -100,10 +100,10 @@ const Header = (props: Props) => {
       {/* Logo + information */}
       <div className="">
         <section className="relative mx-auto">
-          <div className="flex w-full bg-white text-white">
-            <div className="mx-auto flex w-full max-w-[95%] items-center justify-between px-5 py-4 xl:px-8">
+          <div className="w-full bg-white text-white md:flex">
+            <div className="mx-auto w-full px-5 py-4 md:flex md:max-w-[95%] md:items-center md:justify-between xl:px-8">
               {/* Logo */}
-              <div className="flex min-w-max flex-row">
+              <div className="flex flex-row">
                 <NavLink to="/" className="hidden phone:flex">
                   <img src="/logo-nobg.webp" alt="logo" className="w-15 h-20" />
                 </NavLink>
@@ -251,57 +251,59 @@ const Header = (props: Props) => {
                 </span>
               </span>
             </a> */}
-            <button
-              className="relative flex items-center p-3 hover:text-gray-200 xl:hidden"
-              onClick={() => dispatch(openCart())}
-            >
-              {/* <FiShoppingCart className='h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7' /> */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#32435F"
+            <section className="flex items-center">
+              <button
+                className="relative flex items-center p-3 hover:text-gray-200 xl:hidden"
+                onClick={() => dispatch(openCart())}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                />
-              </svg>
-              {cartCountState > 0 && (
-                // <span className='animate-ping absolute -top-0.5 -right-0.5 bg-red-500 text-white rounded-full px-1 text-xs'>
-                //   {cartCountState}
-                // </span>
-                <span className="absolute -mt-5 ml-4 flex">
-                  <span className="absolute inline-flex h-5 w-5 animate-ping rounded-full bg-red-300 opacity-75"></span>
-                  <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
-                    <div className="text-white ">{cartCountState}</div>
+                {/* <FiShoppingCart className='h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7' /> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#32435F"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                {cartCountState > 0 && (
+                  // <span className='animate-ping absolute -top-0.5 -right-0.5 bg-red-500 text-white rounded-full px-1 text-xs'>
+                  //   {cartCountState}
+                  // </span>
+                  <span className="absolute -mt-5 ml-4 flex">
+                    <span className="absolute inline-flex h-5 w-5 animate-ping rounded-full bg-red-300 opacity-75"></span>
+                    <span className="relative flex h-5 w-5 items-center justify-center rounded-full bg-red-500">
+                      <div className="text-white ">{cartCountState}</div>
+                    </span>
                   </span>
-                </span>
-              )}
-            </button>
-            {/* Expand in responsive */}
-            <a
-              className="navbar-burger mr-12 self-center xl:hidden"
-              onClick={handleNav}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 hover:text-gray-200"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="#32435F"
+                )}
+              </button>
+              {/* Expand in responsive */}
+              <a
+                className="navbar-burger mr-12 self-center xl:hidden"
+                onClick={handleNav}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </a>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 hover:text-gray-200"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#32435F"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </a>
+            </section>
           </div>
         </section>
       </div>
@@ -370,7 +372,9 @@ const Header = (props: Props) => {
                 </div> */}
               </div>
               <div className="group/product-nav-item header-nav-item header-nav-item-underline header-nav-item-underline-color mt-4 block px-12 py-3 text-center lg:mt-0 lg:inline-block">
-                <button className="text-primary-0">DỊCH VỤ</button>
+                <Link to={"service"}>
+                  <button className="text-primary-0">DỊCH VỤ</button>
+                </Link>
                 {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
                   <div className="flex flex-row">
                     <a href="#">

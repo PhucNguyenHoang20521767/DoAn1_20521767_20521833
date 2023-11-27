@@ -23,7 +23,7 @@ export default function Breadcrumbs() {
           Trang chủ
         </Link>
         <span className="mx-2 text-gray-500">/</span>
-        <Link to="/blog" className="text-gray-500 hover:text-gray-700">
+        <Link to="/blog/news" className="text-gray-500 hover:text-gray-700">
           Góc cảm hứng
         </Link>
       </div>
