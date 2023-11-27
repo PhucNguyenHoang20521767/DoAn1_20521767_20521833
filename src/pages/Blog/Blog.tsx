@@ -11,8 +11,8 @@ export const Blog = () => {
     <div>
       <ScrollToTop />
       <Breadcrumbs></Breadcrumbs>
-      <div className="flex justify-center gap-4 md:mx-[6rem]">
-        <div className="max-sm:hidden md:w-3/12">
+      <div className="flex justify-center gap-4 max-md:flex-col-reverse md:mx-[6rem]">
+        <div className="md:w-3/12">
           <Newest></Newest>
         </div>
         <div className="w-full md:w-9/12">
