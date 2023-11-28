@@ -373,7 +373,7 @@ const Header = (props: Props) => {
           }
         >
           <div className="lg:flex lg:w-auto">
-            <div className=" bg-white py-4 transition">
+            <div className="block bg-white py-4 transition md:hidden">
               <div className="mx-2">
                 <HeaderSearch />
               </div>
