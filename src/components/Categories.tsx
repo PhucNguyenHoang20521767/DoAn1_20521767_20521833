@@ -45,16 +45,16 @@ const CategoryList: React.FC = () => {
 
   return (
     <div className="flex flex-row">
-      <div className="">
+      <div className="w-full">
         {categories.map((category, index) => {
           return (
             <div key={category.id}>
               <Link
                 to={`/product/${category.slug}`}
-                className="block px-[10rem] py-2 text-base font-semibold text-black hover:bg-gray-200 md:px-10"
+                className="block w-full px-[10rem] py-2 text-base font-semibold text-black hover:bg-gray-200 md:px-10"
                 onClick={() => handleCategory(category)}
               >
-                {category.name}
+                <p>{category.name}</p>
               </Link>
             </div>
           );

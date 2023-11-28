@@ -21,6 +21,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { removeSub } from "@/redux/reducers/subCategories";
 import { notProduct } from "@/redux/reducers/slug_reducers";
 import HeaderSearch from "./HeaderSearch";
+import Search from "antd/es/input/Search";
 
 type Props = {};
 
@@ -104,7 +105,7 @@ const Header = (props: Props) => {
             <div className="mx-auto w-full px-5 py-4 md:flex md:max-w-[95%] md:items-center md:justify-between xl:px-8">
               {/* Logo */}
               <div className="flex flex-row">
-                <NavLink to="/" className="hidden phone:flex">
+                <NavLink to="/" className="flex">
                   <img src="/logo-nobg.webp" alt="logo" className="w-15 h-20" />
                 </NavLink>
                 <NavLink
@@ -123,9 +124,11 @@ const Header = (props: Props) => {
               </div>
 
               {/* Icon */}
-              <div className="hidden items-center space-x-8 xl:flex">
+              <div className="hidden space-x-4 md:flex md:items-center">
                 {/* Search */}
-                <HeaderSearch />
+                <div>
+                  <HeaderSearch />
+                </div>
 
                 {/* Favourite */}
                 <button
@@ -148,19 +151,6 @@ const Header = (props: Props) => {
                   </svg>
                 </button>
 
-                {/* Cart */}
-                {/* <button className="flex items-center hover:text-gray-200 p-3"
-                onClick={() => dispatch(openCart())}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7" fill="none" viewBox="0 0 24 24" stroke="#32435F">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                  <span className="flex absolute -mt-5 ml-4">
-                    <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-primary-1 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-1">
-                      </span>
-                    </span>
-                </button> */}
                 <button
                   className="relative flex items-center p-3 hover:text-gray-200"
                   onClick={() => dispatch(openCart())}
@@ -193,8 +183,8 @@ const Header = (props: Props) => {
                   )}
                 </button>
 
-                <div className="group relative inline-block text-left">
-                  <a className="btn btn-ghost rounded-btn flex items-center p-3 hover:text-gray-200">
+                <div className="group relative inline-block p-3 text-left ">
+                  <a className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
@@ -251,9 +241,30 @@ const Header = (props: Props) => {
                 </span>
               </span>
             </a> */}
-            <section className="flex items-center">
+            <section className="mx-4 flex items-center md:hidden">
+              {/* Favourite */}
               <button
-                className="relative flex items-center p-3 hover:text-gray-200 xl:hidden"
+                className="flex items-center p-3 hover:text-gray-200"
+                onClick={() => dispatch(openFavourite())}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="#32435F"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              </button>
+
+              <button
+                className="relative flex items-center p-3 hover:text-gray-200"
                 onClick={() => dispatch(openCart())}
               >
                 {/* <FiShoppingCart className='h-6 w-6 hover:text-secondary-1 hover:h-7 hover:w-7' /> */}
@@ -283,9 +294,53 @@ const Header = (props: Props) => {
                   </span>
                 )}
               </button>
-              {/* Expand in responsive */}
+
+              <div className="group relative inline-block p-3 text-left ">
+                <a className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="#32435F"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </a>
+                {isLogin ? (
+                  <div className="absolute right-0 z-40 hidden w-32 bg-white p-2 shadow-md group-hover:block group-focus:block">
+                    <NavLink
+                      to="account"
+                      className="block px-4 py-2 text-center text-black hover:bg-gray-200"
+                    >
+                      Tài khoản
+                    </NavLink>
+                    {/* <NavLink to="account" className="lg:hidden block px-4 py-2 hover:bg-gray-200 text-black">Giỏ hàng</NavLink> */}
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 font-bold text-primary-1 hover:bg-primary-1 hover:text-white"
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+                ) : (
+                  <div className="absolute right-0 z-40 hidden w-32 bg-white p-2 shadow-md group-hover:block group-focus:block">
+                    <NavLink
+                      to="signin"
+                      className="block px-4 py-2 text-black hover:bg-gray-200"
+                    >
+                      Đăng nhập
+                    </NavLink>
+                  </div>
+                )}
+              </div>
               <a
-                className="navbar-burger mr-12 self-center xl:hidden"
+                className="navbar-burger mr-12 self-center px-2 xl:hidden"
                 onClick={handleNav}
               >
                 <svg
@@ -318,6 +373,11 @@ const Header = (props: Props) => {
           }
         >
           <div className="lg:flex lg:w-auto">
+            <div className=" bg-white py-4 transition">
+              <div className="mx-2">
+                <HeaderSearch />
+              </div>
+            </div>
             <div className="text-base md:shrink-0">
               <div className="group/product-nav-item header-nav-item header-nav-item-underline header-nav-item-underline-color block px-12 py-3 text-center lg:inline-block">
                 <Link
@@ -328,26 +388,17 @@ const Header = (props: Props) => {
                   SẢN PHẨM
                 </Link>
                 <div className="invisible absolute left-0 z-10 mt-3 h-0 w-0 bg-white p-2 shadow-md transition-height duration-700 group-hover/product-nav-item:visible group-hover/product-nav-item:h-max group-hover/product-nav-item:w-full">
-                  <div className="flex justify-center">
-                    <CategoryList />
+                  <div className="flex flex-col">
                     <Link
                       to={"product"}
                       onClick={handleRemoveSub}
-                      className="hidden md:block md:p-1"
+                      className="block"
                     >
-                      <div className="pl-5">
-                        <img
-                          src="https://media.designcafe.com/wp-content/uploads/2021/12/27144355/design-cafe-modular-furniture-benefits.jpg"
-                          alt="All product"
-                          className="h-[100px] w-[400px] object-cover shadow-lg"
-                        />
-                        <p>
-                          <span className="text-md pt-2 font-bold">
-                            Tất cả sản phẩm
-                          </span>
-                        </p>
-                      </div>
+                      <p className="block w-full px-[10rem] py-2 text-base font-semibold text-black hover:bg-gray-200 md:px-10">
+                        Tất cả sản phẩm
+                      </p>
                     </Link>
+                    <CategoryList />
                   </div>
                 </div>
               </div>
