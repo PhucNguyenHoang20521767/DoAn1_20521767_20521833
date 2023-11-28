@@ -5,9 +5,16 @@ import Room from "@/components/Room";
 import Guarantee from "@/components/Guarantee";
 import Inspiration from "@/components/Inspiration";
 import ImageSlider from "@/components/ImageSlider";
-import ProductSlideLanding from "@/components/ProductSlideLanding";
+// import ProductSlideLanding from "@/components/ProductSlideLanding";
+import ProductCarousel from "@/components/ProductCarousel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 const Home = () => {
+  const slides = useSelector((state: RootState) => state.all.allProduct);
+  const sortedProducts = [...slides].sort(
+    (a: any, b: any) => a.price - b.price
+  );
   return (
     <div>
       <Hero></Hero>
@@ -20,7 +27,7 @@ const Home = () => {
       <div className="flex justify-center py-7 text-center text-xl text-black">
         Sản phẩm giá tốt
       </div>
-      <ProductSlideLanding></ProductSlideLanding>
+      <ProductCarousel products={sortedProducts}></ProductCarousel>
       <div className="flex justify-center py-7 text-center text-xl text-black">
         Luôn thấu hiểu khách hàng, cẩn thận và chuyên nghiệp là châm ngôn của
         chúng tôi

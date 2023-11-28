@@ -36,9 +36,11 @@
     "react-responsive": "^9.0.2",
     "react-router": "6.4",
     "react-router-dom": "^6.11.0",
+    "react-slick": "^0.29.0",
     "react-syntax-highlighter": "^15.5.0",
     "redux-persist": "^6.0.0",
     "remark-gfm": "^4.0.0",
+    "slick-carousel": "^1.8.1",
     "tailwind-datepicker-react": "^1.2.3"
   },
   "devDependencies": {
@@ -50,6 +52,7 @@
     "@types/react-datepicker": "^4.10.0",
     "@types/react-dom": "^18.0.10",
     "@types/react-lazy-load-image-component": "^1.5.3",
+    "@types/react-slick": "^0.23.12",
     "@types/react-syntax-highlighter": "^15.5.10",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.14",

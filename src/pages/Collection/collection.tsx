@@ -33,6 +33,7 @@ import { set } from "react-hook-form";
 import ProductSlide from "@/components/ProductSlide";
 import { notify } from "@/redux/reducers/notify_reducers";
 import Feedback from "@/components/Feedback";
+import ProductCarousel from "@/components/ProductCarousel";
 
 interface productInfor {
   product: any;
@@ -66,6 +67,7 @@ const Collection: React.FC = () => {
   const [priceLoading, setPriceLoading] = useState<boolean>(false);
   const [canCheckOut, setCanCheckOut] = useState<boolean>(false);
   const [productFeedback, setProductFeedback] = useState<any[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
 
   const discountFailed = () => {
     setDiscountNotExpired(false);
@@ -85,6 +87,13 @@ const Collection: React.FC = () => {
         setProduct(product);
         setPrice(product.productPrice);
         setPriceLoading(true);
+
+        const res = allProduct.filter(
+          (slide: any) =>
+            slide.category_id === product.productCategoryId &&
+            slide._id !== product._id
+        );
+        setRelatedProducts(() => [...res]);
 
         const productColorRes = await getProductColor(id);
         const productColor = productColorRes.data.data;
@@ -461,7 +470,7 @@ const Collection: React.FC = () => {
         <div className="flex justify-center py-7 text-center text-xl text-black">
           Sản phẩm tương tự
         </div>
-        <ProductSlide product={product} />
+        <ProductCarousel products={relatedProducts} />
       </section>
       {/* Rating */}
       <section className="mx-auto mt-2 max-w-screen-md shadow-xl">
