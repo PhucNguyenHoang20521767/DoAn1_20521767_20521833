@@ -85,7 +85,7 @@ const product = () => {
       <div className="flex flex-wrap">
         {/* product list here */}
         <div className="w-full lg:w-10/12">
-          <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:border-gray-600 dark:bg-dark-1 dark:text-white dark:placeholder-white dark:focus:border-blue-500 dark:focus:ring-blue-500">
+          <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:text-white dark:placeholder-white ">
             <div className="flex-column mb-1 flex">
               <div className="flex content-center">
                 <label
