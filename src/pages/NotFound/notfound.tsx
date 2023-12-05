@@ -5,8 +5,8 @@ const notfound = () => {
     <section className="my-8 pt-8">
       <div className="flex justify-center">
         <div className="grid-flow-col text-center">
-          <img className="pl-2" src="/sorry.jpg" alt="sorry" />
-          <h1 className="my-4 text-4xl font-bold text-dark-0">404</h1>
+          {/* <img className="pl-2" src="/sorry.jpg" alt="sorry" /> */}
+          <h1 className="my-4 pb-4 text-6xl font-bold text-dark-0">404</h1>
           <h2>Không tìm thấy trang!</h2>
           <p>Xin lỗi vì sự bất tiện này</p>
 

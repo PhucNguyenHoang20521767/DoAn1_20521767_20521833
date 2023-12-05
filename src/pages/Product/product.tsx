@@ -11,7 +11,7 @@ import ProductList from "@/components/ProductList";
 import { set } from "react-hook-form";
 import { get } from "http";
 
-interface Product {
+export interface Product {
   id: string;
   discount_id: string;
   category_id: string;
@@ -86,11 +86,11 @@ const product = () => {
         {/* product list here */}
         <div className="w-full lg:w-10/12">
           <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:text-white dark:placeholder-white ">
-            <div className="flex-column mb-1 flex">
+            <div className="flex-column mx-2 flex">
               <div className="flex content-center">
                 <label
                   htmlFor="filter-select"
-                  className="ml-2 p-2 text-lg font-extrabold text-dark-0"
+                  className="p-2 text-lg font-extrabold text-dark-0"
                 >
                   Lọc theo:
                 </label>

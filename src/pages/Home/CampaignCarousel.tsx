@@ -2,7 +2,7 @@ import ImageSlider from "@/components/ImageSlider";
 
 const slides = [
   {
-    url: "/tree_banner.webp",
+    url: "/hero.webp",
     title: "Save30",
     id: "1",
   },

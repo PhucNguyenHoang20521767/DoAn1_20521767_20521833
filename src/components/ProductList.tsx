@@ -16,6 +16,7 @@ import ManySkeleton from "./loaders/manySkeleton";
 import ProductCard from "./ProductItem";
 import { RootState } from "@/redux/store/store";
 import LoadAllProduct from "./LoadAllProduct";
+import { Product } from "@/pages/Product/product";
 
 interface Crumb {
   en: string;
@@ -38,22 +39,22 @@ interface Props {
   // setSelectedDimension: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface Product {
-  id: string;
-  discount_id: string;
-  category_id: string;
-  category_slug: string;
-  sub_category_id: string;
-  sub_category_slug: string;
-  name: string;
-  description: string;
-  price: number;
-  images: string[];
-  create_at: string | number | Date;
-  update_at: string | number | Date;
-  sold: number;
-  color: string[];
-}
+// interface Product {
+//   id: string;
+//   discount_id: string;
+//   category_id: string;
+//   category_slug: string;
+//   sub_category_id: string;
+//   sub_category_slug: string;
+//   name: string;
+//   description: string;
+//   price: number;
+//   images: string[];
+//   create_at: string | number | Date;
+//   update_at: string | number | Date;
+//   sold: number;
+//   color: string[];
+// }
 
 const ProductList: React.FC<Props> = ({
   products,
