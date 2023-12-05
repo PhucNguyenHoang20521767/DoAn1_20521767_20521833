@@ -25,6 +25,7 @@ import ResetPassword from "@/components/ResetPassword";
 import Order from "./pages/Order/order";
 import OrderSuccess from "./pages/Order/orderSuccess";
 import { Blog } from "./pages/Blog/Blog";
+import ServicePage from "./pages/Service/Service";
 // import Title from "./pages/Blog/Component/Title/Title";
 // import Content from "./pages/Blog/Component/Content/Content";
 const Title = lazy(() => import("./pages/Blog/Component/Title/Title"));
@@ -54,6 +55,7 @@ const router = createBrowserRouter(
         <Route path="news" element={<Title />} />
         <Route path="content/:id" element={<Content />} />
       </Route>
+      <Route path="service" element={<ServicePage />} />
       <Route path="aboutus" element={<Aboutus />} />
       <Route path="signin" element={<Signin />} />
       <Route path="account" element={<Account />}>
