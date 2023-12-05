@@ -2,26 +2,36 @@ import React, { useState, useEffect } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
-const ImageSlider = () => {
-  const slides = [
-    {
-      url: "/tree_banner.webp",
-      title: "Save30",
-    },
-    {
-      url: "/save_40.webp",
-      title: "Save40",
-    },
-    {
-      url: "/video.gif",
-      title: "Tree",
-    },
-    {
-      url: "https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      title: "Phucdeptrai",
-    },
-  ];
+const slidesArray = [
+  {
+    url: "/tree_banner.webp",
+    title: "Save30",
+  },
+  {
+    url: "/save_40.webp",
+    title: "Save40",
+  },
+  {
+    url: "/video.gif",
+    title: "Tree",
+  },
+  {
+    url: "https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    title: "Phucdeptrai",
+  },
+];
 
+interface Slide {
+  url: string;
+  title: string;
+  id: string;
+}
+
+interface ImageSliderProps {
+  slides: Slide[];
+}
+
+const ImageSlider = ({ slides }: ImageSliderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -43,7 +53,7 @@ const ImageSlider = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 6000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [currentIndex]);
 

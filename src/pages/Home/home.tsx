@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import Hero from "@/components/Hero";
+// import Hero from "@/components/Hero";
 import Room from "@/components/Room";
 import Guarantee from "@/components/Guarantee";
 import Inspiration from "@/components/Inspiration";
-import ImageSlider from "@/components/ImageSlider";
 // import ProductSlideLanding from "@/components/ProductSlideLanding";
+import CampaignCarousel from "./CampaignCarousel";
 import ProductCarousel from "@/components/ProductCarousel";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
@@ -17,7 +17,8 @@ const Home = () => {
   );
   return (
     <div>
-      <Hero></Hero>
+      {/* <Hero></Hero> */}
+      <CampaignCarousel></CampaignCarousel>
       <div className="flex justify-center py-7 text-center text-xl text-black">
         Trải nghiệm những thiết kế sang trọng, chất lượng cao dành cho ngôi nhà
         hiện đại

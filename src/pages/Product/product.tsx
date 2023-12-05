@@ -6,7 +6,7 @@ import { Skeleton } from "@mui/material";
 import { getAllColors } from "@/api/api_function";
 
 import Breadcrumbs from "@/components/Breadcrumbs";
-import ImageSlider from "@/components/ImageSlider";
+import CampaignCarousel from "../Home/CampaignCarousel";
 import ProductList from "@/components/ProductList";
 import { set } from "react-hook-form";
 import { get } from "http";
@@ -71,7 +71,7 @@ const product = () => {
   return (
     <div className="mx-10">
       <div></div>
-      <ImageSlider></ImageSlider>
+      <CampaignCarousel></CampaignCarousel>
       <Breadcrumbs />
       {currentPage ? (
         <div className="flex justify-center py-7 text-center text-xl text-black">
