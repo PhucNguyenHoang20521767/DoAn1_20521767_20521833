@@ -11,10 +11,6 @@ interface Crumb {
   vi: string;
 }
 
-// interface Props {
-//   onCurrentPageChange: (currentPage: Crumb) => void;
-// }
-
 export default function Breadcrumbs() {
   return (
     <section className="mx-8 py-4">
