@@ -50,7 +50,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   const [changeFavorite, setChangeFavorite] = useState(false);
   const navigate = useNavigate();
   const [discountPrice, setDiscountPrice] = useState<number>(product.price);
-  const [isDiscount, setIsDiscount] = useState<boolean>(true);
+  const [isDiscount, setIsDiscount] = useState<boolean>(false);
 
   const handleOnClickView = () => {
     dispatch(moveToProduct({ currentProduct: product.id }));
@@ -58,29 +58,38 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   };
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchDiscountData() {
+      if (!product.discount_id) return;
       try {
         const res = await getDiscountById(product.discount_id);
         if (res.data.data) {
           const discount = res.data.data;
-          // console.log(discount);
-          const newPrice =
-            product.price - (product.price * discount.discountPercent) / 100;
-          setDiscountPrice(newPrice);
-          if (
-            product.discount_id &&
-            new Date(discount.discountEndDate) > new Date()
-          )
-            setIsDiscount(true);
+          const result = res.data;
+          console.log("result", result);
+          if (!result.success) {
+            setIsDiscount(false);
+            return;
+          } else {
+            const newPrice =
+              product.price - (product.price * discount.discountPercent) / 100;
+            setDiscountPrice(newPrice);
+            if (
+              product.discount_id &&
+              new Date(discount.discountEndDate) > new Date()
+            )
+              setIsDiscount(true);
+          }
         }
       } catch (error) {
         console.error(error);
+        setIsDiscount(false);
+        return;
       }
     }
 
     // console.log("pd", product);
-    if (product.discount_id) fetchData();
-  }, [product]);
+    if (product?.discount_id) fetchDiscountData();
+  }, [product, dispatch]);
 
   async function handelAddToCart() {
     if (!user) {
@@ -167,14 +176,14 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         </CardContent>
       </CardActionArea>
       <CardContent>
-        <div className={product.discount_id ? "flex justify-between" : ""}>
+        <div className={isDiscount ? "flex justify-between" : ""}>
           <Typography
             variant="body2"
             color="text.secondary"
             style={{ fontFamily: "EB Garamond" }}
           >
             {/* <div> */}
-            {product.discount_id
+            {isDiscount
               ? discountPrice.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
@@ -183,7 +192,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             {/* </div> */}
           </Typography>
           <Typography
-            className={product.discount_id ? `line-through` : ""}
+            className={isDiscount ? `line-through` : ""}
             variant="body2"
             color="text.secondary"
             style={{ fontFamily: "EB Garamond" }}

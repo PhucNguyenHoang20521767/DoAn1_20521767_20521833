@@ -9,11 +9,9 @@ import { store } from "./redux/store/store";
 import "@/index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    {/* <GoogleOAuthProvider clientId="984597708696-an7j2dtntchg83f342rk2hg4so4j7vtj.apps.googleusercontent.com"> */}
-    <Provider store={store}>
-      <App />
-    </Provider>
-    {/* </GoogleOAuthProvider> */}
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
+  // </React.StrictMode>
 );
