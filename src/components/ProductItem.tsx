@@ -75,7 +75,8 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             setDiscountPrice(newPrice);
             if (
               product.discount_id &&
-              new Date(discount.discountEndDate) > new Date()
+              new Date(discount.discountEndDate) > new Date() &&
+              new Date(discount.discountStartDate) < new Date()
             )
               setIsDiscount(true);
           }

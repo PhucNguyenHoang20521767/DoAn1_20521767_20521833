@@ -107,11 +107,12 @@ const Collection: React.FC = () => {
         // setRating(productRating.averageRating);
 
         if (product?.productDiscountId) {
+          setPriceLoading(true);
           const productDiscountRes = await getDiscountById(
             product.productDiscountId
           );
           const productDiscount = productDiscountRes.data.data;
-          if (productDiscount.success) {
+          if (!productDiscount?.success) {
             discountSuccess();
           } else {
             discountFailed();
@@ -122,7 +123,8 @@ const Collection: React.FC = () => {
           // console.log('productDiscount', productDiscount)
           if (
             productDiscount &&
-            new Date(productDiscount.discountEndDate) > new Date()
+            new Date(productDiscount.discountEndDate) > new Date() &&
+            new Date(productDiscount.discountStartDate) < new Date()
           ) {
             setDiscount(productDiscount.discountPercent);
             setDiscountNotExpired(true);
