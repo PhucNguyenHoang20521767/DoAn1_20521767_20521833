@@ -41,7 +41,7 @@ const Feedback = ({ feedback }: any) => {
       setCustomer(res.data.data);
       getAvatarById(res.data.data._id).then((res) => {
         setAvatar(res.data.data);
-        console.log("ava", res.data.data);
+        // console.log("ava", res.data.data);
       });
       getAllFeedbackImages(feedback._id).then((res) => {
         setProductImageUrl(res.data.data);

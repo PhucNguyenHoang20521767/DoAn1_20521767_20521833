@@ -83,7 +83,7 @@ const Information = (props: Props) => {
         data.email,
         data.gender
       ).then(async () => {
-        console.log("result", result);
+        // console.log("result", result);
         if (avatarFile !== null) {
           await saveAvatar(currentUser, avatarFile);
         }
@@ -119,7 +119,7 @@ const Information = (props: Props) => {
       // return { ...infor};
       return infor;
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   };
@@ -132,7 +132,7 @@ const Information = (props: Props) => {
         setAvatar(img.data.data);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       throw err;
     }
   };

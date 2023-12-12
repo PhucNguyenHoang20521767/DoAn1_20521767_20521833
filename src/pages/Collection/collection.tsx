@@ -75,45 +75,48 @@ const Collection: React.FC = () => {
     setPriceLoading(false);
   };
 
+  const discountSuccess = () => {
+    setDiscountNotExpired(true);
+    setPriceLoading(false);
+  };
+
   useEffect(() => {
     async function fetchData() {
       if (id === undefined) {
         return <div className="p-5 text-xl">Không tìm thấy sản phẩm!</div>;
       }
       try {
+        //product
         const productRes = await getProductById(id);
         const product = productRes.data.data;
         console.log("product", product);
         setProduct(product);
         setPrice(product.productPrice);
-        setPriceLoading(true);
+        // Color
+        // const productColorRes = await getProductColor(id);
+        // const productColor = productColorRes.data.data;
 
-        const res = allProduct.filter(
-          (slide: any) =>
-            slide.category_id === product.productCategoryId &&
-            slide._id !== product._id
-        );
-        setRelatedProducts(() => [...res]);
+        // Dimension
+        // const productDimensionRes = await getProductDimensionById(id);
+        // const productDimension = productDimensionRes.data.data;
+        // setDimension(productDimension);
 
-        const productColorRes = await getProductColor(id);
-        const productColor = productColorRes.data.data;
-        // console.log('productColor', productColor)
+        // Rating
+        // const productRatingRes = await getProductRating(id);
+        // const productRating = productRatingRes.data;
+        // setRating(productRating.averageRating);
 
-        const productDimensionRes = await getProductDimensionById(id);
-        const productDimension = productDimensionRes.data.data;
-        // console.log('productDimension', productDimension)
-        setDimension(productDimension);
-
-        const productRatingRes = await getProductRating(id);
-        const productRating = productRatingRes.data;
-        setRating(productRating.averageRating);
-        // console.log('productRating', rating)
-
-        if (product.productDiscountId) {
+        if (product?.productDiscountId) {
           const productDiscountRes = await getDiscountById(
             product.productDiscountId
           );
           const productDiscount = productDiscountRes.data.data;
+          if (productDiscount.success) {
+            discountSuccess();
+          } else {
+            discountFailed();
+            return;
+          }
           const error = productDiscountRes.data.error;
           console.log("error", error);
           // console.log('productDiscount', productDiscount)
@@ -130,33 +133,35 @@ const Collection: React.FC = () => {
 
           if (error) {
             discountFailed();
+            console.log("errorDiscount1", error);
           }
         } else {
           discountFailed();
+          console.log("errorDiscount2");
         }
 
-        const listColor = await Promise.all(
-          productColor.map(async (color: any) => {
-            const listColorRes = await getProductColorById(color._id);
-            const listColor = listColorRes.data.color;
-            // console.log('listColor1', listColor)
-            return { ...color, ...listColor, colorId: color._id };
-          })
-        );
-        // console.log('listColor2', listColor)
-        if (listColor.length > 0) {
-          setListColor(listColor);
-          setChooseColor(listColor[0]);
-        }
+        // const listColor = await Promise.all(
+        //   productColor.map(async (color: any) => {
+        //     const listColorRes = await getProductColorById(color._id);
+        //     const listColor = listColorRes.data.color;
+        //     // console.log('listColor1', listColor)
+        //     return { ...color, ...listColor, colorId: color._id };
+        //   })
+        // );
+        // if (listColor.length > 0) {
+        //   setListColor(listColor);
+        //   setChooseColor(listColor[0]);
+        // }
       } catch (error) {
         console.error(error);
+        discountFailed();
       }
 
       return price;
     }
 
     fetchData();
-  }, [id]);
+  }, [id, allProduct, currentUser]);
 
   const handlePrice = async (tempPrice: number) => {
     if (discountNotExpired && product && product.productPrice) {
@@ -166,12 +171,69 @@ const Collection: React.FC = () => {
     }
   };
 
+  const handleRelatedProducts = async () => {
+    if (product) {
+      const res = allProduct.filter(
+        (slide: any) =>
+          slide.category_id === product.productCategoryId &&
+          slide._id !== product._id
+      );
+      setRelatedProducts(() => [...res]);
+    }
+  };
+
   useEffect(() => {
     if (discount) {
       handlePrice(product.productPrice);
     }
     setPriceLoading(false);
   }, [discount]);
+
+  useEffect(() => {
+    handleRelatedProducts();
+  }, [allProduct]);
+
+  useEffect(() => {
+    const getColor = async () => {
+      if (!id) return;
+      const productColorRes = await getProductColor(id);
+      const productColor = productColorRes.data.data;
+      const listColor = await Promise.all(
+        productColor.map(async (color: any) => {
+          const listColorRes = await getProductColorById(color._id);
+          const listColor = listColorRes.data.color;
+          // console.log('listColor1', listColor)
+          return { ...color, ...listColor, colorId: color._id };
+        })
+      );
+      // console.log('listColor2', listColor)
+      if (listColor.length > 0) {
+        setListColor(listColor);
+        setChooseColor(listColor[0]);
+      }
+    };
+    getColor();
+  }, [id]);
+
+  useEffect(() => {
+    const getDimension = async () => {
+      if (!id) return;
+      const productDimensionRes = await getProductDimensionById(id);
+      const productDimension = productDimensionRes.data.data;
+      setDimension(productDimension);
+    };
+    getDimension();
+  }, [id]);
+
+  useEffect(() => {
+    const getRating = async () => {
+      if (!id) return;
+      const productRatingRes = await getProductRating(id);
+      const productRating = productRatingRes.data;
+      setRating(productRating.averageRating);
+    };
+    getRating();
+  }, [id]);
 
   const handleColorClick = (color: Color) => {
     setChooseColor(color);
@@ -187,7 +249,7 @@ const Collection: React.FC = () => {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.log("err", err);
     }
   }, [id]);
 

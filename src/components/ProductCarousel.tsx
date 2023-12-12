@@ -10,7 +10,6 @@ import {
 import ProductCard from "./ProductItem";
 
 function NextArrow(props: any) {
-  console.log(props);
   const { className, style, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
@@ -51,7 +50,6 @@ function PrevArrow(props: any) {
 }
 
 export function ProductCarousel({ products }: { products: any }) {
-  console.log("products", products);
   var settings = {
     dots: true,
     infinite: products.length > 5 ? true : false,
@@ -102,8 +100,8 @@ export function ProductCarousel({ products }: { products: any }) {
   return (
     <section className="relative mx-2 md:mx-8">
       <Slider {...settings}>
-        {products.map((product: any) => (
-          <ProductCard key={product._id} product={product} />
+        {products.map((product: any, index: any) => (
+          <ProductCard key={index} product={product} />
         ))}
       </Slider>
     </section>
