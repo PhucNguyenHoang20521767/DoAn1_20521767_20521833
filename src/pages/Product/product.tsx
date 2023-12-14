@@ -47,6 +47,7 @@ const product = () => {
   );
   const currentSearch = useSelector((state: RootState) => state.search.value);
   const [filter, setFilter] = useState("");
+  const [room, setRoom] = useState("");
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -68,6 +69,14 @@ const product = () => {
     setSelectedColor("");
   }
 
+  function handleRoomChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const selectedRoom = event.target.value;
+    setRoom((prev) => {
+      prev = selectedRoom;
+      return prev;
+    });
+  }
+
   return (
     <div className="mx-10">
       <div></div>
@@ -85,30 +94,48 @@ const product = () => {
       <div className="flex flex-wrap">
         {/* product list here */}
         <div className="w-full lg:w-10/12">
-          <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:text-white dark:placeholder-white ">
-            <div className="flex-column mx-2 flex">
-              <div className="flex content-center">
-                <label
-                  htmlFor="filter-select"
-                  className="p-2 text-lg font-extrabold text-dark-0"
-                >
-                  Lọc theo:
-                </label>
-                <select
-                  id="filter-select"
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="text-md block w-full max-w-max border-none bg-white text-gray-900 hover:border-none focus:outline-none focus:ring-0"
-                >
-                  {/* <option selected>Giới tính:</option> */}
-                  <option value="New">Mới nhất</option>
-                  <option value="Sold">Bán chạy nhất</option>
-                  <option value="PriceLow">Giá: thấp - cao</option>
-                  <option value="PriceHigh">Giá: cao - thấp</option>
-                </select>
+          <section className="flex flex-row gap-2">
+            <div className="block w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:text-white dark:placeholder-white ">
+              <div className="flex-column mx-2 flex">
+                <div className="flex content-center">
+                  <label
+                    htmlFor="filter-select"
+                    className="p-2 text-lg font-extrabold text-dark-0"
+                  >
+                    Lọc theo:
+                  </label>
+                  <select
+                    id="filter-select"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="text-md block w-full max-w-max border-none bg-white text-gray-900 hover:border-none focus:outline-none focus:ring-0"
+                  >
+                    {/* <option selected>Giới tính:</option> */}
+                    <option value="New">Mới nhất</option>
+                    <option value="Sold">Bán chạy nhất</option>
+                    <option value="PriceLow">Giá: thấp - cao</option>
+                    <option value="PriceHigh">Giá: cao - thấp</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
+            {/* <div className="item-center flex w-full max-w-max rounded-sm border border-secondary-1 bg-white text-sm text-gray-900 hover:border-2 focus:border-2 focus:border-black focus:ring-white dark:text-white dark:placeholder-white">
+              <div className="mx-2 flex content-center">
+                <select
+                  id="filter-select"
+                  value={room}
+                  onChange={handleRoomChange}
+                  className="text-md block w-full max-w-max border-none bg-white text-gray-900 hover:border-none focus:outline-none focus:ring-0"
+                >
+                  
+                  <option value="living-room">Phòng khách</option>
+                  <option value="bedroom">Phòng ngủ</option>
+                  <option value="kitchen">Nhà bếp</option>
+                  <option value="outside">Ngoài trời</option>
+                </select>
+              </div>
+            </div> */}
+          </section>
           <ProductList
             products={products}
             setProducts={setProducts}

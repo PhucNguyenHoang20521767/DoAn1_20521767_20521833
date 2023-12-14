@@ -166,7 +166,7 @@ const RootPage = () => {
         <ErrorNotify />
         {/* Load all product */}
         <LoadAllProduct />
-        <Chatbot></Chatbot>
+        {/* <Chatbot></Chatbot> */}
       </main>
       <Footer />
       <CustomeDrawer />

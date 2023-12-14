@@ -227,6 +227,9 @@ export const GET_PRODUCT_RATING_BY_ID = (id: string) =>
 export const GET_DISCOUNT_BY_ID = (id: string) =>
   `/discounts/getDiscountById/${id}`;
 
+//get all valid discounts
+export const GET_ALL_VALID_DISCOUNTS = "/discounts/getAllValidDiscounts";
+
 //create cart
 export const CREATE_CART = "/carts/createCart";
 //get customer cart

@@ -299,6 +299,11 @@ export const getDiscountById = async (id: string) => {
   return await mainApi.get(apiEndpoints.GET_DISCOUNT_BY_ID(id));
 };
 
+// get all valid discounts
+export const getAllValidDiscounts = async () => {
+  return await mainApi.get(apiEndpoints.GET_ALL_VALID_DISCOUNTS);
+};
+
 //create cart
 export const createCart = async (token: string) => {
   return await mainApi.post(

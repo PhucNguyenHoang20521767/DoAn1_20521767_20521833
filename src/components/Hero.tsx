@@ -66,7 +66,7 @@ const Hero = () => {
             Cho người tinh tế
           </p>
           <Link to="/product">
-            <button className="bg-primary-0 p-3 px-4 text-white hover:bg-dark-1 hover:shadow-lg">
+            <button className="bg-primary-0 p-3 px-4 text-white hover:bg-black hover:shadow-lg">
               MUA SẮM NGAY
             </button>
           </Link>

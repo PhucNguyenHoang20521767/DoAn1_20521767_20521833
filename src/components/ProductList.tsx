@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { mainApi } from "@/api/main_api";
 import * as apiEndpoints from "@/api/api_endpoints";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CardActionArea, Grid } from "@mui/material";
 import {
   LazyLoadImage,
@@ -68,6 +68,7 @@ const ProductList: React.FC<Props> = ({
   const currentPage = useSelector((state: RootState) => state.sub.currentPage);
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
   const currentSearch = useSelector((state: RootState) => state.search.value);
+  const { discountId } = useParams<{ discountId: string }>();
   const [selectedDimension, setSelectedDimension] = useState("");
   const [haveProduct, setHaveProduct] = useState(true);
   const navigate = useNavigate();
@@ -89,6 +90,13 @@ const ProductList: React.FC<Props> = ({
     if (!currentPage && !currentSearch) {
       filteredProducts = products;
       setHaveProduct(false);
+    } else if (currentPage.slug === "discount") {
+      if (discountId) {
+        filteredProducts = products.filter(
+          (product) => product.discount_id === discountId
+        );
+      }
+      setHaveProduct(true);
     } else if (currentPage && !currentSearch) {
       filteredProducts = products.filter(
         (product) => product.category_slug === currentPage.slug
@@ -140,6 +148,7 @@ const ProductList: React.FC<Props> = ({
     currentSearch,
     selectedColor,
     allProducts,
+    discountId,
   ]);
 
   return (

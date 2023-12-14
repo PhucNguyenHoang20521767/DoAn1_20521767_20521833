@@ -67,8 +67,11 @@ export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState> & PersistPartial;
 export type AppDispatch = typeof store.dispatch;
 
-// persistor.purge().then(() => {
-//   console.log('Data reset successful');
-// }).catch(() => {
-//   console.log('Data reset failed');
-// });
+// persistor
+//   .purge()
+//   .then(() => {
+//     console.log("Data reset successful");
+//   })
+//   .catch(() => {
+//     console.log("Data reset failed");
+//   });

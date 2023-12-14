@@ -2,7 +2,7 @@ import React from "react";
 
 const Guarantee = () => {
   return (
-    <div className="w-center bg-secondary-5">
+    <div className="w-center mt-16 bg-secondary-5">
       <div className="m-auto flex max-w-[1200px] flex-wrap justify-between bg-secondary-5 px-4 py-12">
         <div className="flex flex-wrap justify-between">
           <img

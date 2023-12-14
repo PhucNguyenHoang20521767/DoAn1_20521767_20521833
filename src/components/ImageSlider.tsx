@@ -1,43 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import "react-lazy-load-image-component/src/effects/black-and-white.css";
-
-// const slidesArray = [
-//   {
-//     url: "/sheft_tv.jpg",
-//     title: "Save30",
-//   },
-//   {
-//     url: "/save_40.webp",
-//     title: "Save40",
-//   },
-//   {
-//     url: "/video.gif",
-//     title: "Tree",
-//   },
-//   {
-//     url: "https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     title: "Phucdeptrai",
-//   },
-// ];
-
-interface Slide {
-  url: string;
-  title: string;
-  id: string;
-}
+import { IDiscount } from "../pages/Home/CampaignCarousel";
 
 interface ImageSliderProps {
-  slides: Slide[];
+  slides: IDiscount[];
 }
 
+// export interface IDiscount {
+//   discountThumbnail: string;
+//   discountPercent: number;
+//   _id: string;
+//   discountName: string;
+//   discountDescription?: string;
+//   discountStartDate: string;
+//   discountEndDate: string;
+//   createdAt: string;
+//   updatedAt: string;
+//   index?: number;
+// }
+
 const ImageSlider = ({ slides }: ImageSliderProps) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -56,6 +41,10 @@ const ImageSlider = ({ slides }: ImageSliderProps) => {
     setCurrentIndex(slideIndex);
   };
 
+  const handleCLick = () => {
+    navigate(`/product/discount/${slides[currentIndex]._id}`);
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
@@ -64,38 +53,18 @@ const ImageSlider = ({ slides }: ImageSliderProps) => {
   }, [currentIndex]);
 
   return (
-    <div className="group relative m-auto h-[600px] w-full max-w-[1400] px-4 pb-8">
-      {/* <div
-        className="h-full w-full bg-cover bg-center object-contain duration-500"
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
-      ></div> */}
+    <div className="group relative m-auto h-full max-h-[600px] w-full max-w-[1400] px-4 pb-8">
       <div className="flex items-center justify-center">
-        <div
-          className="max-w-80 max-h-48 min-h-[560px] w-1/3 min-w-[1480px] cursor-pointer overflow-hidden"
-          // onClick={() => {
-          //   navigate(`/blog/content/${blogPost._id}`);
-          // }}
-        >
-          <LazyLoadImage
-            className="object-cover"
-            height={560}
-            width={1480}
-            alt="Title image"
-            src={slides[currentIndex].url}
-            effect="black-and-white"
-            visibleByDefault={slides[currentIndex].url === "/hero.webp"}
-            wrapperProps={{
-              // If you need to, you can tweak the effect transition using the wrapper style.
-              style: { transitionDelay: "1s" },
-            }}
-            style={{ transition: "transform 0.8s ease" }}
-            onMouseEnter={(e: any) => {
-              e.currentTarget.style.transform = "scale(1.1)";
-            }}
-            onMouseLeave={(e: any) => {
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          />
+        <div className="max-w-80 max-h-48 min-h-[410px] min-w-[1480px] cursor-pointer overflow-hidden">
+          {slides[currentIndex]?.discountThumbnail && (
+            <img
+              className="h-full max-h-[410px] min-h-max w-full min-w-[1480px] max-w-[1480px] transform object-cover transition-transform duration-1000 ease-in-out hover:scale-110"
+              src={slides[currentIndex].discountThumbnail}
+              alt={slides[currentIndex].discountName}
+              style={{ maxHeight: "600px" }}
+              onClick={handleCLick}
+            />
+          )}
         </div>
       </div>
       <div className="absolute left-10 top-[50%] -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full p-2 text-2xl text-white group-hover:bg-black/20">
