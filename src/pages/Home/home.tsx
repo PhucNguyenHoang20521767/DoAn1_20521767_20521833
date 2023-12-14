@@ -24,7 +24,7 @@ const Home = () => {
   return (
     <div>
       <Hero></Hero>
-      <div className="flex justify-center pb-8 text-center text-xl text-black">
+      <div className="flex justify-center py-8 text-center text-xl text-black">
         Trải nghiệm những thiết kế sang trọng, chất lượng cao dành cho ngôi nhà
         hiện đại
       </div>

@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 const imgadd = [
   "https://housing.com/news/wp-content/uploads/2022/11/living-room-furniture-design-compressed-1.jpg",
   "https://plus.unsplash.com/premium_photo-1661963646937-1566cbb38d34?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c29mYSUyMHNldHxlbnwwfHwwfHx8MA%3D%3D",
-  "https://media.istockphoto.com/id/876931650/photo/grey-sofa-in-living-room.jpg?s=612x612&w=0&k=20&c=NAVqv4jqd2z-I8Z7tRjZTLPylpbOJ5E2qwAjqOWaYZs=",
   "https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnVybml0dXJlc3xlbnwwfHwwfHx8MA%3D%3D",
-  "https://media.istockphoto.com/id/1442837467/photo/interior-design-of-modern-apartment-living-room-with-sofa-and-coffee-tables-3d-rendering.webp?b=1&s=170667a&w=0&k=20&c=m8nt1I_lT8K_crLZ1cTTzb0MCB6oW0mtCBhQ3H_GZu0=",
-  "https://media.istockphoto.com/id/876931650/photo/grey-sofa-in-living-room.jpg?s=612x612&w=0&k=20&c=NAVqv4jqd2z-I8Z7tRjZTLPylpbOJ5E2qwAjqOWaYZs=",
+  "https://media.designcafe.com/wp-content/uploads/2022/03/10093403/cat-furniture-ideas-for-your-home.jpg",
+  "https://cutewallpaper.org/25/anime-home-wallpaper-hd/985618888.jpg",
 ];
+
+// "https://media.istockphoto.com/id/876931650/photo/grey-sofa-in-living-room.jpg?s=612x612&w=0&k=20&c=NAVqv4jqd2z-I8Z7tRjZTLPylpbOJ5E2qwAjqOWaYZs=",
+// "https://media.istockphoto.com/id/1442837467/photo/interior-design-of-modern-apartment-living-room-with-sofa-and-coffee-tables-3d-rendering.webp?b=1&s=170667a&w=0&k=20&c=m8nt1I_lT8K_crLZ1cTTzb0MCB6oW0mtCBhQ3H_GZu0=",
+// "https://media.istockphoto.com/id/876931650/photo/grey-sofa-in-living-room.jpg?s=612x612&w=0&k=20&c=NAVqv4jqd2z-I8Z7tRjZTLPylpbOJ5E2qwAjqOWaYZs=",
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -35,15 +38,15 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-[600px] w-full overflow-hidden">
       {imgadd.map((img, index) => (
         <img
           key={index}
-          className={`object-hidden absolute left-0 top-0 h-full w-full transition-opacity duration-1000 ${
+          className={`object-hidden mt-30 absolute left-0 top-0 object-top transition-opacity duration-1000 md:h-full md:w-full ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
           src={img}
-          alt=""
+          alt="hero"
         />
       ))}
       {/* <img

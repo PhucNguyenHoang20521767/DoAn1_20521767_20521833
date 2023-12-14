@@ -53,9 +53,9 @@ const ImageSlider = ({ slides }: ImageSliderProps) => {
   }, [currentIndex]);
 
   return (
-    <div className="group relative m-auto h-full max-h-[600px] w-full max-w-[1400] px-4 pb-8">
+    <div className="group relative m-auto h-full max-h-[600px] w-full px-4 pb-8">
       <div className="flex items-center justify-center">
-        <div className="max-w-80 max-h-48 min-h-[410px] min-w-[1480px] cursor-pointer overflow-hidden">
+        <div className="max-w-80 max-h-48 min-h-[410px] min-w-[1420px] cursor-pointer overflow-hidden">
           {slides[currentIndex]?.discountThumbnail && (
             <img
               className="h-full max-h-[410px] min-h-max w-full min-w-[1480px] max-w-[1480px] transform object-cover transition-transform duration-1000 ease-in-out hover:scale-110"
