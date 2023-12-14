@@ -130,17 +130,13 @@ export default function Breadcrumbs() {
         Sản phẩm
       </Link>
       <span className="mx-2 text-gray-500">/</span>
-      {currentProduct ? (
+      {currentProduct && (
         <Link
           to={currentPage?.id ? `/product/${currentPage.id}` : "/product"}
           className="text-gray-500 hover:text-gray-700"
         >
           {currentPage?.name ? currentPage?.name : "Tìm kiếm"}
         </Link>
-      ) : (
-        <span className="text-gray-500 hover:text-gray-700">
-          {currentProduct ? currentProduct.idCategoryName : "Tất cả sản phẩm"}
-        </span>
       )}
     </div>
   );

@@ -42,7 +42,7 @@ const Hero = () => {
       {imgadd.map((img, index) => (
         <img
           key={index}
-          className={`object-hidden mt-30 absolute left-0 top-0 object-top transition-opacity duration-1000 md:h-full md:w-full ${
+          className={`mt-30 absolute left-0 top-0 h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
           src={img}

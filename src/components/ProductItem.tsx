@@ -65,7 +65,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         if (res.data.data) {
           const discount = res.data.data;
           const result = res.data;
-          console.log("result", result);
           if (!result.success) {
             setIsDiscount(false);
             return;

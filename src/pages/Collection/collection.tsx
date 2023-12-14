@@ -407,10 +407,14 @@ const Collection: React.FC = () => {
                     </Box>
                   ) : (
                     <p className="mr-3 text-2xl text-black">
-                      {price.toLocaleString("vi-VN", {
-                        style: "currency",
-                        currency: "VND",
-                      })}
+                      {product?.productQuantity > 0 ? (
+                        price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })
+                      ) : (
+                        <></>
+                      )}
                     </p>
                   )}
                   {discountNotExpired && (
@@ -453,18 +457,22 @@ const Collection: React.FC = () => {
               </div>
             )}
           </>
-          <div className="">
-            {/* quantity */}
-            <div className="flex justify-start">
-              <p className="text-lg font-bold">Số lượng: </p>
-              <p className="ml-1 text-lg">{product.productQuantity}</p>
-            </div>
+          {product?.productQuantity > 0 ? (
+            <div className="">
+              {/* quantity */}
+              <div className="flex justify-start">
+                <p className="text-lg font-bold">Số lượng: </p>
+                <p className="ml-1 text-lg">{product.productQuantity}</p>
+              </div>
 
-            <div className="flex justify-start">
-              <p className="text-lg font-bold">Đã bán: </p>
-              <p className="ml-1 text-lg">{product.productSold}</p>
+              <div className="flex justify-start">
+                <p className="text-lg font-bold">Đã bán: </p>
+                <p className="ml-1 text-lg">{product.productSold}</p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <></>
+          )}
           <div>
             {/* weight */}
             {/* dimension */}
@@ -472,60 +480,75 @@ const Collection: React.FC = () => {
               <div className="flex justify-start">
                 <p className="text-lg font-bold">Kích thước: </p>
                 <p className="ml-1 text-lg">
-                  Dài: {dimension[0]?.productLength}m,
+                  Dài: {dimension[0]?.productLength} m,
                 </p>
                 <p className="ml-1 text-lg">
-                  Rộng: {dimension[0]?.productWidth}m,
+                  Rộng: {dimension[0]?.productWidth} m,
                 </p>
                 <p className="ml-1 text-lg">
-                  Cao: {dimension[0]?.productHeight}m
+                  Cao: {dimension[0]?.productHeight} m
                 </p>
               </div>
             )}
             {dimension && (
               <div className="flex justify-start">
                 <p className="text-lg font-bold">Cân nặng: </p>
-                <p className="ml-1 text-lg">{dimension[0]?.productWeight}kg</p>
+
+                <p className="ml-1 text-lg">{dimension[0]?.productWeight} kg</p>
               </div>
             )}
             {/* Description */}
             {product.productDescription && (
-              <div className="flex justify-start">
-                <p className="text-lg font-bold">Mô tả: </p>
+              <div className="">
+                <p className="block text-lg font-bold">Mô tả: </p>
                 <p className="ml-1 text-lg">{product.productDescription}</p>
               </div>
             )}
           </div>
           {/* buy */}
-          <div className="my-2 flex justify-center">
-            <NumberInput value={quantity} onChange={setQuantity} />
-          </div>
-          <div className="flex justify-center">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                paddingRight: "50px",
-                paddingLeft: "50px",
-                marginRight: "2px",
-              }}
-              sx={styleButtonAddCart}
-              onClick={() => {
-                handleCheckout();
-              }}
-            >
-              Mua ngay
-            </Button>
-            <Button
-              className="hover:text-white"
-              variant="outlined"
-              style={{ marginLeft: "4px", color: "#A67F78", padding: "10px" }}
-              sx={styleButtonView}
-              onClick={() => handleAddToCart()}
-            >
-              Thêm vào giỏ hàng
-            </Button>
-          </div>
+          {product.productQuantity ? (
+            <div>
+              <div className="my-2 flex justify-center">
+                <NumberInput value={quantity} onChange={setQuantity} />
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    paddingRight: "50px",
+                    paddingLeft: "50px",
+                    marginRight: "2px",
+                  }}
+                  sx={styleButtonAddCart}
+                  onClick={() => {
+                    handleCheckout();
+                  }}
+                >
+                  Mua ngay
+                </Button>
+                <Button
+                  className="hover:text-white"
+                  variant="outlined"
+                  style={{
+                    marginLeft: "4px",
+                    color: "#A67F78",
+                    padding: "10px",
+                  }}
+                  sx={styleButtonView}
+                  onClick={() => handleAddToCart()}
+                >
+                  Thêm vào giỏ hàng
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="py-8 font-cormorant-garamond text-xl font-bold italic">
+                Sản phẩm này tạm thời không bán!
+              </p>
+            </div>
+          )}
         </div>
       </section>
 

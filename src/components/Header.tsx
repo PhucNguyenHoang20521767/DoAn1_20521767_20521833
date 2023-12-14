@@ -38,7 +38,6 @@ const Header = (props: Props) => {
   );
   const [cartCountState, setCartCountState] = useState(cartCount);
   const [nav, setNav] = useState(false);
-  const [loginState, setLoginState] = useState(false);
 
   const handleRemoveSub = () => {
     dispatch(removeSub());
@@ -52,7 +51,7 @@ const Header = (props: Props) => {
   }, [cartCount]);
 
   const handleNav = () => {
-    setNav(!nav);
+    setNav((prev) => !prev);
   };
 
   const mediaQuery = window.matchMedia("(min-width: 1200px)");

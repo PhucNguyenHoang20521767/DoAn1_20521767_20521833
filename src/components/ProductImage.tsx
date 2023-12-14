@@ -39,7 +39,7 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
   };
 
   return (
-    <div className="flex flex-wrap">
+    <div className="flex cursor-zoom-in flex-wrap">
       {loading && <ProductSkeleton />}
       {loading ? (
         <Skeleton
@@ -91,7 +91,7 @@ const ProductImages: React.FC<Props> = ({ productId, colorId }) => {
           className="max-w-full border border-secondary-4 max-h-[26rem]" 
         /> */}
             <LazyLoadImage
-              className="h-full w-full object-cover"
+              className="h-full w-full cursor-zoom-in object-cover"
               alt="Main product image"
               height={140}
               src={mainImage}
