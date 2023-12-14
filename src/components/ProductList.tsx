@@ -101,11 +101,11 @@ const ProductList: React.FC<Props> = ({
       filteredProducts = products.filter(
         (product) => product.category_slug === currentPage.slug
       );
-      if (filteredProducts.length === 0) {
-        filteredProducts = products.filter(
-          (product) => product.sub_category_slug === currentPage.slug
-        );
-      }
+      // if (filteredProducts.length === 0) {
+      //   filteredProducts = products.filter(
+      //     (product) => product.sub_category_slug === currentPage.slug
+      //   );
+      // }
       setHaveProduct(true);
     }
 
@@ -154,15 +154,11 @@ const ProductList: React.FC<Props> = ({
   return (
     <>
       <LoadAllProduct />
-      {sortedProducts?.length === 0 &&
-        allProducts &&
-        selectedColor &&
-        currentPage &&
-        currentSearch && (
-          <div className="text-center text-2xl font-semibold text-red-500">
-            Không tìm thấy sản phẩm nào thuộc thể loại này
-          </div>
-        )}
+      {sortedProducts?.length === 0 && (
+        <div className="text-center text-2xl font-semibold text-red-500">
+          Không tìm thấy sản phẩm nào thuộc thể loại này
+        </div>
+      )}
       <div className="product-list-container mb-3 grid grid-cols-1 md:grid-cols-4">
         {allProducts.length === 0 ? (
           <ManySkeleton />
