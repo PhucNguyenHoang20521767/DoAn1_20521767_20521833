@@ -30,7 +30,6 @@ export default function Breadcrumbs() {
   let currentLink = "";
 
   useEffect(() => {
-    console.log("id", id);
     if (id) {
       switch (id) {
         case "living-room":
@@ -132,8 +131,11 @@ export default function Breadcrumbs() {
       </Link>
       <span className="mx-2 text-gray-500">/</span>
       {currentProduct ? (
-        <Link to={currentPage.id} className="text-gray-500 hover:text-gray-700">
-          {currentPage.name}
+        <Link
+          to={currentPage?.id ? `/product/${currentPage.id}` : "/product"}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          {currentPage?.name ? currentPage?.name : "Tìm kiếm"}
         </Link>
       ) : (
         <span className="text-gray-500 hover:text-gray-700">
