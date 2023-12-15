@@ -140,7 +140,6 @@ const product = () => {
             products={products}
             setProducts={setProducts}
             filter={filter}
-            setFilter={setFilter}
             selectedColor={selectedColor}
           />
         </div>

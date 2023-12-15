@@ -39,6 +39,8 @@ interface ICartState {
   cartItems: CartItem[];
 }
 
+const GOOGLE_LOGIN_MAGIC_NUMBER = "12345678";
+
 const RootPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

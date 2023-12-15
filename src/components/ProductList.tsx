@@ -1,145 +1,91 @@
 import { useState, useEffect, useMemo } from "react";
-import { mainApi } from "@/api/main_api";
-import * as apiEndpoints from "@/api/api_endpoints";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { CardActionArea, Grid } from "@mui/material";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getallproduct,
-  removeallproduct,
-} from "@/redux/reducers/allProduct_reducers";
-import ManySkeleton from "./loaders/manySkeleton";
-import ProductCard from "./ProductItem";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store/store";
 import LoadAllProduct from "./LoadAllProduct";
+import ProductCard from "./ProductItem";
 import { Product } from "@/pages/Product/product";
-
-interface Crumb {
-  en: string;
-  vi: string;
-}
-
-interface IAllProduct {
-  allProduct: any[];
-}
+import ManySkeleton from "./loaders/manySkeleton";
 
 interface Props {
   products: Product[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
   filter: string;
-  setFilter: React.Dispatch<React.SetStateAction<string>>;
   selectedColor: string;
-  // selectedColor: string;
-  // setSelectedColor: React.Dispatch<React.SetStateAction<string>>;
-  // selectedDimension: string;
-  // setSelectedDimension: React.Dispatch<React.SetStateAction<string>>;
 }
-
-// interface Product {
-//   id: string;
-//   discount_id: string;
-//   category_id: string;
-//   category_slug: string;
-//   sub_category_id: string;
-//   sub_category_slug: string;
-//   name: string;
-//   description: string;
-//   price: number;
-//   images: string[];
-//   create_at: string | number | Date;
-//   update_at: string | number | Date;
-//   sold: number;
-//   color: string[];
-// }
 
 const ProductList: React.FC<Props> = ({
   products,
   setProducts,
   filter,
-  setFilter,
   selectedColor,
 }) => {
-  // const [products, setProducts] = useState<Product[]>([]);
   const dispatch = useDispatch();
   const currentPage = useSelector((state: RootState) => state.sub.currentPage);
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
   const currentSearch = useSelector((state: RootState) => state.search.value);
   const { discountId } = useParams<{ discountId: string }>();
-  const [selectedDimension, setSelectedDimension] = useState("");
-  const [haveProduct, setHaveProduct] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     setProducts(allProducts.filter((product) => product !== undefined));
   }, [allProducts]);
 
+  const filterBySearch = (products: Product[], search: string) => {
+    if (!search) return products;
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+  };
+
+  const filterByPage = (products: Product[], page: any, discountId: string) => {
+    if (!page) return products;
+    if (page.slug === "discount" && discountId) {
+      return products.filter(
+        (product: Product) => product.discount_id === discountId
+      );
+    }
+    return products.filter(
+      (product: Product) =>
+        product.category_slug === page.slug ||
+        product.sub_category_slug === page.slug
+    );
+  };
+
+  const filterByColor = (products: Product[], color: string) => {
+    if (!color) return products;
+    return products.filter((product: Product) => product.color.includes(color));
+  };
+
   const sortedProducts = useMemo(() => {
-    let filteredProducts = products;
+    let filteredProducts = filterBySearch(products, currentSearch);
 
-    if (currentSearch) {
-      filteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(currentSearch.toLowerCase())
+    if (currentPage?.slug === "discount") {
+      filteredProducts = filterByPage(
+        filteredProducts,
+        currentPage,
+        discountId || ""
       );
-      console.log("filteredProducts", filteredProducts);
-    }
-
-    if (!currentPage && !currentSearch) {
-      filteredProducts = products;
-      setHaveProduct(false);
-    } else if (currentPage?.slug === "discount") {
-      if (discountId) {
-        filteredProducts = products.filter(
-          (product) => product.discount_id === discountId
-        );
-      }
-      setHaveProduct(true);
-    } else if (currentPage && !currentSearch) {
-      filteredProducts = products.filter(
-        (product) => product.category_slug === currentPage.slug
-      );
-      if (filteredProducts.length === 0) {
-        filteredProducts = products.filter(
-          (product) => product.sub_category_slug === currentPage.slug
-        );
-      }
-      setHaveProduct(true);
-    }
-
-    if (filteredProducts.length === 0 && currentPage && !currentSearch) {
-      setHaveProduct(false);
     }
 
     if (selectedColor) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.color.includes(selectedColor)
-      );
-      console.log("filteredProducts", filteredProducts);
+      filteredProducts = filterByColor(filteredProducts, selectedColor);
     }
 
-    if (filter === "New") {
-      return filteredProducts.sort((a, b) => {
-        return (
-          new Date(b.create_at).getTime() - new Date(a.create_at).getTime()
+    switch (filter) {
+      case "New":
+        return filteredProducts.sort(
+          (a, b) =>
+            new Date(b.create_at).getTime() - new Date(a.create_at).getTime()
         );
-      });
-    } else if (filter === "Sold") {
-      return filteredProducts.sort((a, b) => {
-        return b.sold - a.sold;
-      });
-    } else if (filter === "PriceLow") {
-      return filteredProducts.sort((a, b) => {
-        return a.price - b.price;
-      });
-    } else if (filter === "PriceHigh") {
-      return filteredProducts.sort((a, b) => {
-        return b.price - a.price;
-      });
-    } else {
-      return filteredProducts;
+      case "Sold":
+        return filteredProducts.sort((a, b) => b.sold - a.sold);
+      case "PriceLow":
+        return filteredProducts.sort((a, b) => a.price - b.price);
+      case "PriceHigh":
+        return filteredProducts.sort((a, b) => b.price - a.price);
+      default:
+        return filteredProducts;
     }
   }, [
     filter,
@@ -154,15 +100,11 @@ const ProductList: React.FC<Props> = ({
   return (
     <>
       <LoadAllProduct />
-      {sortedProducts?.length === 0 &&
-        allProducts &&
-        selectedColor &&
-        currentPage &&
-        currentSearch && (
-          <div className="text-center text-2xl font-semibold text-red-500">
-            Không tìm thấy sản phẩm nào thuộc thể loại này
-          </div>
-        )}
+      {sortedProducts?.length === 0 && (
+        <div className="text-center text-2xl font-semibold text-red-500">
+          Không tìm thấy sản phẩm nào thuộc thể loại này
+        </div>
+      )}
       <div className="product-list-container mb-3 grid grid-cols-1 md:grid-cols-4">
         {allProducts.length === 0 ? (
           <ManySkeleton />
