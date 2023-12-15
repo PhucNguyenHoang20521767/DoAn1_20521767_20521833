@@ -27,10 +27,6 @@ const ProductList: React.FC<Props> = ({
   const { discountId } = useParams<{ discountId: string }>();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setProducts(allProducts.filter((product) => product !== undefined));
-  }, [allProducts]);
-
   const filterBySearch = (products: Product[], search: string) => {
     if (!search) return products;
     return products.filter((product) =>
@@ -57,16 +53,20 @@ const ProductList: React.FC<Props> = ({
     return products.filter((product: Product) => product.color.includes(color));
   };
 
+  useEffect(() => {
+    setProducts(allProducts.filter((product) => product !== undefined));
+  }, [allProducts]);
+
   const sortedProducts = useMemo(() => {
     let filteredProducts = filterBySearch(products, currentSearch);
 
-    if (currentPage?.slug === "discount") {
-      filteredProducts = filterByPage(
-        filteredProducts,
-        currentPage,
-        discountId || ""
-      );
-    }
+    // if (currentPage?.slug === "discount") {
+    filteredProducts = filterByPage(
+      filteredProducts,
+      currentPage,
+      discountId || ""
+    );
+    // }
 
     if (selectedColor) {
       filteredProducts = filterByColor(filteredProducts, selectedColor);
@@ -100,7 +100,7 @@ const ProductList: React.FC<Props> = ({
   return (
     <>
       <LoadAllProduct />
-      {sortedProducts?.length === 0 && (
+      {sortedProducts?.length === 0 && allProducts.length !== 0 && (
         <div className="text-center text-2xl font-semibold text-red-500">
           Không tìm thấy sản phẩm nào thuộc thể loại này
         </div>

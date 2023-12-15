@@ -1,8 +1,11 @@
-import { IDiscount } from "./CampaignCarousel";
 import { useEffect, useState } from "react";
+import { IDiscount } from "./CampaignCarousel";
 import { getAllValidDiscounts } from "@/api/api_function";
+import { addDiscount } from "@/redux/reducers/discount_reducers";
+import { useDispatch } from "react-redux";
 
 const useFetchDiscount = () => {
+  const dispatch = useDispatch();
   const [discounts, setDiscounts] = useState<IDiscount[]>([]);
 
   useEffect(() => {
@@ -15,6 +18,7 @@ const useFetchDiscount = () => {
           index: index,
         }));
         setDiscounts(result);
+        dispatch(addDiscount({ currentDiscount: result }));
         console.log("result", result);
       } catch (error) {
         console.error(error);

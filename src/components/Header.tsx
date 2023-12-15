@@ -8,11 +8,14 @@ import * as apiEndpoints from "@/api/api_endpoints";
 import { logout } from "@/redux/reducers/auth_reducers";
 
 import { useDispatch, useSelector } from "react-redux";
-import { openFavourite, openCart } from "@/redux/reducers/drawer_reducers";
+import {
+  openFavourite,
+  openCart,
+  openChat,
+} from "@/redux/reducers/drawer_reducers";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store/store";
 import { get } from "http";
-import cat from "@/utils/image_link";
 import CategoriesById from "./CategoriesById";
 import CategoryList from "./Categories";
 import SubCategoryList from "./SubCategories";
@@ -21,7 +24,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { removeSub } from "@/redux/reducers/subCategories";
 import { notProduct } from "@/redux/reducers/slug_reducers";
 import HeaderSearch from "./HeaderSearch";
-import Search from "antd/es/input/Search";
+import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 
 type Props = {};
 
@@ -147,6 +150,27 @@ const Header = (props: Props) => {
                       strokeWidth="2"
                       d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                     />
+                  </svg>
+                </button>
+
+                {/* Chat */}
+                <button
+                  className="flex items-center p-3 text-gray-700 hover:text-gray-200"
+                  onClick={() => dispatch(openChat())}
+                  style={{ color: "#374151" }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                   </svg>
                 </button>
 

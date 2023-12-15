@@ -308,15 +308,10 @@ const Collection: React.FC = () => {
       return;
     }
     try {
-      console.log(
-        "infor",
-        currentCart._id,
-        currentUser,
-        product._id,
-        "chooseColor",
-        chooseColor?.colorId || "",
-        1
-      );
+      console.log("currentCart", currentCart._id);
+      console.log("currentUser", currentUser);
+      console.log("productId", product._id);
+      console.log("chooseColor", chooseColor?.colorId || "", 1);
       await addItemToCart(
         currentCart._id,
         currentUser,

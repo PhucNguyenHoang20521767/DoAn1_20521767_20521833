@@ -27,13 +27,22 @@ const AddToCartButton: React.FC<Props> = ({ product_id }) => {
       const productColor = productColorRes.data.data;
 
       if (currentUser) {
-        addItemToCart(
-          currentCart._id,
-          currentUser,
-          product._id,
-          productColor[0]._id,
-          1
-        );
+        try {
+          console.log("cartId", currentCart._id);
+          console.log("currentUser", currentUser);
+          console.log("productId", product._id);
+          console.log("productColor", productColor[0]._id);
+          console.log("quantity", 1);
+          addItemToCart(
+            currentCart._id,
+            currentUser,
+            product._id,
+            productColor[0]._id,
+            1
+          );
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         // setDisabled(true);
       }
