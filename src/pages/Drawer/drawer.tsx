@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import { Cart } from "@/components/Cart";
 import { Favourite } from "@/components/Favourite";
 import zIndex from "@mui/material/styles/zIndex";
+import ChatPage from "../Chat/ChatPage";
 
 const CustomDrawer = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,18 @@ const CustomDrawer = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
-      {pageDrawer ? <Cart isCart={true} /> : <Favourite />}
+      {(() => {
+        switch (pageDrawer) {
+          case "cart":
+            return <Cart isCart={true} />;
+          case "favourite":
+            return <Favourite />;
+          case "chat":
+            return <ChatPage />;
+          default:
+            return null;
+        }
+      })()}
     </Box>
   );
 
@@ -71,73 +83,46 @@ const CustomDrawer = () => {
       >
         <div className="flex items-center justify-center">
           <h3 className="text-bold mt-3 text-xl text-secondary-0">
-            {pageDrawer ? "Giỏ hàng" : "Sản phẩm đã thích"}
+            {
+              {
+                cart: "Giỏ hàng",
+                favourite: "Yêu thích",
+                chat: "Tin nhắn",
+              }[pageDrawer]
+            }
           </h3>
         </div>
         <div className="mx-2 my-4 border-y-2 border-secondary-4">
-          {renderList(["Inbox", "Starred", "Send email", "Drafts"])}
+          {currentUser ? (
+            renderList(["Inbox", "Starred", "Send email", "Drafts"])
+          ) : (
+            <div className="flex h-[500px] items-center justify-center">
+              <p className="text-bold mt-3 w-full break-words text-xl text-secondary-0 md:max-w-sm">
+                Vui lòng đăng nhập để thực hiện chức năng này
+              </p>
+            </div>
+          )}
         </div>
-        <div className="flex items-center justify-center">
-          <Link to={currentUser ? `product` : "signin"}>
-            <button
-              className={
-                pageDrawer
-                  ? "rounded-sm bg-secondary-1 p-2 px-16 uppercase text-white hover:bg-black hover:shadow-lg"
-                  : "hidden"
-              }
-            >
-              {currentUser ? "Tiếp tục mua hàng" : "Đăng nhập"}
-            </button>
-          </Link>
-        </div>
+        {pageDrawer === "chat" ? (
+          <></>
+        ) : (
+          <div className="flex items-center justify-center">
+            <Link to={currentUser ? `product` : "signin"}>
+              <button
+                className={
+                  pageDrawer
+                    ? "rounded-sm bg-secondary-1 p-2 px-16 uppercase text-white hover:bg-black hover:shadow-lg"
+                    : "hidden"
+                }
+              >
+                {currentUser ? "Tiếp tục mua hàng" : "Đăng nhập"}
+              </button>
+            </Link>
+          </div>
+        )}
       </SwipeableDrawer>
     </div>
   );
 };
 
 export default CustomDrawer;
-
-{
-  /* <List>
-{items.map((text, index) => (
-  <ListItem key={text} disablePadding>
-    <ListItemButton>
-      <ListItemIcon>
-        {index % 2 === 0 ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
-            />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122"
-            />
-          </svg>
-        )}
-      </ListItemIcon>
-      <ListItemText primary={text} />
-    </ListItemButton>
-  </ListItem>
-))}
-</List> */
-}

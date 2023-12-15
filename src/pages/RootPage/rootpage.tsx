@@ -91,38 +91,39 @@ const RootPage = () => {
     }
   };
 
+  const makeCart = async () => {
+    try {
+      if (currentUser) await createCart(currentUser);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchCart = async () => {
+    try {
+      const res1 = await getCustomerCart(currentUser);
+      const cartInfores = res1.data.data;
+      const cartInfo = {
+        _id: cartInfores[0]._id,
+        customerId: cartInfores[0].customerId,
+        cartStatus: cartInfores[0].cartStatus,
+      };
+      dispatch(loadcart(cartInfo));
+
+      if (cartInfores.length === 0) {
+        makeCart();
+      } else {
+        const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
+        const cartItems = res2.data.data;
+        // dispatch(loadCartItems(cartItems))
+        console.log("aci", cartItems);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res1 = await getCustomerCart(currentUser);
-        const cartInfores = res1.data.data;
-        console.log("ci", cartInfores);
-        const cartInfo = {
-          _id: cartInfores[0]._id,
-          customerId: cartInfores[0].customerId,
-          cartStatus: cartInfores[0].cartStatus,
-        };
-        dispatch(loadcart(cartInfo));
-
-        if (cartInfores.length > 0) {
-          const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
-          const cartItems = res2.data.data;
-          // dispatch(loadCartItems(cartItems))
-          console.log("aci", cartItems);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const makeCart = async () => {
-      try {
-        if (currentUser) await createCart(currentUser);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     if (currentUser) {
       fetchCart();
       setOpenSnack(true);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
+import { Outlet, useLoaderData, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import { Skeleton } from "@mui/material";
@@ -69,16 +69,16 @@ const product = () => {
     setSelectedColor("");
   }
 
-  function handleRoomChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const selectedRoom = event.target.value;
-    setRoom((prev) => {
-      prev = selectedRoom;
-      return prev;
-    });
-  }
+  // function handleRoomChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  //   const selectedRoom = event.target.value;
+  //   setRoom((prev) => {
+  //     prev = selectedRoom;
+  //     return prev;
+  //   });
+  // }
 
   return (
-    <div className="mx-10">
+    <div className="px-10">
       <div></div>
       <CampaignCarousel></CampaignCarousel>
       <Breadcrumbs />
@@ -91,6 +91,7 @@ const product = () => {
           {currentProduct ? currentProduct.slugCategorySlug : "Tất cả sản phẩm"}
         </div>
       )}
+      <Outlet></Outlet>
       <div className="flex flex-wrap">
         {/* product list here */}
         <div className="w-full lg:w-10/12">
@@ -127,7 +128,6 @@ const product = () => {
                   onChange={handleRoomChange}
                   className="text-md block w-full max-w-max border-none bg-white text-gray-900 hover:border-none focus:outline-none focus:ring-0"
                 >
-                  
                   <option value="living-room">Phòng khách</option>
                   <option value="bedroom">Phòng ngủ</option>
                   <option value="kitchen">Nhà bếp</option>
