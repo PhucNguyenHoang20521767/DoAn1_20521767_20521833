@@ -1,0 +1,15 @@
+.user-message .cs-message__content {
+  background-color: #32435f;
+  color: #fff;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.admin-message .cs-message__content {
+  background-color: #8f8681;
+  color: #fff;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}

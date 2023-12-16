@@ -103,14 +103,12 @@ const CustomDrawer = () => {
             </div>
           )}
         </div>
-        {pageDrawer === "chat" ? (
-          <></>
-        ) : (
+        {
           <div className="flex items-center justify-center">
             <Link to={currentUser ? `product` : "signin"}>
               <button
                 className={
-                  pageDrawer
+                  pageDrawer !== "chat" && !currentUser
                     ? "rounded-sm bg-secondary-1 p-2 px-16 uppercase text-white hover:bg-black hover:shadow-lg"
                     : "hidden"
                 }
@@ -119,7 +117,7 @@ const CustomDrawer = () => {
               </button>
             </Link>
           </div>
-        )}
+        }
       </SwipeableDrawer>
     </div>
   );
