@@ -7,6 +7,12 @@
   margin: 0;
   padding: 0;
   animation: fall 16s linear infinite;
+  pointer-events: none;
+  text-shadow: 0 0 5px #fffafa;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 @keyframes fall {

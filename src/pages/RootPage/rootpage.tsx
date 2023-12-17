@@ -57,7 +57,7 @@ const RootPage = () => {
   const snow = () => {
     let animationDelay = "0s";
     let fontSize = "100px";
-    let arr = new Array(200).fill("Snowflake");
+    let arr = new Array(200).fill(null);
 
     return arr.map((el, i) => {
       animationDelay = `${(Math.random() * 16).toFixed(2)}s`;
