@@ -98,7 +98,7 @@ const CustomDrawer = () => {
           ) : (
             <div className="flex h-[500px] items-center justify-center">
               <p className="text-bold mt-3 w-full break-words text-xl text-secondary-0 md:max-w-sm">
-                Vui lòng đăng nhập để thực hiện chức năng này
+                Vui lòng đăng nhập để sử dụng chức năng này!
               </p>
             </div>
           )}

@@ -23,6 +23,8 @@ import SuccessNotify from "@/components/customs/SuccessNotify";
 import InformationNotify from "@/components/customs/InformationNotify";
 import ErrorNotify from "@/components/customs/ErrorNotify";
 import Chatbot from "@/components/Chatbot";
+import "./snow.css";
+import Snowflake from "./SnowFlake";
 
 interface CartItem {
   _id: string;
@@ -51,6 +53,22 @@ const RootPage = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
+
+  const snow = () => {
+    let animationDelay = "0s";
+    let fontSize = "100px";
+    let arr = new Array(200).fill("Snowflake");
+
+    return arr.map((el, i) => {
+      animationDelay = `${(Math.random() * 16).toFixed(2)}s`;
+      fontSize = `${Math.floor(Math.random() * 10) + 10}px`;
+      let style = {
+        animationDelay,
+        fontSize,
+      };
+      return <Snowflake key={i} id={i} style={style} />;
+    });
+  };
 
   // Login
   useEffect(() => {
@@ -152,42 +170,45 @@ const RootPage = () => {
 
   return (
     <>
-      <header
-        className={`fixed top-0 z-30 w-full transition-all duration-300 
-      ${visible ? "visible" : "invisible"}
-      ${visible ? "opacity-100" : "opacity-0"}
-      `}
-      >
-        <Header />
-      </header>
-      <main className="">
-        <div className="mt-40"></div>
-        <Outlet />
-        {/* Notify */}
-        <SuccessNotify />
-        <InformationNotify />
-        <ErrorNotify />
-        {/* Load all product */}
-        <LoadAllProduct />
-        {/* <Chatbot></Chatbot> */}
-      </main>
-      <Footer />
-      <CustomeDrawer />
-
-      <Stack sx={{ width: "90%" }} spacing={2}>
-        <Snackbar
-          open={openSnack}
-          autoHideDuration={3000}
-          onClose={handleClose}
+      <div>
+        <header
+          className={`fixed top-0 z-30 w-full transition-all duration-300 
+        ${visible ? "visible" : "invisible"}
+        ${visible ? "opacity-100" : "opacity-0"}
+        `}
         >
-          {/* <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-              Chào mừng bạn đến với NGUYEN'S HOME
-            </Alert> */}
-          <p className="rounded-sm border-2 bg-white p-4 text-dark-0">
-            Chào mừng bạn đến với NGUYEN'S HOME!
-          </p>
-        </Snackbar>
-      </Stack>
+          <Header />
+        </header>
+        <main className="">
+          <div className="mt-40"></div>
+          <Outlet />
+          <div className="absolute top-40 h-full w-full">{snow()}</div>
+          {/* Notify */}
+          <SuccessNotify />
+          <InformationNotify />
+          <ErrorNotify />
+          {/* Load all product */}
+          <LoadAllProduct />
+          {/* <Chatbot></Chatbot> */}
+        </main>
+        <Footer />
+        <CustomeDrawer />
+
+        <Stack sx={{ width: "90%" }} spacing={2}>
+          <Snackbar
+            open={openSnack}
+            autoHideDuration={3000}
+            onClose={handleClose}
+          >
+            {/* <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Chào mừng bạn đến với NGUYEN'S HOME
+              </Alert> */}
+            <p className="rounded-sm border-2 bg-white p-4 text-dark-0">
+              Chào mừng bạn đến với NGUYEN'S HOME!
+            </p>
+          </Snackbar>
+        </Stack>
+      </div>
     </>
   );
 };
