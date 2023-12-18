@@ -380,3 +380,25 @@ export const GET_BLOG_POST_BY_ID = (id: string) =>
 
 // get latest blog posts
 export const GET_LATEST_BLOG_POSTS = `/posts/getLatestBlogPosts`;
+
+// conversation
+export const CREATE_CONVERSATION = `/conversations/createConversationForCustomer`;
+
+// get user conversations
+export const GET_USER_CONVERSATION = `/conversations/getUserConversation`;
+
+// get all messages for conversation
+export const GET_ALL_MESSAGES_FOR_CONVERSATION = (id: string) =>
+  `/messages/getAllMessagesForConversation/${id}`;
+
+// create message
+export const CREATE_MESSAGE = `/messages/createMessage`;
+export const getCreateMessageBody = (
+  senderId: string,
+  conversationId: string,
+  messageText: string
+) => ({
+  senderId: senderId,
+  conversationId: conversationId,
+  messageText: messageText,
+});

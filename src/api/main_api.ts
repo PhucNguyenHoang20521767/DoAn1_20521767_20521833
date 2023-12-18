@@ -1,5 +1,6 @@
 import axios from "axios";
 
+export const hostURL = "https://nguyenshomefurniture-be.onrender.com";
 export const baseURL = "https://nguyenshomefurniture-be.onrender.com/api";
 // export const baseURL = "http://localhost:5000/api";
 

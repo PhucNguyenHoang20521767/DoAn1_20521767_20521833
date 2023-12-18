@@ -21,7 +21,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="h-[600px] w-full overflow-hidden">
+    <div className="box-border h-[600px] w-full overflow-hidden">
       {/* {imgAdd.map((img, index) => (
         <img
           key={index}
@@ -39,7 +39,7 @@ const Hero = () => {
       {imgAdd.map((img, index) => (
         <img
           key={index}
-          className={`mt-30 absolute left-0 top-0 h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
+          className={`mt-30 absolute left-0 top-0 box-border h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
           src={img}

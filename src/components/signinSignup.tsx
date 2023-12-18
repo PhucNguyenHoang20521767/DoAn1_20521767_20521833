@@ -206,7 +206,7 @@ const Signup = ({
               </label>
               <select
                 {...register("gender", { required: true })}
-                className="block w-full border border-secondary-1 bg-white p-1.5 text-sm text-gray-900 focus:border-2 focus:border-black focus:ring-white dark:border-gray-600 dark:bg-dark-1 dark:text-white dark:placeholder-white dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                className="block w-full border  border-secondary-1 bg-white p-1.5 text-sm text-gray-900 placeholder-white focus:border-2 focus:border-black  focus:ring-white"
               >
                 {/* <option selected>Giới tính:</option> */}
                 <option value="Nam">Nam</option>

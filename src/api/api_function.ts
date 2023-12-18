@@ -632,3 +632,36 @@ export const getBlogPostById = async (id: string) => {
 export const getLatestBlogPost = async () => {
   return await mainApi.get(apiEndpoints.GET_LATEST_BLOG_POSTS);
 };
+
+// conversation
+export const createConversation = async (token: string) => {
+  return await mainApi.post(
+    apiEndpoints.CREATE_CONVERSATION,
+    apiEndpoints.getAccessToken(token)
+  );
+};
+
+//get user conversation
+export const getUserConversation = async (token: string) => {
+  return await mainApi.get(
+    apiEndpoints.GET_USER_CONVERSATION,
+    apiEndpoints.getAccessToken(token)
+  );
+};
+
+//get all messages for conversation
+export const getAllMessagesForConversation = async (id: string) => {
+  return await mainApi.get(apiEndpoints.GET_ALL_MESSAGES_FOR_CONVERSATION(id));
+};
+
+//create message
+export const createMessage = async (
+  senderId: string,
+  conversationId: string,
+  messageText: string
+) => {
+  return await mainApi.post(
+    apiEndpoints.CREATE_MESSAGE,
+    apiEndpoints.getCreateMessageBody(senderId, conversationId, messageText)
+  );
+};

@@ -23,8 +23,13 @@ import SuccessNotify from "@/components/customs/SuccessNotify";
 import InformationNotify from "@/components/customs/InformationNotify";
 import ErrorNotify from "@/components/customs/ErrorNotify";
 import Chatbot from "@/components/Chatbot";
-import "./snow.css";
-import Snowflake from "./SnowFlake";
+import { fetchConversation } from "./Loading";
+import {
+  IConversationState,
+  loadConversation,
+} from "@/redux/reducers/conversation_reducers";
+// import "./snow.css";
+// import Snowflake from "./SnowFlake";
 
 interface CartItem {
   _id: string;
@@ -53,22 +58,6 @@ const RootPage = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-
-  const snow = () => {
-    let animationDelay = "0s";
-    let fontSize = "100px";
-    let arr = new Array(200).fill(null);
-
-    return arr.map((el, i) => {
-      animationDelay = `${(Math.random() * 16).toFixed(2)}s`;
-      fontSize = `${Math.floor(Math.random() * 10) + 10}px`;
-      let style = {
-        animationDelay,
-        fontSize,
-      };
-      return <Snowflake key={i} id={i} style={style} />;
-    });
-  };
 
   // Login
   useEffect(() => {
@@ -144,6 +133,10 @@ const RootPage = () => {
   useEffect(() => {
     if (currentUser) {
       fetchCart();
+      fetchConversation(currentUser).then((conversationData) => {
+        dispatch(loadConversation(conversationData as IConversationState));
+        setOpenSnack(true);
+      });
       setOpenSnack(true);
     }
   }, [currentUser]);
@@ -182,7 +175,7 @@ const RootPage = () => {
         <main className="">
           <div className="mt-40"></div>
           <Outlet />
-          <div className="absolute top-40 h-full w-full">{snow()}</div>
+          {/* <div className="absolute top-40 h-full w-full">{snow()}</div> */}
           {/* Notify */}
           <SuccessNotify />
           <InformationNotify />
