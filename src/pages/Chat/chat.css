@@ -13,3 +13,19 @@
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
+
+.cs-message-input__content-editor-wrapper,
+.cs-message-input__content-editor {
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  resize: none;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: inherit;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}

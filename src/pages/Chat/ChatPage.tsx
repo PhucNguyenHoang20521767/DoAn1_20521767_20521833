@@ -129,9 +129,9 @@ const ChatPage: React.FC = () => {
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
-  // React.useEffect(() => {
-  //   socket.emit("addUser", id);
-  // }, []);
+  React.useEffect(() => {
+    socket.emit("addUser", id);
+  }, []);
 
   return (
     <Box className="mx-auto h-full max-h-[650px] w-full max-w-[396px]">
@@ -166,6 +166,7 @@ const ChatPage: React.FC = () => {
                 value={inputValue}
                 onChange={handleInputChange}
                 onSend={handleMessageSubmit}
+                attachButton={false}
               />
             </ChatContainer>
           </MainContainer>
