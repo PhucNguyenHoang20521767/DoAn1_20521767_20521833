@@ -13,7 +13,7 @@ const useFetchMessages = () => {
     const fetchMessages = async () => {
       const result = await getAllMessagesForConversation(conversation._id);
       setMessages(result.data.data);
-      console.log("resultMessage", result.data.data);
+      console.log("resultMessage in hook:", result.data.data);
     };
     fetchMessages();
   }, []);

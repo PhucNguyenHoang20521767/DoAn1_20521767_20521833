@@ -14,7 +14,10 @@ import "./chat.css";
 import useFetchMessages from "./useFetchMessages";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { createMessage } from "@/api/api_function";
+import {
+  createMessage,
+  getAllMessagesForConversation,
+} from "@/api/api_function";
 import { io } from "socket.io-client";
 import { hostURL } from "@/api/main_api";
 
@@ -36,8 +39,7 @@ const ChatPage: React.FC = () => {
   const socket = io(hostURL);
   const id = useSelector((state: RootState) => state.auth.id);
   const conversation = useSelector((state: RootState) => state.conversation);
-  const initialMessages = useFetchMessages();
-  const [messages, setMessages] = React.useState(initialMessages);
+  const [messages, setMessages] = React.useState<MessageItem[]>([]);
   const [inputValue, setInputValue] = React.useState("");
   const [arrivalMessage, setArrivalMessage] = React.useState<MessageItem>({
     conversationId: "",
@@ -96,6 +98,16 @@ const ChatPage: React.FC = () => {
     }
     setInputValue("");
   };
+  React.useEffect(() => {
+    if (conversation._id !== "") {
+      const fetchMessages = async () => {
+        const result = await getAllMessagesForConversation(conversation._id);
+        const initialMessages: MessageItem[] = result.data.data;
+        setMessages(initialMessages);
+      };
+      fetchMessages();
+    }
+  }, [conversation]);
 
   React.useEffect(() => {
     if (socket) {
@@ -117,12 +129,9 @@ const ChatPage: React.FC = () => {
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
-  React.useEffect(() => {
-    socket.emit("addUser", id);
-    // socket.on("receiveMessage", (message: MessageItem) => {
-    //   setMessages((prev) => [...prev, message]);
-    // });
-  }, []);
+  // React.useEffect(() => {
+  //   socket.emit("addUser", id);
+  // }, []);
 
   return (
     <Box className="mx-auto h-full max-h-[650px] w-full max-w-[396px]">
