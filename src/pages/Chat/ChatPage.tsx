@@ -112,10 +112,10 @@ const ChatPage: React.FC = () => {
   React.useEffect(() => {
     if (socket) {
       socket.on("receiveMessage", (sender: string, text: string) => {
-        if (sender === id) {
+        if (sender === "ADMIN-SOCKET") {
           setArrivalMessage({
             conversationId: conversation._id,
-            senderId: sender,
+            senderId: "ADMIN-SOCKET",
             messageText: text,
             messageSentDate: new Date(),
           });
