@@ -28,6 +28,7 @@ import {
   IConversationState,
   loadConversation,
 } from "@/redux/reducers/conversation_reducers";
+import { notification } from "antd";
 // import "./snow.css";
 // import Snowflake from "./SnowFlake";
 
@@ -134,6 +135,18 @@ const RootPage = () => {
     if (currentUser) {
       fetchCart();
       fetchConversation(currentUser).then((conversationData) => {
+        if (conversationData === "error") {
+          dispatch({
+            type: "NOTIFY",
+            payload: {
+              loading: false,
+              success: false,
+              error: true,
+              message: "Lỗi tạo cuộc trò chuyện",
+            },
+          });
+          return;
+        }
         dispatch(loadConversation(conversationData as IConversationState));
         setOpenSnack(true);
       });

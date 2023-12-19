@@ -634,11 +634,21 @@ export const getLatestBlogPost = async () => {
 };
 
 // conversation
+// export const createConversation = async (token: string) => {
+//   return await mainApi.post(
+//     apiEndpoints.CREATE_CONVERSATION,
+//     apiEndpoints.getAccessToken(token)
+//   );
+// };
+
 export const createConversation = async (token: string) => {
-  return await mainApi.post(
-    apiEndpoints.CREATE_CONVERSATION,
-    apiEndpoints.getAccessToken(token)
-  );
+  return await axios({
+    method: "post",
+    url: `${baseURL}/conversations/createConversationForCustomer`,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 };
 
 //get user conversation
