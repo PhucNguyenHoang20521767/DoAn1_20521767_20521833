@@ -149,15 +149,22 @@ const ChatPage: React.FC = () => {
                       sender: message.senderId,
                       direction:
                         message.senderId === id ? "outgoing" : "incoming",
-                      position: "single",
+                      position: "normal",
                     }}
                     className={`${
                       message.senderId !== id ? "admin-message" : "user-message"
                     }`}
+                    avatarSpacer={
+                      message.senderId === id &&
+                      message.senderId === messages[index + 1]?.senderId
+                        ? true
+                        : false
+                    }
                   >
-                    {message.senderId !== id && (
-                      <Avatar src={adminAvatar} name={"Admin"} />
-                    )}
+                    {message.senderId === id &&
+                      message.senderId !== messages[index + 1]?.senderId && (
+                        <Avatar src={adminAvatar} name={"Admin"} />
+                      )}
                   </Message>
                 ))}
               </MessageList>
