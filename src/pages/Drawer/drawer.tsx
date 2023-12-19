@@ -87,7 +87,7 @@ const CustomDrawer = () => {
               {
                 cart: "Giỏ hàng",
                 favourite: "Yêu thích",
-                chat: "Tin nhắn",
+                chat: "Trò chuyện với chúng tôi",
               }[pageDrawer]
             }
           </h3>
