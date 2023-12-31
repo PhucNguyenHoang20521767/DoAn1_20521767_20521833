@@ -66,20 +66,17 @@ const BillItem = () => {
   // const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
-    console.log("orderId", id);
     setLoading(true);
     if (id === undefined) return;
     if (currentUser === null) return;
     getOrderById(currentUser, id).then((res) => {
       const orderRes = res.data.data;
-      // console.log('orderRes', orderRes);
       setOrderInfo(orderRes);
       dispatch(updateOrder(orderRes));
     });
     getOrderItemByOrder(currentUser, id).then((res) => {
       const orderItemRes = res.data.data;
       setOrderItems(orderItemRes);
-      // console.log('orderItemRes', orderItemRes);
       setLoading(false);
     });
   }, []);

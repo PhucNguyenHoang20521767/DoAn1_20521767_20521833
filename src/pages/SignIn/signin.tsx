@@ -75,12 +75,10 @@ const SignIn = () => {
   const handleComplete = async (finalValue: string) => {
     const theOtp = finalValue;
     try {
-      console.log("n1", idToken, theOtp);
       const result = await mainApi.post(
         apiEndpoints.GET_OTP,
         apiEndpoints.getOTPBody(idToken, theOtp)
       );
-      console.log("n2", result);
 
       setDone(true);
       dispatch(
@@ -109,12 +107,10 @@ const SignIn = () => {
   const handleCompleteFP = async (finalValue: string) => {
     const theOtp = finalValue;
     try {
-      console.log("fp1", idToken, theOtp, newPassword);
       const result = await mainApi.post(
         apiEndpoints.RESET_PASSWORD,
         apiEndpoints.getResetPasswordBody(idToken, theOtp, newPassword)
       );
-      console.log("fp2", result);
       dispatch(
         notify({
           isSuccess: true,
@@ -159,7 +155,7 @@ const SignIn = () => {
       navigate("/");
       // localStorage.setItem("currentUser", token);
     } catch (error) {
-      console.log(error);
+      console.log("error signin");
     }
   };
 
@@ -178,19 +174,17 @@ const SignIn = () => {
         })
       );
     } catch (error: any) {
-      console.log(error);
+      console.log("error signin");
     }
   };
 
   const handleSendOTP = async (e: React.MouseEvent<HTMLButtonElement>) => {
     setFpLoading(true);
-    console.log("1", forgotEmail);
     try {
       const result = await mainApi.post(
         apiEndpoints.FORGOT_PASSWORD,
         apiEndpoints.getForgotPasswordBody(forgotEmail)
       );
-      console.log("2", result);
       setIdToken(result.data.customerIdToken);
       dispatch(
         notify({
@@ -212,7 +206,6 @@ const SignIn = () => {
           message: "Email không tồn tại!",
         })
       );
-      console.log(error);
       setFpLoading(false);
     }
   };

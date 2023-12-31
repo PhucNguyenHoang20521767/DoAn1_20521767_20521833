@@ -131,7 +131,6 @@ const CartItemComponent = ({ cartItem, setCartItems }: CartItemProps) => {
           });
           return tempCartItems;
         });
-        console.log("1product", product);
 
         // const imageRes = await getProductImagesUrl(cartItem.productId)
         // const productImages = imageRes.data.data
@@ -492,7 +491,6 @@ export const Cart = ({ isCart }: CartProps) => {
 
   useEffect(() => {
     if (cart.length > 0) {
-      console.log("cart", cart);
       // if (isDeleted === false) {
       dispatch(loadCartItems({ cartItems: cartItems, isDeleted: false }));
       // }

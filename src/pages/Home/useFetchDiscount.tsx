@@ -19,7 +19,6 @@ const useFetchDiscount = () => {
         }));
         setDiscounts(result);
         dispatch(addDiscount({ currentDiscount: result }));
-        console.log("result", result);
       } catch (error) {
         console.error(error);
       }

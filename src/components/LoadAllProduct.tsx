@@ -96,7 +96,7 @@ const LoadAllProduct = () => {
       };
       dispatch(getallproduct(allProducts));
     } catch (error: any) {
-      console.log(error);
+      console.log("error");
     }
   };
 

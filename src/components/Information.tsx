@@ -83,7 +83,6 @@ const Information = (props: Props) => {
         data.email,
         data.gender
       ).then(async () => {
-        // console.log("result", result);
         if (avatarFile !== null) {
           await saveAvatar(currentUser, avatarFile);
         }

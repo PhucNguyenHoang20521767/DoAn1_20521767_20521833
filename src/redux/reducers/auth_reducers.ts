@@ -31,7 +31,6 @@ const authReducer = createReducer(initialState, (builder) => {
       state.currentUser = action.payload.currentUser;
       state.id = action.payload.id;
       const user = action.payload.currentUser;
-      console.log("user", user);
       state.customerIdToken = action.payload.customerIdToken;
       state.isLogin = true;
     })

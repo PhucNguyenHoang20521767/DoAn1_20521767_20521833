@@ -20,7 +20,6 @@ const Home = () => {
     const dateB = new Date(b.create_at);
     return dateB.getTime() - dateA.getTime();
   });
-  console.log("sortedProducts2", sortedProducts2);
   return (
     <div>
       <Hero></Hero>

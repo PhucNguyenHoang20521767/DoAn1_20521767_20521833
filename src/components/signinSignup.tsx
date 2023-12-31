@@ -64,7 +64,6 @@ const Signup = ({
 
   const handleChange = (selectedDate: Date) => {
     setDate(selectedDate);
-    // console.log("date", selectedDate);
   };
 
   useEffect(() => {
@@ -85,7 +84,6 @@ const Signup = ({
 
   // const birthday = date.toISOString().split('T')[0];
   const birthday = date.toString();
-  // console.log('birthday', birthday);
 
   const onSubmit: SubmitHandler<ISignUpInput> = async (data) => {
     if (loading) return;
@@ -108,7 +106,6 @@ const Signup = ({
       );
 
       setLoginEmail(data.email);
-      console.log("data", result);
       setIdToken(result.data.customerIdToken);
       handleSignUp();
     } catch (error: any) {

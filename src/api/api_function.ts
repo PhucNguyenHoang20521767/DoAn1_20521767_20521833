@@ -346,13 +346,11 @@ export const fetchCart = async () => {
   try {
     const res1 = await getCustomerCart(currentUser);
     const cartInfores = res1.data.data;
-    console.log("ci", cartInfores);
     dispatch(loadcart(cartInfores));
 
     if (cartInfores.length > 0) {
       const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
       const cartItems = res2.data.data;
-      console.log("aci", cartItems);
     }
   } catch (error) {
     console.log(error);
@@ -540,8 +538,6 @@ export const saveFeedbackImage = async (
     if (!image.originFileObj) continue;
     formData.append("Files[]", image.originFileObj);
   }
-
-  console.log(formData);
 
   return await mainApi.post(
     apiEndpoints.SAVE_FEEDBACK_IMAGES(feedbackId),

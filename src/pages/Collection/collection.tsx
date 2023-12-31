@@ -89,7 +89,6 @@ const Collection: React.FC = () => {
         //product
         const productRes = await getProductById(id);
         const product = productRes.data.data;
-        console.log("product", product);
         setProduct(product);
         setPrice(product.productPrice);
         // Color
@@ -119,8 +118,6 @@ const Collection: React.FC = () => {
             return;
           }
           const error = productDiscountRes.data.error;
-          console.log("error", error);
-          // console.log('productDiscount', productDiscount)
           if (
             productDiscount &&
             new Date(productDiscount.discountEndDate) > new Date() &&
@@ -135,11 +132,9 @@ const Collection: React.FC = () => {
 
           if (error) {
             discountFailed();
-            console.log("errorDiscount1", error);
           }
         } else {
           discountFailed();
-          console.log("errorDiscount2");
         }
 
         // const listColor = await Promise.all(
@@ -169,7 +164,6 @@ const Collection: React.FC = () => {
     if (discountNotExpired && product && product.productPrice) {
       const newPrice = (tempPrice * (100 - discount)) / 100;
       setPrice(newPrice);
-      console.log("newPrice", newPrice);
     }
   };
 
@@ -204,11 +198,9 @@ const Collection: React.FC = () => {
         productColor.map(async (color: any) => {
           const listColorRes = await getProductColorById(color._id);
           const listColor = listColorRes.data.color;
-          // console.log('listColor1', listColor)
           return { ...color, ...listColor, colorId: color._id };
         })
       );
-      // console.log('listColor2', listColor)
       if (listColor.length > 0) {
         setListColor(listColor);
         setChooseColor(listColor[0]);
@@ -251,7 +243,7 @@ const Collection: React.FC = () => {
         });
       }
     } catch (err) {
-      console.log("err", err);
+      console.log("err collection");
     }
   }, [id]);
 
@@ -308,10 +300,6 @@ const Collection: React.FC = () => {
       return;
     }
     try {
-      console.log("currentCart", currentCart._id);
-      console.log("currentUser", currentUser);
-      console.log("productId", product._id);
-      console.log("chooseColor", chooseColor?.colorId || "", 1);
       await addItemToCart(
         currentCart._id,
         currentUser,

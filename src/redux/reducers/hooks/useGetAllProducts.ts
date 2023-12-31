@@ -45,7 +45,6 @@ const useGetAllProducts = () => {
         apiEndpoints.GET_PRODUCT_IMAGES_URL(productId)
       );
       const data = result.data.data;
-      // console.log('image', data);
       return data;
     } catch (error: any) {
       return error;
@@ -95,11 +94,10 @@ const useGetAllProducts = () => {
         allProduct: resolvedProducts.filter((product) => product !== undefined),
       };
       setAllProductsState(allProducts);
-      console.log("allProductsState", allProductsState);
       //   if (allProductsState !== undefined)
       //     dispatch(getallproduct(allProductsState));
     } catch (error: any) {
-      console.log(error);
+      console.log("error in getAllProducts: ");
     }
   };
 

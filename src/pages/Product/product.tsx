@@ -62,7 +62,6 @@ const product = () => {
 
   const handleColorClick = (color: any) => {
     setSelectedColor(color._id);
-    console.log(color._id);
   };
 
   function handleResetColor() {

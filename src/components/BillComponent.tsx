@@ -59,7 +59,6 @@ const BillComponent = ({ order }: IOrderStateProps) => {
       getOrderItemByOrder(currentUser, order._id).then((res) => {
         const orderItemRes = res.data.data;
         setOrderItems(orderItemRes);
-        console.log("orderItemRes", orderItemRes);
 
         getAddressById(order.orderAddress, currentUser).then((res) => {
           const addressRes = res.data.data;

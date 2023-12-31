@@ -95,7 +95,7 @@ const RootPage = () => {
 
       dispatch(gglogin(userLogin));
     } catch (error: any) {
-      console.log(error);
+      console.log("error");
     }
   };
 
@@ -103,7 +103,7 @@ const RootPage = () => {
     try {
       if (currentUser) await createCart(currentUser);
     } catch (error) {
-      console.log(error);
+      console.log("error");
     }
   };
 
@@ -124,10 +124,10 @@ const RootPage = () => {
         const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
         const cartItems = res2.data.data;
         // dispatch(loadCartItems(cartItems))
-        console.log("aci", cartItems);
+        console.log("aci");
       }
     } catch (error) {
-      console.log(error);
+      console.log("error");
     }
   };
 

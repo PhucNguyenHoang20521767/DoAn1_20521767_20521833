@@ -28,11 +28,6 @@ const AddToCartButton: React.FC<Props> = ({ product_id }) => {
 
       if (currentUser) {
         try {
-          console.log("cartId", currentCart._id);
-          console.log("currentUser", currentUser);
-          console.log("productId", product._id);
-          console.log("productColor", productColor[0]._id);
-          console.log("quantity", 1);
           addItemToCart(
             currentCart._id,
             currentUser,

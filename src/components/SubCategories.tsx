@@ -25,7 +25,6 @@ const SubCategoryList = () => {
     try {
       const result = await mainApi.get(apiEndpoints.GET_SUBCATEGORIES);
       const data = result.data.data;
-      console.log("dt", data);
       setSubCategories(
         data.map((item: any) => {
           return {
@@ -35,10 +34,8 @@ const SubCategoryList = () => {
           };
         })
       );
-      //   setSubCategories(data);
-      // console.log('sub', subCategories);
     } catch (error: any) {
-      console.log(error);
+      console.log("error sub categories");
     }
   };
 

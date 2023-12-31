@@ -19,7 +19,6 @@ const BillAddress = ({ addressId }: any) => {
   React.useEffect(() => {
     getAddressById(addressId, currentUser).then((res) => {
       const addressRes = res.data.data;
-      // console.log("address", addressRes)
       setAddress(addressRes);
     });
   }, [addressId]);

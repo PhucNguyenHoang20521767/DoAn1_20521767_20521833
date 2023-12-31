@@ -24,7 +24,6 @@ const IconFavourite = ({ productId }: Props) => {
   function handleFavourite() {
     if (currentUser) {
       addOrRemoveProductFromWishlist(currentUser, productId).then((res) => {
-        // console.log(res);
         dispatch(changeWishlist());
         dispatch(
           notify({

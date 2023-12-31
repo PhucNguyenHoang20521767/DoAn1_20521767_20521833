@@ -95,7 +95,7 @@ const Order = () => {
           // console.log("address", addresses)
         })
         .catch((err) => {
-          console.log(err);
+          console.log("err order");
         });
     }
   }, [currentUser, reload]);
@@ -128,9 +128,6 @@ const Order = () => {
         }
         return total + item.productPrice * item.productQuantity;
       }, 0);
-
-      console.log("cartItems", cartItems);
-      console.log("resultPrice", resultPrice);
 
       setPrice(resultPrice);
     }
@@ -179,18 +176,6 @@ const Order = () => {
                 : item.productPrice;
               const finalPrice = checkPrice * item.productQuantity;
 
-              console.log("user", currentUser);
-
-              console.log(
-                "orderItem",
-                orderId,
-                item.productId,
-                item.productColorId,
-                item.productQuantity,
-                normalPrice,
-                finalPrice
-              );
-
               createOrderItem(
                 currentUser,
                 orderId,
@@ -201,7 +186,7 @@ const Order = () => {
                 finalPrice
               )
                 .then((res) => {
-                  console.log(res);
+                  console.log("res order item");
                 })
                 .catch((err) => {
                   dispatch(
@@ -226,7 +211,6 @@ const Order = () => {
                 })
               );
               const result = await removeAllItemFromCart(cartId, currentUser);
-              console.log("rs", result);
               handleRemoveCart();
             } catch (err) {
               dispatch(
@@ -240,7 +224,7 @@ const Order = () => {
             }
           })
           .catch((err) => {
-            console.log(err);
+            console.log("err order");
           });
       }
       handleReload();

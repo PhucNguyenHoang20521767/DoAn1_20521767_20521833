@@ -73,13 +73,11 @@ const BillProductList = ({ orderItem, orderInfo }: BillProductListProps) => {
   useEffect(() => {
     getProductById(orderItem.productId).then((res) => {
       const productRes = res.data.data;
-      console.log("productRes", productRes);
       setProduct(productRes);
     });
 
     getProductColorById(orderItem.productColorId).then((res) => {
       const productColorRes = res.data.color;
-      console.log("productColorRes", productColorRes);
       setProductColor(productColorRes);
     });
 
@@ -88,7 +86,6 @@ const BillProductList = ({ orderItem, orderInfo }: BillProductListProps) => {
       orderItem.productColorId
     ).then((res) => {
       const productImageUrlRes = res.data.data;
-      console.log("productImageUrlRes", productImageUrlRes);
       const _imageUrls = productImageUrlRes.map(
         (productImageUrl: any) => productImageUrl.imageURL
       );

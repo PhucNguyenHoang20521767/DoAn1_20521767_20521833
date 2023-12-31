@@ -81,7 +81,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           }
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
         setIsDiscount(false);
         return;
       }
@@ -103,10 +103,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       const productColor = productColorRes.data.data;
 
       if (user) {
-        // console.log('currentCart', currentCart._id,
-        //  "User", user,
-        //  "productid", product.id,
-        //  "colorid", productColor[0]._id, 1);
         addItemToCart(
           currentCart._id,
           user,

@@ -62,7 +62,6 @@ const Login = ({
         apiEndpoints.LOGIN,
         apiEndpoints.getLoginBody(data.email, data.password)
       );
-      console.log("verify", result.data.data.isVerified);
 
       if (result.data.data.isVerified) {
         handleLogin(
@@ -76,9 +75,8 @@ const Login = ({
           apiEndpoints.VERIFY_OTP,
           apiEndpoints.sendOTPCustomer(loginEmail)
         );
-        console.log("resultOtp", resultOtp);
+        console.log("resultOtp");
         setIdToken(result.data.customerIdToken);
-        console.log(result.data.customerIdToken);
       }
 
       //handleLogin(result.data.token);
@@ -112,7 +110,6 @@ const Login = ({
     customerIdToken: string
   ) => {
     try {
-      console.log("id", id);
       const userLogin = {
         currentUser: currentUser,
         id: id,
@@ -126,7 +123,7 @@ const Login = ({
       navigate("/");
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("error login");
     }
   };
 

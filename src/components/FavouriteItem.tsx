@@ -45,8 +45,6 @@ const FavouriteItem = ({ item, setWishlist }: Props) => {
       if (currentUser) {
         addOrRemoveProductFromWishlist(currentUser, item.productId).then(
           (res) => {
-            console.log(res);
-            // dispatch(changeWishlist());
             setWishlist((prev) =>
               prev.filter((pd) => pd?.productId !== currentProduct)
             );
