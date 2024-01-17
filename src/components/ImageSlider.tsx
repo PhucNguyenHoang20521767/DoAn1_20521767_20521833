@@ -3,10 +3,12 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { IDiscount } from "../pages/Home/CampaignCarousel";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
-interface ImageSliderProps {
-  slides: IDiscount[];
-}
+// interface ImageSliderProps {
+//   slides: IDiscount[];
+// }
 
 // export interface IDiscount {
 //   discountThumbnail: string;
@@ -21,9 +23,12 @@ interface ImageSliderProps {
 //   index?: number;
 // }
 
-const ImageSlider = ({ slides }: ImageSliderProps) => {
+const ImageSlider = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const slides = useSelector(
+    (state: RootState) => state.discount.currentDiscount
+  );
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;

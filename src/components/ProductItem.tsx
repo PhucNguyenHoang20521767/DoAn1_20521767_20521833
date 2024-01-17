@@ -88,7 +88,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
     }
 
     // console.log("pd", product);
-    if (product?.discount_id) fetchDiscountData();
+    if (product?.discount_id !== null) fetchDiscountData();
   }, [product, dispatch]);
 
   async function handelAddToCart() {

@@ -272,7 +272,7 @@ const Collection: React.FC = () => {
   async function handleAddToCart() {
     if (!currentUser) {
       navigate("/signin");
-      return;
+      return false;
     } else if (
       chooseColor?.productQuantity &&
       quantity >= chooseColor?.productQuantity
@@ -285,8 +285,8 @@ const Collection: React.FC = () => {
           message: "Số lượng sản phẩm vượt quá số lượng hiện có",
         })
       );
-      setCanCheckOut(false);
-      return;
+      // setCanCheckOut(false);
+      return false;
     } else if (!chooseColor?.productQuantity) {
       dispatch(
         notify({
@@ -296,8 +296,8 @@ const Collection: React.FC = () => {
           message: "Sản phẩm hiện không có sẵn",
         })
       );
-      setCanCheckOut(false);
-      return;
+      // setCanCheckOut(false);
+      return false;
     }
     try {
       await addItemToCart(
@@ -307,17 +307,18 @@ const Collection: React.FC = () => {
         chooseColor?.colorId || "",
         quantity
       );
-      setCanCheckOut(true);
+      // setCanCheckOut(true);
+      return true;
     } catch (error) {
       console.log(error);
+      return false;
     }
   }
 
   function handleCheckout() {
-    handleAddToCart();
-    if (canCheckOut) {
-      navigate("/order");
-    }
+    handleAddToCart().then((res) => {
+      if (res) navigate("/cart");
+    });
   }
 
   return (
@@ -543,7 +544,7 @@ const Collection: React.FC = () => {
         <ProductCarousel products={relatedProducts} />
       </section>
       {/* Rating */}
-      <section className="mx-auto mt-2 max-w-screen-md shadow-xl">
+      <section className="mx-auto my-4 mt-2 max-w-screen-md py-4 shadow-xl">
         <div
           id="reviews"
           className="flex justify-center py-7 text-center text-xl text-black"

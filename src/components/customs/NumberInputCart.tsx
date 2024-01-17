@@ -31,6 +31,7 @@ interface Props {
   onChange: (value: number) => void;
   cartItem: CartItem;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
   product: any;
   setPrice: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -40,6 +41,7 @@ const NumberInputCart: React.FC<Props> = ({
   onChange,
   cartItem,
   setCartItems,
+  setChange,
   product,
   setPrice,
 }) => {
@@ -55,6 +57,8 @@ const NumberInputCart: React.FC<Props> = ({
       newPrice
     );
     const cart = cartRes.data.data;
+
+    setChange((prevChange) => !prevChange);
 
     setCartItems((prevCartItems) => {
       const tempCartItems = prevCartItems.map((item: CartItem) => {

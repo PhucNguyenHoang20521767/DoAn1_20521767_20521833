@@ -13,6 +13,7 @@ interface IAllProduct {
 const LoadAllProduct = () => {
   const dispatch = useDispatch();
   const allProducts = useSelector((state: RootState) => state.all.allProduct);
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
 
   const getCategorySlug = async (categoryId: string) => {
     try {
@@ -101,8 +102,8 @@ const LoadAllProduct = () => {
   };
 
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    if (allProducts.length === 0) getAllProducts();
+  }, [currentUser]);
 
   return <></>;
 };

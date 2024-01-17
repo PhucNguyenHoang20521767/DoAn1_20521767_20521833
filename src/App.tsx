@@ -44,7 +44,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<Rootpage />}>
       <Route index element={<Home />} />
       <Route path="home" element={<Home />} />
-      <Route path="order" element={<Order />}>
+      <Route path="cart" element={<Order />}>
         <Route path="success" element={<OrderSuccess />} />
       </Route>
       <Route path="product" element={<Product />}>

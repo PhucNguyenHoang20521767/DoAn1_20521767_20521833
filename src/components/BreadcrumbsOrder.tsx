@@ -47,7 +47,7 @@ export default function Breadcrumbs() {
         Sản phẩm
       </Link>
       <span className="mx-2 text-gray-500">/</span>
-      {/* {crumbs} */}
+      <p className="text-gray-500 hover:text-gray-700">Giỏ hàng</p>
     </div>
   );
 }

@@ -110,32 +110,28 @@ const Order = () => {
 
   useEffect(() => {
     if (cartItems) {
-      // let tempPrice = 0;
-
-      // cartItems.forEach((item: CartItem) => {
-      //   if (item.productSalePrice !== undefined) {
-      //     const newPrice = price + (item.productSalePrice * item.productQuantity)
-      //     tempPrice += newPrice
-      //     console.log('newPrice', newPrice)
+      // const resultPrice = cartItems.reduce((total: number, item: CartItem) => {
+      //   if (item.productSalePrice) {
+      //     return total + item.productSalePrice * item.productQuantity;
       //   }
-      // })
+      //   return total + item.productPrice * item.productQuantity;
+      // }, 0);
 
-      // dkm javascript, state nó cập nhật chậm quá phải đợi render lại component mới có, nên thôi dùng cái này
-
-      const resultPrice = cartItems.reduce((total: number, item: CartItem) => {
-        if (item.productSalePrice) {
-          return total + item.productSalePrice * item.productQuantity;
-        }
-        return total + item.productPrice * item.productQuantity;
-      }, 0);
-
-      setPrice(resultPrice);
+      // setPrice(resultPrice);
+      setPrice(
+        cartItems.reduce((total: number, item: CartItem) => {
+          if (item.productSalePrice) {
+            return total + item.productSalePrice * item.productQuantity;
+          }
+          return total + item.productPrice * item.productQuantity;
+        }, 0)
+      );
     }
-  }, [cartItems]);
+  }, [cartItems, dispatch]);
 
   useEffect(() => {
     setTotalPrice(price + ship);
-  }, [price]);
+  }, [price, cartItems]);
 
   const handleSelectAddress = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedAddressId = event.target.value;
@@ -230,7 +226,15 @@ const Order = () => {
       handleReload();
       navigate(`/account/bill/${orderId}`);
     } else {
-      alert("Giỏ hàng trống");
+      // alert("Giỏ hàng trống");
+      dispatch(
+        notify({
+          message: "Giỏ hàng trống",
+          isError: true,
+          isSuccess: false,
+          isInfo: false,
+        })
+      );
     }
     setLoading(false);
   };
@@ -239,7 +243,7 @@ const Order = () => {
     <>
       <div className="flex flex-wrap">
         <div className="w-full md:w-1/3">
-          <div className="mt-2">
+          <div className="mt-2 pl-8">
             <BreadcrumbsOrder />
           </div>
           <h1 className="my-6 flex justify-center text-2xl font-bold text-gray-700">
@@ -345,7 +349,7 @@ const Order = () => {
                   </label>
                   <div className="mt-2">
                     <textarea
-                      className="form-textarea w-full"
+                      className="form-textarea w-full px-4 py-2"
                       placeholder="Nhập ghi chú đơn hàng của bạn ở đây..."
                       value={orderNote}
                       onChange={handleOrderNoteChange}

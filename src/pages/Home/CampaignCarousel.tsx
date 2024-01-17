@@ -1,5 +1,9 @@
 import ImageSlider from "@/components/ImageSlider";
-import useFetchDiscount from "./useFetchDiscount";
+import { useEffect, useState } from "react";
+import { getAllValidDiscounts } from "@/api/api_function";
+import { addDiscount } from "@/redux/reducers/discount_reducers";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store/store";
 
 export interface IDiscount {
   discountThumbnail: string;
@@ -14,35 +18,38 @@ export interface IDiscount {
   index?: number;
 }
 
-// const slides = [
-//   {
-//     url: "/hero.webp",
-//     title: "Save30",
-//     id: "1",
-//   },
-//   {
-//     url: "/save_40.webp",
-//     title: "Save40",
-//     id: "2",
-//   },
-//   {
-//     url: "/video.gif",
-//     title: "Tree",
-//     id: "3",
-//   },
-//   {
-//     url: "https://images.pexels.com/photos/313776/pexels-photo-313776.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     title: "Phucdeptrai",
-//     id: "4",
-//   },
-// ];
-
 const CampaignCarousel = () => {
-  const { discounts } = useFetchDiscount();
+  const dispatch = useDispatch();
+  const currentDiscount = useSelector(
+    (state: RootState) => state.discount.currentDiscount
+  );
+  const allProducts = useSelector((state: RootState) => state.all.allProduct);
+  // const [discounts, setDiscounts] = useState<IDiscount[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getAllValidDiscounts();
+        const data: IDiscount[] = res.data.data;
+        const result = data.map((discount: IDiscount, index: number) => ({
+          ...discount,
+          index: index,
+        }));
+        // setDiscounts(result);
+        dispatch(addDiscount({ currentDiscount: result }));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (currentDiscount.length === 0) {
+      fetchData();
+    }
+  }, [allProducts]);
 
   return (
     <div>
-      <ImageSlider slides={discounts}></ImageSlider>
+      <ImageSlider></ImageSlider>
     </div>
   );
 };
