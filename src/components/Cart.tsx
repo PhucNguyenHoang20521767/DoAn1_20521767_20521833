@@ -32,6 +32,7 @@ import SuccessNotify from "@/components/customs/SuccessNotify";
 import ErrorNotify from "@/components/customs/ErrorNotify";
 import { notify } from "@/redux/reducers/notify_reducers";
 import CartItemComponent from "./CartDetail";
+import { get } from "http";
 
 interface Color {
   _id: string;
@@ -74,6 +75,7 @@ export const Cart = ({ isCart }: CartProps) => {
   const currentCart = useSelector((state: RootState) => state.cart);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [loadCart, setLoadCart] = useState<boolean>(false);
   const [pageLoading, setPageLoading] = useState<boolean>(false);
   const [change, setChange] = useState<boolean>(false);
 
@@ -82,8 +84,8 @@ export const Cart = ({ isCart }: CartProps) => {
     // setPageLoading(true)
   }, [isDeleted]);
 
-  const getCartItemsDetail = async (item: CartItem[]) => {
-    item.map(async (cartItem: CartItem) => {
+  const getCartItemsDetail = async (cartInfor: CartItem[]) => {
+    cartInfor.map(async (cartItem: CartItem) => {
       const fetchProductDetails = async () => {
         const res = await getProductById(cartItem.productId);
         return res.data.data;
@@ -110,6 +112,10 @@ export const Cart = ({ isCart }: CartProps) => {
           const productDiscountRes = await getDiscountById(
             product.productDiscountId
           );
+          console.log(
+            "discount productDiscountRes",
+            productDiscountRes.data.data
+          );
           return productDiscountRes.data.data;
         }
         return null;
@@ -119,14 +125,15 @@ export const Cart = ({ isCart }: CartProps) => {
       const color = await fetchColorDetails();
       const imageUrls = await fetchImageUrls();
       const discount = await fetchDiscountDetails(product);
+      console.log("discount discount", discount);
 
-      setCartItems((prevCartItems) => {
-        const tempCartItems = prevCartItems.map((item: CartItem) => {
+      setCartItems((prev) => {
+        const tempCartItems = prev.map((item: CartItem) => {
           if (item._id === cartItem._id) {
             return {
               ...item,
               productPrice: product.productPrice,
-              productDiscount: discount.discountPercent,
+              // productDiscount: discount.discountPercent,
               productSalePrice: product.productPrice,
               productColor: color,
               productImageUrls: imageUrls,
@@ -134,6 +141,7 @@ export const Cart = ({ isCart }: CartProps) => {
           }
           return item;
         });
+        setLoadCart(true);
         return tempCartItems;
       });
     });
@@ -150,6 +158,7 @@ export const Cart = ({ isCart }: CartProps) => {
         if (cartInfores.length > 0) {
           const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
           const returnData = res2.data.data;
+          setCartItems(returnData);
           getCartItemsDetail(returnData);
         }
       } catch (error) {
@@ -161,11 +170,15 @@ export const Cart = ({ isCart }: CartProps) => {
     }
   }, [currentUser]);
 
+  // useEffect(() => {
+  //   if (cartItems.length > 0) getCartItemsDetail(cartItems);
+  // }, [cartItems]);
+
   useEffect(() => {
-    if (cart.length > 0) {
+    if (cart.length > 0 && cartItems.length > 0) {
       dispatch(loadCartItems({ cartItems: cartItems, isDeleted: false }));
     }
-  }, [cartItems]);
+  }, [loadCart]);
 
   if (!currentUser) {
     return (
