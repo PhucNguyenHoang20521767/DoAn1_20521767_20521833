@@ -149,6 +149,7 @@ const Signup = ({
                   required: true,
                 })}
                 value={lastName}
+                autoComplete="family-name"
                 onChange={(e) => setLastName(e.target.value)}
                 className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               />
@@ -165,6 +166,7 @@ const Signup = ({
                 {...register("firstname", { required: true, maxLength: 20 })}
                 name="firstname"
                 value={firstName}
+                autoComplete="given-name"
                 onChange={(e) => setFirstName(e.target.value)}
                 className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
               />
@@ -179,7 +181,7 @@ const Signup = ({
             {/* Date time picker */}
             <div className="mb-1 pl-1">
               <label
-                htmlFor="email"
+                htmlFor="date"
                 className="text-base font-semibold text-dark-1"
               >
                 Ngày sinh:
@@ -196,7 +198,7 @@ const Signup = ({
             {/* Gender */}
             <div className="mb-1 min-[508px]:pr-[10.4rem]">
               <label
-                htmlFor="email"
+                htmlFor="gender"
                 className="min-w-10 text-base font-semibold text-dark-1"
               >
                 Giới tính:
@@ -227,6 +229,7 @@ const Signup = ({
               type="email"
               {...register("email", { required: true })}
               name="email"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
@@ -255,7 +258,7 @@ const Signup = ({
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
-                autoComplete="current-password"
+                autoComplete="new-password"
               />
               <button
                 type="button"

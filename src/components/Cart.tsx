@@ -1,47 +1,19 @@
 import { useEffect, useState } from "react";
 import { RootState } from "@/redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
-import { mainApi } from "@/api/main_api";
-import * as apiEndpoints from "@/api/api_endpoints";
+import { Link } from "react-router-dom";
 import {
-  createCart,
   getCustomerCart,
   getAllCartItem,
-  updateItemInCart,
-  removeItemFromCart,
   getProductById,
-  getProductColor,
   getProductColorById,
   getAllProductImageUrlByColor,
-  getProductImagesUrl,
   getDiscountById,
 } from "@/api/api_function";
-import ManySkeleton from "./loaders/manySkeleton";
-import { set } from "react-hook-form";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
-import NumberInputCart from "@/components/customs/NumberInputCart";
 import { CircularProgress } from "@mui/material";
 import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 
-import SuccessNotify from "@/components/customs/SuccessNotify";
-import ErrorNotify from "@/components/customs/ErrorNotify";
-import { notify } from "@/redux/reducers/notify_reducers";
 import CartItemComponent from "./CartDetail";
-import { get } from "http";
-
-interface Color {
-  _id: string;
-  colorName: string;
-  colorHex: string;
-  productId: string;
-  colorId: string;
-  productQuantity: number;
-}
 
 interface CartItem {
   _id: string;
@@ -52,16 +24,6 @@ interface CartItem {
   productPrice: number;
   productDiscount: number;
   productSalePrice: number;
-}
-
-interface ICartState {
-  cartItems: CartItem[];
-}
-
-interface CartItemProps {
-  cartItem: CartItem;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  setChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface CartProps {

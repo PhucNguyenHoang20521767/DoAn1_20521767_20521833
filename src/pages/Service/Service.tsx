@@ -1,10 +1,10 @@
 import React, { Suspense, lazy, useState } from "react";
 const ServiceCard = lazy(() => import("./ServiceCard"));
 import {
-  MdOutlineLocalShipping,
-  MdKeyboardReturn,
-  MdOutlineContactPhone,
-} from "react-icons/md";
+  TruckIcon,
+  ArrowLeftIcon,
+  PhoneArrowDownLeftIcon,
+} from "@heroicons/react/24/outline";
 
 export interface IService {
   title: string;
@@ -17,17 +17,17 @@ const ServicePage = () => {
     {
       title: "Miễn phí vận chuyển",
       description: "Miễn phí vận chuyển toàn quốc.",
-      icon: <MdOutlineLocalShipping />,
+      icon: <TruckIcon className="h-8 w-8 text-gray-900" />,
     },
     {
       title: "Trả hàng trong 30 ngày",
       description: "Trả hàng trong vòng 30 ngày nếu thấy không hợp.",
-      icon: <MdKeyboardReturn />,
+      icon: <ArrowLeftIcon className="h-8 w-8 text-gray-900" />,
     },
     {
       title: "Hỗ trợ 24/7",
       description: "Hỗ trợ mọi lúc, mọi nơi.",
-      icon: <MdOutlineContactPhone />,
+      icon: <PhoneArrowDownLeftIcon className="h-8 w-8 text-gray-900" />,
     },
   ];
 

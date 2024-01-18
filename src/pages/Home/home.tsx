@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 import Hero from "@/components/Hero";
 import Room from "@/components/Room";
 import Guarantee from "@/components/Guarantee";

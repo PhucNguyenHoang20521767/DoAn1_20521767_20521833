@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { updateItemInCart } from "@/api/api_function";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 import { notifyError } from "@/redux/reducers/notify_reducers";
-import { set } from "react-hook-form";
 
 interface CartItem {
   _id: string;

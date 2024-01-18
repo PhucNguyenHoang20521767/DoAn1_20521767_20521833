@@ -6,23 +6,6 @@ import { IDiscount } from "../pages/Home/CampaignCarousel";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 
-// interface ImageSliderProps {
-//   slides: IDiscount[];
-// }
-
-// export interface IDiscount {
-//   discountThumbnail: string;
-//   discountPercent: number;
-//   _id: string;
-//   discountName: string;
-//   discountDescription?: string;
-//   discountStartDate: string;
-//   discountEndDate: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   index?: number;
-// }
-
 const ImageSlider = () => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);

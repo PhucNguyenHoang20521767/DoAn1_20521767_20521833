@@ -203,7 +203,7 @@ const Header = (props: Props) => {
                 </button>
 
                 <div className="group relative inline-block p-3 text-left ">
-                  <a className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
+                  <button className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
@@ -218,7 +218,7 @@ const Header = (props: Props) => {
                         d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                  </a>
+                  </button>
                   {isLogin ? (
                     <div className="absolute right-0 z-40 hidden w-32 bg-white p-2 shadow-md group-hover:block group-focus:block">
                       <NavLink
@@ -336,7 +336,7 @@ const Header = (props: Props) => {
               </button>
 
               <div className="group relative inline-block p-3 text-left ">
-                <a className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
+                <button className="btn btn-ghost rounded-btn flex items-center hover:text-gray-200">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 hover:h-7 hover:w-7 hover:text-secondary-1"
@@ -351,7 +351,7 @@ const Header = (props: Props) => {
                       d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                </a>
+                </button>
                 {isLogin ? (
                   <div className="absolute right-0 z-40 hidden w-32 bg-white p-2 shadow-md group-hover:block group-focus:block">
                     <NavLink
@@ -379,7 +379,7 @@ const Header = (props: Props) => {
                   </div>
                 )}
               </div>
-              <a
+              <button
                 className="navbar-burger mr-12 self-center px-2 xl:hidden"
                 onClick={handleNav}
               >
@@ -397,7 +397,7 @@ const Header = (props: Props) => {
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-              </a>
+              </button>
             </section>
           </div>
         </section>
@@ -443,7 +443,7 @@ const Header = (props: Props) => {
                 </div>
               </div>
               <div className="group/product-nav-item header-nav-item header-nav-item-underline header-nav-item-underline-color mt-4 block px-12 py-3 text-center lg:mt-0 lg:inline-block">
-                <a className="cursor-pointer text-primary-0">PHÒNG</a>
+                <span className="cursor-pointer text-primary-0">PHÒNG</span>
                 <div className="invisible absolute left-0 z-10 mt-3 h-0 w-0 bg-white p-2 shadow-md transition-height duration-700 group-hover/product-nav-item:visible group-hover/product-nav-item:h-max group-hover/product-nav-item:w-full">
                   <div className="flex justify-center">
                     <SubCategoryList />
@@ -454,37 +454,16 @@ const Header = (props: Props) => {
                 <Link to={"blog/news"}>
                   <button className="text-primary-0">GÓC CẢM HỨNG</button>
                 </Link>
-                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
-                  <div className="flex flex-row">
-                    <a href="#">
-                      Góc cảm hứng
-                    </a>
-                  </div>
-                </div> */}
               </div>
               <div className="group/product-nav-item header-nav-item header-nav-item-underline header-nav-item-underline-color mt-4 block px-12 py-3 text-center lg:mt-0 lg:inline-block">
                 <Link to={"service"}>
                   <button className="text-primary-0">DỊCH VỤ</button>
                 </Link>
-                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
-                  <div className="flex flex-row">
-                    <a href="#">
-                      Dịch vụ
-                    </a>
-                  </div>
-                </div> */}
               </div>
               <div className="group/product-nav-item header-nav-item header-nav-item-underline header-nav-item-underline-color mt-4 block px-12 py-3 text-center lg:mt-0 lg:inline-block">
                 <NavLink to={"aboutus"} className="text-primary-0">
                   VỀ CHÚNG TÔI
                 </NavLink>
-                {/* <div className="bg-white absolute shadow-md z-10 invisible p-2 mt-3 w-0 h-0 left-0 group-hover/product-nav-item:w-full group-hover/product-nav-item:h-max group-hover/product-nav-item:visible transition-height duration-700">
-                  <div className="flex flex-row">
-                    <a href="#">
-                      Về chúng tôi
-                    </a>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

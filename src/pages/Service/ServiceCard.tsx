@@ -1,5 +1,5 @@
 import { IService } from "@/pages/Service/Service";
-import { MdDone } from "react-icons/md";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 interface ServiceProps {
   service: IService;
@@ -10,7 +10,7 @@ const ServiceCard = ({ service, index }: ServiceProps) => {
   return (
     <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-lg">
       <div className="mb-4 text-4xl text-gray-600">
-        {service.icon ? service.icon : <MdDone />}
+        {service.icon ? service.icon : <CheckIcon />}
       </div>
       <div className="text-center">
         <h2 className="mb-2 text-xl font-bold">{service.title}</h2>

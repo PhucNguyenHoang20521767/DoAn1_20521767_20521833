@@ -153,6 +153,7 @@ const Login = ({
                 },
               })}
               name="email"
+              autoComplete="email"
               value={loginEmail}
               onChange={(e) => setLoginEmail(e.target.value)}
               className="w-full appearance-none rounded-sm border border-secondary-1 px-3 py-1 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-1 focus:ring-black"

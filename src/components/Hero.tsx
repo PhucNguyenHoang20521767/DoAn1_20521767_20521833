@@ -1,13 +1,21 @@
-import CampaignCarousel from "@/pages/Home/CampaignCarousel";
 import React, { useEffect } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Link } from "react-router-dom";
 
+// const imgAdd = [
+//   "https://housing.com/news/wp-content/uploads/2022/11/living-room-furniture-design-compressed-1.jpg",
+//   "https://plus.unsplash.com/premium_photo-1661963646937-1566cbb38d34?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c29mYSUyMHNldHxlbnwwfHwwfHx8MA%3D%3D",
+//   "https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnVybml0dXJlc3xlbnwwfHwwfHx8MA%3D%3D",
+//   "https://media.designcafe.com/wp-content/uploads/2022/03/10093403/cat-furniture-ideas-for-your-home.jpg",
+//   "https://cutewallpaper.org/25/anime-home-wallpaper-hd/985618888.jpg",
+// ];
+
 const imgAdd = [
-  "https://housing.com/news/wp-content/uploads/2022/11/living-room-furniture-design-compressed-1.jpg",
-  "https://plus.unsplash.com/premium_photo-1661963646937-1566cbb38d34?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c29mYSUyMHNldHxlbnwwfHwwfHx8MA%3D%3D",
-  "https://images.unsplash.com/photo-1634712282287-14ed57b9cc89?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnVybml0dXJlc3xlbnwwfHwwfHx8MA%3D%3D",
-  "https://media.designcafe.com/wp-content/uploads/2022/03/10093403/cat-furniture-ideas-for-your-home.jpg",
-  "https://cutewallpaper.org/25/anime-home-wallpaper-hd/985618888.jpg",
+  "./hero1.webp",
+  "./hero2.webp",
+  "./hero3.webp",
+  "./hero4.webp",
+  "./hero5.webp",
 ];
 
 const Hero = () => {
@@ -37,14 +45,36 @@ const Hero = () => {
         />
       ))} */}
       {imgAdd.map((img, index) => (
-        <img
+        <LazyLoadImage
           key={index}
+          // className="h-16 w-32 object-contain"
           className={`mt-30 absolute left-0 top-0 box-border h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
-          src={img}
           alt="hero"
+          height={128}
+          src={img}
+          width={44}
+          onError={(e: any) => {
+            e.currentTarget.src =
+              "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
+          }}
+          style={{ transition: "transform 0.3s ease" }}
+          onMouseEnter={(e: any) => {
+            e.currentTarget.style.transform = "scale(1.1)";
+          }}
+          onMouseLeave={(e: any) => {
+            e.currentTarget.style.transform = "scale(1)";
+          }}
         />
+        // <img
+        //   key={index}
+        //   className={`mt-30 absolute left-0 top-0 box-border h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
+        //     index === currentImg ? "opacity-100" : "opacity-0"
+        //   }`}
+        //   src={img}
+        //   alt="hero"
+        // />
       ))}
       {/* <CampaignCarousel /> */}
       <div className="lg:top-30 absolute top-[4rem] flex h-full w-full flex-col justify-center text-primary-0">

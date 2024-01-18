@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import AddressItem from "./AddressItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getAllAddresses } from "@/api/api_function";
 
 import AddressModal from "./modals/addressModal";
-import { set } from "react-hook-form";
 
 interface IAddress {
   _id: string;
