@@ -25,6 +25,7 @@ import notifyReducer from "../reducers/notify_reducers";
 import discountReducer from "../reducers/discount_reducers";
 import searchReducer from "../reducers/search_reducers";
 import conversationReducer from "../reducers/conversation_reducers";
+import orderConfirmReducer from "../reducers/orderConfirm_reducers";
 
 // Define your root reducer
 const rootReducer = combineReducers({
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   search: searchReducer,
   discount: discountReducer,
   conversation: conversationReducer,
+  orderConfirm: orderConfirmReducer,
 });
 
 // Define your persist config

@@ -18,7 +18,7 @@ import {
 import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 import CartItemComponent from "@/components/CartDetail";
 import VoucherModal from "@/components/modals/voucherModal";
-import { Button } from "@mui/material";
+import { Backdrop, Button, CircularProgress } from "@mui/material";
 import { styleButtonOutlined } from "@/utils/ui";
 
 interface Color {
@@ -30,15 +30,18 @@ interface Color {
   productQuantity: number;
 }
 
-interface CartItem {
+export interface CartItem {
   _id: string;
   productId: string;
+  productName?: string;
   productColorId: string;
   productQuantity: number;
   cartId: number;
   productPrice: number;
   productDiscount: number;
   productSalePrice: number;
+  productImageUrls?: string[];
+  productColor?: Color;
 }
 
 interface ICartState {
@@ -46,13 +49,8 @@ interface ICartState {
 }
 
 interface CartItemProps {
-  cartItem: CartItem;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  setChange: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface CartProps {
-  isCart: boolean;
+  currentVoucher: VoucherInter | null;
+  setCurrentVoucher: React.Dispatch<React.SetStateAction<VoucherInter | null>>;
 }
 
 export interface VoucherInter {
@@ -65,7 +63,10 @@ export interface VoucherInter {
   voucherEndDate: string;
 }
 
-export const CartOrder = ({ isCart }: CartProps) => {
+export const CartOrder = ({
+  currentVoucher,
+  setCurrentVoucher,
+}: CartItemProps) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const isDeleted = useSelector((state: RootState) => state.cartItem.isDeleted);
@@ -81,9 +82,7 @@ export const CartOrder = ({ isCart }: CartProps) => {
   const [totalPrice, setTotalPrice] = useState(price + ship);
   const [change, setChange] = useState<boolean>(false);
   const [vouchers, setVouchers] = useState<VoucherInter[]>([]);
-  const [currentVoucher, setCurrentVoucher] = useState<VoucherInter | null>(
-    null
-  );
+
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [reload, setReload] = useState<boolean>(false);
 
@@ -145,6 +144,7 @@ export const CartOrder = ({ isCart }: CartProps) => {
             return {
               ...item,
               productPrice: product.productPrice,
+              productName: product.productName,
               // productDiscount: discount.discountPercent,
               productSalePrice: product.productPrice,
               productColor: color,
@@ -153,14 +153,15 @@ export const CartOrder = ({ isCart }: CartProps) => {
           }
           return item;
         });
-        setLoadCart(true);
         return tempCartItems;
       });
+      setLoadCart(false);
     });
   };
 
   useEffect(() => {
     const fetchCart = async () => {
+      setLoadCart(true);
       try {
         const res1 = await getCustomerCart(currentUser);
         const cartInfores = res1.data.data;
@@ -175,6 +176,7 @@ export const CartOrder = ({ isCart }: CartProps) => {
         }
       } catch (error) {
         console.log(error);
+        setLoadCart(false);
       }
     };
     if (currentUser) {
@@ -292,6 +294,12 @@ export const CartOrder = ({ isCart }: CartProps) => {
           </span>
         </div>
       </div>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loadCart}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <VoucherModal
         vouchers={vouchers}
         currentVoucher={currentVoucher}

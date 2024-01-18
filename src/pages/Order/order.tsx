@@ -17,6 +17,8 @@ import { CircularProgress } from "@mui/material";
 import { getRandomNumber } from "@/utils/function";
 import { removeCartItems } from "@/redux/reducers/cartItem_reducers";
 import { notify } from "@/redux/reducers/notify_reducers";
+import { updateConfirmOrder } from "@/redux/reducers/orderConfirm_reducers";
+import { VoucherInter } from "./cartOrder";
 
 interface CartItem {
   _id: string;
@@ -52,6 +54,9 @@ const Order = () => {
   const [price, setPrice] = useState(0);
   const ship = 30000;
   const [totalPrice, setTotalPrice] = useState(price + ship);
+  const [currentVoucher, setCurrentVoucher] = useState<VoucherInter | null>(
+    null
+  );
   const [loading, setLoading] = useState(false);
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [chooseAddress, setChooseAddress] = useState<IAddress>({} as IAddress);
@@ -240,6 +245,33 @@ const Order = () => {
   };
 
   function handleConfirm(): void {
+    if (!selectedAddress) {
+      dispatch(
+        notify({
+          message: "Vui lòng chọn địa chỉ giao hàng",
+          isError: true,
+          isSuccess: false,
+          isInfo: false,
+        })
+      );
+      return;
+    }
+    const randomNumber = getRandomNumber(100000, 999999);
+
+    const orderInfor = {
+      customerId: userId,
+      orderCode: randomNumber.toString(),
+      orderStatus: "Đặt hàng",
+      orderNote: orderNote,
+      orderAddress: selectedAddress,
+      paymentMethod: "648a91e82b36c6bbd96704a4",
+      orderShippingFee: 30000,
+      cartItems: cartItems,
+      totalPrice: price,
+      voucher: currentVoucher,
+    };
+
+    dispatch(updateConfirmOrder({ orderInfor: orderInfor }));
     navigate("/order");
   }
 
@@ -254,38 +286,11 @@ const Order = () => {
             Danh sách sản phẩm
           </h1>
           <div className="m-8">
-            <CartOrder isCart={false} />
+            <CartOrder
+              currentVoucher={currentVoucher}
+              setCurrentVoucher={setCurrentVoucher}
+            />
           </div>
-          {/* <div className="m-8">
-            <div className="flex justify-between">
-              <span className="text-xl text-gray-700">Giá tạm tính:</span>
-              <span className="text-xl text-gray-700">
-                {price.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xl text-gray-700">Phí ship:</span>
-              <span className="text-xl text-gray-700">
-                {ship.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </span>
-            </div>
-            <hr className="mb-4 border text-dark-0" />
-            <div className="flex justify-between">
-              <span className="text-xl text-gray-700">Tổng tiền:</span>
-              <span className="text-xl text-gray-700">
-                {totalPrice.toLocaleString("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                })}
-              </span>
-            </div>
-          </div> */}
         </div>
         <div className="w-full bg-light-4 text-xl md:w-2/3">
           {/* <h1 className='text-2xl font-bold text-gray-700 my-6 flex justify-center'>Chọn địa chỉ giao hàng</h1> */}
