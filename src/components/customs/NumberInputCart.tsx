@@ -1,19 +1,10 @@
-import React, { useState } from "react";
-import {
-  createCart,
-  getCustomerCart,
-  getAllCartItem,
-  updateItemInCart,
-  removeItemFromCart,
-  getProductById,
-  getProductColor,
-  getProductColorById,
-  getAllProductImageUrlByColor,
-  getProductImagesUrl,
-  getDiscountById,
-} from "@/api/api_function";
+import React, { useEffect, useState } from "react";
+import { updateItemInCart } from "@/api/api_function";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
+import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
+import { notifyError } from "@/redux/reducers/notify_reducers";
+import { set } from "react-hook-form";
 
 interface CartItem {
   _id: string;
@@ -30,6 +21,7 @@ interface Props {
   value: number;
   onChange: (value: number) => void;
   cartItem: CartItem;
+  cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
   product: any;
@@ -40,6 +32,7 @@ const NumberInputCart: React.FC<Props> = ({
   value,
   onChange,
   cartItem,
+  cartItems,
   setCartItems,
   setChange,
   product,
@@ -47,28 +40,28 @@ const NumberInputCart: React.FC<Props> = ({
 }) => {
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const currentCart = useSelector((state: RootState) => state.cart);
+  const dispatch = useDispatch();
 
-  const handleUpdateItemInCart = async (newPrice: number) => {
+  const handleUpdateItemInCart = async (newQuantity: number) => {
     const cartRes = await updateItemInCart(
       currentCart._id,
       currentUser,
       cartItem.productId,
       cartItem.productColorId,
-      newPrice
+      newQuantity
     );
-    const cart = cartRes.data.data;
-
-    setChange((prevChange) => !prevChange);
 
     setCartItems((prevCartItems) => {
       const tempCartItems = prevCartItems.map((item: CartItem) => {
         if (item._id === cartItem._id) {
-          return { ...item, productQuantity: value };
+          return { ...item, productQuantity: newQuantity };
         }
         return item;
       });
       return tempCartItems;
     });
+
+    setChange((prevChange) => !prevChange);
   };
 
   const handleInputChange = async (
@@ -82,6 +75,12 @@ const NumberInputCart: React.FC<Props> = ({
   };
 
   const handleIncrement = () => {
+    if (value >= product.productQuantity) {
+      onChange(product.productQuantity);
+      dispatch(notifyError("Số lượng sản phẩm không đủ"));
+      return;
+    }
+
     onChange(value + 1);
     handleUpdateItemInCart(value + 1);
   };

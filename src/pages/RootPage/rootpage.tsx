@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "@/redux/reducers/auth_reducers";
@@ -29,6 +29,7 @@ import {
   loadConversation,
 } from "@/redux/reducers/conversation_reducers";
 import { notification } from "antd";
+import LoadingPage from "@/utils/loadingPage";
 // import "./snow.css";
 // import Snowflake from "./SnowFlake";
 
@@ -176,45 +177,47 @@ const RootPage = () => {
 
   return (
     <>
-      <div>
-        <header
-          className={`fixed top-0 z-30 w-full transition-all duration-300 
+      <Suspense fallback={<LoadingPage />}>
+        <div>
+          <header
+            className={`fixed top-0 z-30 w-full transition-all duration-300 
         ${visible ? "visible" : "invisible"}
         ${visible ? "opacity-100" : "opacity-0"}
         `}
-        >
-          <Header />
-        </header>
-        <main className="">
-          <div className="mt-40"></div>
-          <Outlet />
-          {/* <div className="absolute top-40 h-full w-full">{snow()}</div> */}
-          {/* Notify */}
-          <SuccessNotify />
-          <InformationNotify />
-          <ErrorNotify />
-          {/* Load all product */}
-          <LoadAllProduct />
-          {/* <Chatbot></Chatbot> */}
-        </main>
-        <Footer />
-        <CustomeDrawer />
-
-        <Stack sx={{ width: "90%" }} spacing={2}>
-          <Snackbar
-            open={openSnack}
-            autoHideDuration={3000}
-            onClose={handleClose}
           >
-            {/* <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            <Header />
+          </header>
+          <main className="">
+            <div className="mt-40"></div>
+            <Outlet />
+            {/* <div className="absolute top-40 h-full w-full">{snow()}</div> */}
+            {/* Notify */}
+            <SuccessNotify />
+            <InformationNotify />
+            <ErrorNotify />
+            {/* Load all product */}
+            <LoadAllProduct />
+            {/* <Chatbot></Chatbot> */}
+          </main>
+          <Footer />
+          <CustomeDrawer />
+
+          <Stack sx={{ width: "90%" }} spacing={2}>
+            <Snackbar
+              open={openSnack}
+              autoHideDuration={3000}
+              onClose={handleClose}
+            >
+              {/* <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                 Chào mừng bạn đến với NGUYEN'S HOME
               </Alert> */}
-            <p className="rounded-sm border-2 bg-white p-4 text-dark-0">
-              Chào mừng bạn đến với NGUYEN'S HOME!
-            </p>
-          </Snackbar>
-        </Stack>
-      </div>
+              <p className="rounded-sm border-2 bg-white p-4 text-dark-0">
+                Chào mừng bạn đến với NGUYEN'S HOME!
+              </p>
+            </Snackbar>
+          </Stack>
+        </div>
+      </Suspense>
     </>
   );
 };

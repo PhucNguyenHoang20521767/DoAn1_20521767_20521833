@@ -10,6 +10,8 @@ interface IAllProduct {
   allProduct: any[];
 }
 
+// no place using this hook
+
 const useGetAllProducts = () => {
   const dispatch = useDispatch();
   const [allProductsState, setAllProductsState] = useState<IAllProduct>();

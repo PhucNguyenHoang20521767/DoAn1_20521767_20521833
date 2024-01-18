@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Cart from "@/components/Cart";
+import CartOrder from "./cartOrder";
 import BreadcrumbsOrder from "@/components/BreadcrumbsOrder";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "@/redux/store/store";
@@ -239,6 +239,10 @@ const Order = () => {
     setLoading(false);
   };
 
+  function handleConfirm(): void {
+    navigate("/order");
+  }
+
   return (
     <>
       <div className="flex flex-wrap">
@@ -250,10 +254,9 @@ const Order = () => {
             Danh sách sản phẩm
           </h1>
           <div className="m-8">
-            <Cart isCart={false} />
+            <CartOrder isCart={false} />
           </div>
-          <div className="m-8">
-            {/* total price */}
+          {/* <div className="m-8">
             <div className="flex justify-between">
               <span className="text-xl text-gray-700">Giá tạm tính:</span>
               <span className="text-xl text-gray-700">
@@ -282,7 +285,7 @@ const Order = () => {
                 })}
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="w-full bg-light-4 text-xl md:w-2/3">
           {/* <h1 className='text-2xl font-bold text-gray-700 my-6 flex justify-center'>Chọn địa chỉ giao hàng</h1> */}
@@ -291,7 +294,10 @@ const Order = () => {
               Chọn địa chỉ
             </h1>
             <div className="m-8">
-              <select className="form-select" onChange={handleSelectAddress}>
+              <select
+                className="form-select border border-gray-300 p-1"
+                onChange={handleSelectAddress}
+              >
                 {/* <option value=''>Chọn địa chỉ</option> */}
                 {addresses.map((address) => (
                   <option key={address._id} value={address._id}>
@@ -364,15 +370,15 @@ const Order = () => {
             <div className="mt-3 p-1">
               {cartItems.length > 0 ? (
                 <button
-                  onClick={handleOrder}
-                  className={`w-full rounded-sm border border-secondary-1 bg-primary-1 px-3 py-1 text-white 
-                hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
+                  onClick={handleConfirm}
+                  className={` w-full rounded-sm border border-secondary-1 bg-primary-1 px-3 py-1 text-base 
+                text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
                 ${loading ? "cursor-not-allowed" : "cursor-pointer"}
                 ${loading ? "opacity-50" : "opacity-100"}
                 `}
                 >
                   {loading && <CircularProgress size={20} className="mr-2" />}
-                  ĐẶT HÀNG
+                  MUA HÀNG
                 </button>
               ) : (
                 <div className="flex items-center justify-center space-x-4">

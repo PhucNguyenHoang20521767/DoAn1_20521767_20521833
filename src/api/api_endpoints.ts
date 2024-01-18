@@ -402,3 +402,5 @@ export const getCreateMessageBody = (
   conversationId: conversationId,
   messageText: messageText,
 });
+
+export const GET_ALL_VALID_VOUCHERS = `/vouchers/getAllValidVouchers`;

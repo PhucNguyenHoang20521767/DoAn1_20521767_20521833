@@ -52,6 +52,15 @@ export const styleButtonView = {
   fontSize: "0.8rem",
 };
 
+export const styleButtonOutlined = {
+  fontFamily: "EB Garamond",
+  fontSize: "0.8rem",
+  fontWeight: "bold",
+  padding: "0.2rem 0rem",
+  display: "block",
+  whiteSpace: "nowrap",
+};
+
 export const styleButtonAddChat = {
   backgroundColor: "#A67F78",
   "&:hover": {

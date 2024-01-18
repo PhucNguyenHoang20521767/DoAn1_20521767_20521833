@@ -415,6 +415,7 @@ const CartItemComponent = ({
           value={quantity}
           onChange={setQuantity}
           cartItem={cartItem}
+          cartItems={_cartItems}
           setCartItems={setCartItems}
           product={product}
           setPrice={setPrice}

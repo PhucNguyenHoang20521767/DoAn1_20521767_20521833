@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { RootState } from "@/redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-
-import { mainApi } from "@/api/main_api";
-import * as apiEndpoints from "@/api/api_endpoints";
 import {
   createCart,
   getCustomerCart,
@@ -17,22 +13,13 @@ import {
   getAllProductImageUrlByColor,
   getProductImagesUrl,
   getDiscountById,
+  getAllValidVouchers,
 } from "@/api/api_function";
-import ManySkeleton from "./loaders/manySkeleton";
-import { set } from "react-hook-form";
-import {
-  LazyLoadImage,
-  trackWindowScroll,
-} from "react-lazy-load-image-component";
-import NumberInputCart from "@/components/customs/NumberInputCart";
-import { CircularProgress } from "@mui/material";
 import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
-
-import SuccessNotify from "@/components/customs/SuccessNotify";
-import ErrorNotify from "@/components/customs/ErrorNotify";
-import { notify } from "@/redux/reducers/notify_reducers";
-import CartItemComponent from "./CartDetail";
-import { get } from "http";
+import CartItemComponent from "@/components/CartDetail";
+import VoucherModal from "@/components/modals/voucherModal";
+import { Button } from "@mui/material";
+import { styleButtonOutlined } from "@/utils/ui";
 
 interface Color {
   _id: string;
@@ -68,7 +55,17 @@ interface CartProps {
   isCart: boolean;
 }
 
-export const Cart = ({ isCart }: CartProps) => {
+export interface VoucherInter {
+  _id: string;
+  voucherValue: number;
+  minOrderPrice: number;
+  maxDiscountPrice: number;
+  isActive: boolean;
+  voucherType: string;
+  voucherEndDate: string;
+}
+
+export const CartOrder = ({ isCart }: CartProps) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const isDeleted = useSelector((state: RootState) => state.cartItem.isDeleted);
@@ -79,13 +76,25 @@ export const Cart = ({ isCart }: CartProps) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loadCart, setLoadCart] = useState<boolean>(false);
-  const [pageLoading, setPageLoading] = useState<boolean>(false);
+  const [price, setPrice] = useState(0);
+  const ship = 30000;
+  const [totalPrice, setTotalPrice] = useState(price + ship);
   const [change, setChange] = useState<boolean>(false);
+  const [vouchers, setVouchers] = useState<VoucherInter[]>([]);
+  const [currentVoucher, setCurrentVoucher] = useState<VoucherInter | null>(
+    null
+  );
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [reload, setReload] = useState<boolean>(false);
 
   useEffect(() => {
     setCartItems([]);
     // setPageLoading(true)
   }, [isDeleted]);
+
+  const handleReload = () => {
+    setReload(true);
+  };
 
   const getCartItemsDetail = async (cartInfor: CartItem[]) => {
     cartInfor.map(async (cartItem: CartItem) => {
@@ -171,17 +180,38 @@ export const Cart = ({ isCart }: CartProps) => {
     if (currentUser) {
       fetchCart();
     }
-  }, [currentUser]);
-
-  // useEffect(() => {
-  //   if (cartItems.length > 0) getCartItemsDetail(cartItems);
-  // }, [cartItems]);
+  }, [currentUser, reload]);
 
   useEffect(() => {
     if (cart.length > 0 && cartItems.length > 0) {
       dispatch(loadCartItems({ cartItems: cartItems, isDeleted: false }));
     }
-  }, [loadCart]);
+  }, [loadCart, cartItems]);
+
+  useEffect(() => {
+    if (cartItems) {
+      setPrice(
+        cartItems.reduce((total: number, item: CartItem) => {
+          if (item.productSalePrice) {
+            return total + item.productSalePrice * item.productQuantity;
+          }
+          return total + item.productPrice * item.productQuantity;
+        }, 0)
+      );
+    }
+  }, [cartItems, dispatch, _cartItems, change]);
+
+  useEffect(() => {
+    setTotalPrice(price + ship);
+  }, [price]);
+
+  useEffect(() => {
+    const fetchVoucher = async () => {
+      const res = await getAllValidVouchers(currentUser);
+      setVouchers(res.data.data);
+    };
+    if (currentUser) fetchVoucher();
+  }, [currentUser]);
 
   if (!currentUser) {
     return (
@@ -212,22 +242,66 @@ export const Cart = ({ isCart }: CartProps) => {
           />
         </div>
       ))}
-      {/* button */}
-      <div className="flex justify-center">
-        {currentUser && isCart && (
-          <Link to={"cart"}>
-            <button
-              className={
-                "m-2 rounded-sm bg-primary-1 p-2 px-16 uppercase text-white hover:bg-black hover:shadow-lg"
-              }
-            >
-              Thanh toán ngay
-            </button>
-          </Link>
-        )}
+
+      <div className="m-8">
+        <div className="flex w-full items-center justify-between pt-8">
+          {currentVoucher ? (
+            <p className="max-w-[16rem] text-xl text-gray-700">
+              Bạn đã được giảm{" "}
+              {`${currentVoucher?.voucherValue}` +
+                `${currentVoucher?.voucherType === "PERCENT" ? "%" : "đ"}`}
+              , chọn voucher:{" "}
+            </p>
+          ) : (
+            <p className="text-xl text-gray-700">Chọn voucher: </p>
+          )}
+          <Button
+            variant="text"
+            sx={styleButtonOutlined}
+            onClick={() => setOpenModal(true)}
+          >
+            Chọn voucher
+          </Button>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-xl text-gray-700">Giá tạm tính:</span>
+          <span className="text-xl text-gray-700">
+            {price.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-xl text-gray-700">Phí ship:</span>
+          <span className="text-xl text-gray-700">
+            {ship.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span>
+        </div>
+        <hr className="mb-4 border text-dark-0" />
+        <div className="flex justify-between">
+          <span className="text-xl text-gray-700">Tổng tiền:</span>
+          <span className="text-xl text-gray-700">
+            {totalPrice.toLocaleString("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            })}
+          </span>
+        </div>
       </div>
+      <VoucherModal
+        vouchers={vouchers}
+        currentVoucher={currentVoucher}
+        setCurrentVoucher={setCurrentVoucher}
+        open={openModal}
+        setOpen={setOpenModal}
+        handleReload={handleReload}
+      />
     </>
   );
 };
 
-export default Cart;
+export default CartOrder;

@@ -671,3 +671,11 @@ export const createMessage = async (
     apiEndpoints.getCreateMessageBody(senderId, conversationId, messageText)
   );
 };
+
+//get all valid vouchers
+export const getAllValidVouchers = async (token: string) => {
+  return await mainApi.get(
+    apiEndpoints.GET_ALL_VALID_VOUCHERS,
+    apiEndpoints.getAccessToken(token)
+  );
+};

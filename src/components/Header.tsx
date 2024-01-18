@@ -35,10 +35,7 @@ const Header = (props: Props) => {
   const loginType = useSelector((state: RootState) => state.auth.loginType);
   const isLogin = useSelector((state: RootState) => state.auth.isLogin);
   const cartItems = useSelector((state: RootState) => state.cartItem.cartItems);
-  const cartCount = cartItems.reduce(
-    (acc, item) => acc + item.productQuantity,
-    0
-  );
+  const cartCount = cartItems.length;
   const [cartCountState, setCartCountState] = useState(cartCount);
   const [nav, setNav] = useState(false);
 

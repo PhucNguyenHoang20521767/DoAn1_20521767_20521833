@@ -1,5 +1,4 @@
 import { createReducer, createAction } from "@reduxjs/toolkit";
-import useGetAllProduct from "./hooks/useGetAllProducts";
 
 interface IAllProduct {
   allProduct: any[];

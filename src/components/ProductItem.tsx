@@ -24,6 +24,7 @@ import {
   getProductColor,
   addOrRemoveProductFromWishlist,
 } from "@/api/api_function";
+import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 
 interface Product {
   id: string;
