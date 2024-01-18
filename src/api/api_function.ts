@@ -679,3 +679,25 @@ export const getAllValidVouchers = async (token: string) => {
     apiEndpoints.getAccessToken(token)
   );
 };
+
+//create vnpay payment
+export const createVnpayPayment = async (
+  token: string,
+  amount: number,
+  bankCode: string,
+  language: string
+) => {
+  return await mainApi.post(
+    apiEndpoints.CREATE_VNPAY_PAYMENT,
+    apiEndpoints.getCreateVNPayPaymentBody(amount, bankCode, language),
+    apiEndpoints.getAccessToken(token)
+  );
+};
+
+//get all payments
+export const getAllPayments = async (token: string) => {
+  return await mainApi.get(
+    apiEndpoints.GET_ALL_PAYMENTS,
+    apiEndpoints.getAccessToken(token)
+  );
+};

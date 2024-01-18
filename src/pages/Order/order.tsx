@@ -50,7 +50,6 @@ const Order = () => {
   const cartItems = useSelector((state: RootState) => state.cartItem.cartItems);
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
   const userId = useSelector((state: RootState) => state.auth.id);
-  const cartId = useSelector((state: RootState) => state.cart._id);
   const [price, setPrice] = useState(0);
   const ship = 30000;
   const [totalPrice, setTotalPrice] = useState(price + ship);
@@ -75,12 +74,6 @@ const Order = () => {
     setReload(!reload);
     setOrderNote("");
     handleDefaultAddress();
-  };
-
-  const handleRemoveCart = () => {
-    if (currentUser) {
-      dispatch(removeCartItems());
-    }
   };
 
   const handelLoading = () => {
@@ -150,98 +143,6 @@ const Order = () => {
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setOrderNote(event.target.value);
-  };
-
-  const handleOrder = async () => {
-    let orderId = "";
-    setLoading(true);
-    if (cartItems.length > 0) {
-      const randomNumber = getRandomNumber(100000, 999999);
-      if (selectedAddress) {
-        await createOrder(
-          currentUser,
-          userId,
-          randomNumber.toString(),
-          "Đặt hàng",
-          orderNote,
-          selectedAddress._id.toString(),
-          "648a91e82b36c6bbd96704a4",
-          30000
-        )
-          .then((res) => {
-            orderId = res.data.data._id;
-            cartItems.forEach((item: CartItem) => {
-              const normalPrice = item.productPrice * item.productQuantity;
-              const checkPrice = item.productSalePrice
-                ? item.productSalePrice
-                : item.productPrice;
-              const finalPrice = checkPrice * item.productQuantity;
-
-              createOrderItem(
-                currentUser,
-                orderId,
-                item.productId,
-                item.productColorId,
-                item.productQuantity,
-                normalPrice,
-                finalPrice
-              )
-                .then((res) => {
-                  console.log("res order item");
-                })
-                .catch((err) => {
-                  dispatch(
-                    notify({
-                      message: `${err}`,
-                      isError: true,
-                      isSuccess: false,
-                      isInfo: false,
-                    })
-                  );
-                });
-            });
-          })
-          .then(async () => {
-            try {
-              dispatch(
-                notify({
-                  message: "Đặt hàng thành công",
-                  isError: false,
-                  isSuccess: true,
-                  isInfo: false,
-                })
-              );
-              const result = await removeAllItemFromCart(cartId, currentUser);
-              handleRemoveCart();
-            } catch (err) {
-              dispatch(
-                notify({
-                  message: `${err}`,
-                  isError: true,
-                  isSuccess: false,
-                  isInfo: false,
-                })
-              );
-            }
-          })
-          .catch((err) => {
-            console.log("err order");
-          });
-      }
-      handleReload();
-      navigate(`/account/bill/${orderId}`);
-    } else {
-      // alert("Giỏ hàng trống");
-      dispatch(
-        notify({
-          message: "Giỏ hàng trống",
-          isError: true,
-          isSuccess: false,
-          isInfo: false,
-        })
-      );
-    }
-    setLoading(false);
   };
 
   function handleConfirm(): void {

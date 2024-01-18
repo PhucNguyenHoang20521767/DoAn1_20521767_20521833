@@ -1,13 +1,27 @@
 import { RootState } from "@/redux/store/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartItemComponent from "./cartDetailOrder";
 import { useState } from "react";
 import { styleButtonOutlined } from "@/utils/ui";
 import { Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { TruckIcon } from "@heroicons/react/24/outline";
+import {
+  createOrder,
+  createOrderItem,
+  createVnpayPayment,
+  getAllPayments,
+  removeAllItemFromCart,
+} from "@/api/api_function";
+import { CartItem } from "./cartOrder";
+import { notify } from "@/redux/reducers/notify_reducers";
+import { useNavigate } from "react-router-dom";
+import { removeCartItems } from "@/redux/reducers/cartItem_reducers";
 
 const orderConfirm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { orderInfor } = useSelector((state: RootState) => state.orderConfirm);
+  const { currentUser } = useSelector((state: RootState) => state.auth);
   const cartItems = orderInfor.cartItems;
   const tempPrice = orderInfor.totalPrice ? orderInfor.totalPrice : 0;
   const finalPrice = tempPrice + orderInfor.orderShippingFee;
@@ -15,6 +29,119 @@ const orderConfirm = () => {
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "vnpay">("cod");
   const [changeMethod, setChangeMethod] = useState(false);
+  const cartId = useSelector((state: RootState) => state.cart._id);
+
+  function handleConfirmOrder(): void {
+    if (paymentMethod === "vnpay") {
+      setLoading(true);
+      createVnpayPayment(currentUser, finalPrice, "", "vn")
+        .then((res) => {
+          window.location.href = res.data.paymentURL;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      handleOrder();
+    }
+  }
+
+  const handleOrder = async () => {
+    // for
+    let orderId = "";
+    setLoading(true);
+    if (cartItems.length > 0) {
+      if (selectedAddress) {
+        await createOrder(
+          currentUser,
+          orderInfor.customerId,
+          orderInfor.orderCode.toString(),
+          "Đặt hàng",
+          orderInfor.orderNote,
+          selectedAddress._id.toString(),
+          "648a91e82b36c6bbd96704a4",
+          30000
+        )
+          .then((res) => {
+            orderId = res.data.data._id;
+            cartItems.forEach((item: CartItem) => {
+              const normalPrice = item.productPrice * item.productQuantity;
+              const checkPrice = item.productSalePrice
+                ? item.productSalePrice
+                : item.productPrice;
+              const finalPrice = checkPrice * item.productQuantity;
+
+              createOrderItem(
+                currentUser,
+                orderId,
+                item.productId,
+                item.productColorId,
+                item.productQuantity,
+                normalPrice,
+                finalPrice
+              )
+                .then((res) => {
+                  console.log("res order item");
+                })
+                .catch((err) => {
+                  dispatch(
+                    notify({
+                      message: `${err}`,
+                      isError: true,
+                      isSuccess: false,
+                      isInfo: false,
+                    })
+                  );
+                });
+            });
+          })
+          .then(async () => {
+            try {
+              dispatch(
+                notify({
+                  message: "Đặt hàng thành công",
+                  isError: false,
+                  isSuccess: true,
+                  isInfo: false,
+                })
+              );
+              const result = await removeAllItemFromCart(cartId, currentUser);
+              handleRemoveCart();
+            } catch (err) {
+              dispatch(
+                notify({
+                  message: `${err}`,
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false,
+                })
+              );
+            }
+          })
+          .catch((err) => {
+            console.log("err order");
+          });
+      }
+      navigate(`/account/bill/${orderId}`);
+    } else {
+      // alert("Giỏ hàng trống");
+      dispatch(
+        notify({
+          message: "Giỏ hàng trống",
+          isError: true,
+          isSuccess: false,
+          isInfo: false,
+        })
+      );
+    }
+    setLoading(false);
+  };
+
+  const handleRemoveCart = () => {
+    if (currentUser) {
+      dispatch(removeCartItems());
+    }
+  };
 
   return (
     <div className="m-8 py-8">
@@ -194,6 +321,7 @@ const orderConfirm = () => {
       </div>
       <div className="flex items-center justify-center p-8">
         <button
+          onClick={handleConfirmOrder}
           className={` min-w-max rounded-sm border border-secondary-1 bg-primary-1 px-9 py-2 text-base 
                   text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
                   ${loading ? "cursor-not-allowed" : "cursor-pointer"}
@@ -201,7 +329,7 @@ const orderConfirm = () => {
                   `}
         >
           {loading && <CircularProgress size={20} className="mr-2" />}
-          MUA HÀNG
+          ĐẶT HÀNG
         </button>
       </div>
     </div>

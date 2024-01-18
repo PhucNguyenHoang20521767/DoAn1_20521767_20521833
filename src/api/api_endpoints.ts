@@ -404,3 +404,18 @@ export const getCreateMessageBody = (
 });
 
 export const GET_ALL_VALID_VOUCHERS = `/vouchers/getAllValidVouchers`;
+
+// create vnpay payment
+export const CREATE_VNPAY_PAYMENT = `/payments/createVNPayURL`;
+export const getCreateVNPayPaymentBody = (
+  amount: number,
+  bankCode: string,
+  language: string
+) => ({
+  amount: amount,
+  bankCode: bankCode,
+  language: language,
+});
+
+//get all payments
+export const GET_ALL_PAYMENTS = `/payments/getAllPayments`;
