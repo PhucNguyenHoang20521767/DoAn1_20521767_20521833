@@ -33,6 +33,7 @@ const Content = lazy(() =>
   delayFunction(import("./pages/Blog/Component/Content/Content"))
 );
 import OrderConfirm from "./pages/Order/orderConfirm";
+import PaymentSuccess from "./pages/Payment/PaymentSuccess";
 
 function delayFunction(promise: any) {
   return new Promise((resolve) => {
@@ -45,10 +46,9 @@ const router = createBrowserRouter(
     <Route path="/" element={<Rootpage />}>
       <Route index element={<Home />} />
       <Route path="home" element={<Home />} />
-      <Route path="cart" element={<Order />}>
-        <Route path="success" element={<OrderSuccess />} />
-      </Route>
-      <Route path="order" element={<OrderConfirm />} />
+      <Route path="cart" element={<Order />} />
+      <Route path="order" element={<OrderConfirm />}></Route>
+      <Route path="paymentSuccess" element={<PaymentSuccess />} />
       <Route path="product" element={<Product />}>
         <Route path=":id" element={<Product_item />} />
         <Route path=":id/:discountId" element={<Product_item />} />

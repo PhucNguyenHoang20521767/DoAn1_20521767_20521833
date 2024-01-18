@@ -152,6 +152,7 @@ export const Cart = ({ isCart }: CartProps) => {
 
   useEffect(() => {
     const fetchCart = async () => {
+      setPageLoading(true);
       try {
         const res1 = await getCustomerCart(currentUser);
         const cartInfores = res1.data.data;
@@ -167,6 +168,7 @@ export const Cart = ({ isCart }: CartProps) => {
       } catch (error) {
         console.log(error);
       }
+      setPageLoading(false);
     };
     if (currentUser) {
       fetchCart();
@@ -201,6 +203,11 @@ export const Cart = ({ isCart }: CartProps) => {
 
   return (
     <>
+      {pageLoading && (
+        <div className="flex items-center justify-center">
+          <CircularProgress />
+        </div>
+      )}
       {/* cartDetail */}
       {cartItems.map((cartItem: CartItem) => (
         <div key={cartItem.productColorId} className="mb-2">
