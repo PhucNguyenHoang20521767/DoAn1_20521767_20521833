@@ -1,5 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import {
+  faFacebook,
+  faGithub,
+  faGoogle,
+  faInstagram,
+} from "@fortawesome/free-brands-svg-icons";
 
 type Props = {};
 
@@ -38,7 +45,8 @@ const Footer = (props: Props) => {
                   className="align-center mr-2 h-10 w-10 items-center justify-center rounded-full bg-dark-1 font-normal outline-none focus:outline-none"
                   type="button"
                 >
-                  <i className="fab fa-facebook text-xl text-white"></i>
+                  {/* <i className="fab fa-facebook text-xl text-white"></i> */}
+                  <FontAwesomeIcon icon={faFacebook} className="text-white" />
                 </button>
                 <button
                   onClick={() =>
@@ -49,7 +57,8 @@ const Footer = (props: Props) => {
                   className="align-center mr-2 h-10 w-10 items-center justify-center rounded-full bg-dark-1 font-normal outline-none focus:outline-none"
                   type="button"
                 >
-                  <i className="fa-brands fa-instagram text-xl text-white"></i>
+                  {/* <i className="fa-brands fa-instagram text-xl text-white"></i> */}
+                  <FontAwesomeIcon icon={faInstagram} className="text-white" />
                 </button>
                 <button
                   onClick={() =>
@@ -60,7 +69,8 @@ const Footer = (props: Props) => {
                   className="align-center mr-2 h-10 w-10 items-center justify-center rounded-full bg-dark-1 font-normal outline-none focus:outline-none"
                   type="button"
                 >
-                  <i className="fa-brands fa-google text-xl text-white"></i>
+                  {/* <i className="fa-brands fa-google text-xl text-white"></i> */}
+                  <FontAwesomeIcon icon={faGoogle} className="text-white" />
                 </button>
                 <button
                   className="align-center mr-2 h-10 w-10 items-center justify-center rounded-full bg-dark-1 font-normal outline-none focus:outline-none"
@@ -71,7 +81,8 @@ const Footer = (props: Props) => {
                     )
                   }
                 >
-                  <i className="fab fa-github text-xl text-white"></i>
+                  {/* <i className="fab fa-github text-xl text-white"></i> */}
+                  <FontAwesomeIcon icon={faGithub} className="text-white" />
                 </button>
               </div>
             </div>

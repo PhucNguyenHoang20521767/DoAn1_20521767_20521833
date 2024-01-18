@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import { RxDotFilled } from "react-icons/rx";
+import {
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+} from "@heroicons/react/20/solid";
 import ProductCard from "@/components/ProductItem";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
@@ -71,7 +73,10 @@ const ProductSlide = () => {
         className="absolute left-5 top-[25%] z-10 -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full p-2 text-2xl text-white group-hover:bg-black/20"
         style={{ transform: "translateY(-50%)" }}
       >
-        <BsChevronCompactLeft onClick={prevSlide} size={30} />
+        <ArrowLeftCircleIcon
+          onClick={prevSlide}
+          className="h-8 w-8 text-gray-500"
+        />{" "}
       </div>
 
       {/* Right Arrow */}
@@ -79,7 +84,10 @@ const ProductSlide = () => {
         className="absolute right-5 top-[25%] z-10 -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full p-2 text-2xl text-white group-hover:bg-black/20"
         style={{ transform: "translateY(-50%)" }}
       >
-        <BsChevronCompactRight onClick={nextSlide} size={30} />
+        <ArrowRightCircleIcon
+          onClick={prevSlide}
+          className="h-8 w-8 text-gray-500"
+        />
       </div>
 
       <div className="top-4 flex justify-center py-2">
@@ -91,7 +99,14 @@ const ProductSlide = () => {
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
           >
-            <RxDotFilled key={slideIndex} />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="50"
+              height="50"
+              key={slideIndex}
+            >
+              <circle cx="20" cy="20" r="6" fill="#71797E" />
+            </svg>
           </div>
         ))}
       </div>

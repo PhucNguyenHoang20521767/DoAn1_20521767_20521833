@@ -4,16 +4,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
-  IoIosArrowDroprightCircle,
-  IoIosArrowDropleftCircle,
-} from "react-icons/io";
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+} from "@heroicons/react/20/solid";
+
 import ProductCard from "./ProductItem";
 
 function NextArrow(props: any) {
   const { className, style, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <IoIosArrowDroprightCircle
+      <ArrowRightCircleIcon
+        className="h-8 w-8 text-gray-500"
         style={{
           ...style,
           fontSize: "30px",
@@ -21,7 +23,7 @@ function NextArrow(props: any) {
           color: "black",
           borderRadius: "50%",
           position: "relative",
-          right: "10px",
+          right: "8px",
           zIndex: "5",
         }}
       />
@@ -33,7 +35,8 @@ function PrevArrow(props: any) {
   const { className, style, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <IoIosArrowDropleftCircle
+      <ArrowLeftCircleIcon
+        className="h-8 w-8 text-gray-500"
         style={{
           ...style,
           fontSize: "30px",
@@ -41,7 +44,7 @@ function PrevArrow(props: any) {
           color: "black",
           borderRadius: "50%",
           position: "relative",
-          right: "2px",
+          right: "4px",
           zIndex: "5",
         }}
       />

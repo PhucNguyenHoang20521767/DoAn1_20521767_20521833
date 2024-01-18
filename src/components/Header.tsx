@@ -20,7 +20,6 @@ import CategoriesById from "./CategoriesById";
 import CategoryList from "./Categories";
 import SubCategoryList from "./SubCategories";
 import { googleLogout } from "@/api/api_function";
-import { FiShoppingCart } from "react-icons/fi";
 import { removeSub } from "@/redux/reducers/subCategories";
 import { notProduct } from "@/redux/reducers/slug_reducers";
 import HeaderSearch from "./HeaderSearch";

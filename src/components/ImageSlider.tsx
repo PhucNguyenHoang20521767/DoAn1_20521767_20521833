@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import { RxDotFilled } from "react-icons/rx";
+import {
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+} from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
-import { IDiscount } from "../pages/Home/CampaignCarousel";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 
@@ -56,10 +57,16 @@ const ImageSlider = () => {
         </div>
       </div>
       <div className="absolute left-10 top-[50%] -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full p-2 text-2xl text-white group-hover:bg-black/20">
-        <BsChevronCompactLeft onClick={prevSlide} size={30} />
+        <ArrowLeftCircleIcon
+          onClick={prevSlide}
+          className="h-8 w-8 text-gray-500"
+        />
       </div>
       <div className="absolute right-10 top-[50%] -translate-x-0 translate-y-[-50%] cursor-pointer rounded-full p-2 text-2xl text-white group-hover:bg-black/20">
-        <BsChevronCompactRight onClick={nextSlide} size={30} />
+        <ArrowRightCircleIcon
+          onClick={nextSlide}
+          className="h-8 w-8 text-gray-500"
+        />
       </div>
 
       <div className="top-4 flex justify-center py-2">
@@ -69,7 +76,9 @@ const ImageSlider = () => {
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
           >
-            <RxDotFilled />
+            <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+              <circle cx="20" cy="20" r="6" fill="#71797E" />
+            </svg>
           </div>
         ))}
       </div>
