@@ -1,6 +1,10 @@
 import { RootState } from "@/redux/store/store";
 import { useSelector } from "react-redux";
 import CartItemComponent from "./cartDetailOrder";
+import { useState } from "react";
+import { styleButtonOutlined } from "@/utils/ui";
+import { Button, ButtonGroup, CircularProgress } from "@mui/material";
+import { TruckIcon } from "@heroicons/react/24/outline";
 
 const orderConfirm = () => {
   const { orderInfor } = useSelector((state: RootState) => state.orderConfirm);
@@ -8,15 +12,19 @@ const orderConfirm = () => {
   const tempPrice = orderInfor.totalPrice ? orderInfor.totalPrice : 0;
   const finalPrice = tempPrice + orderInfor.orderShippingFee;
   const selectedAddress = orderInfor.orderAddress;
+  const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "vnpay">("cod");
+  const [changeMethod, setChangeMethod] = useState(false);
 
   return (
     <div className="m-8 py-8">
       <h1 className="my-6 flex justify-center text-2xl font-bold text-gray-700 ">
         Đặt hàng
       </h1>
+      <hr className="border-1 mb-4 border" />
       <div className="grid grid-cols-2 ">
         <section className="mx-8">
-          <h2 className="my-6 text-xl font-bold text-gray-700 ">
+          <h2 className="mb-6 text-xl font-bold text-gray-700 ">
             Danh sách sản phẩm
           </h2>
           {cartItems.map((cartItem: any) => (
@@ -134,7 +142,67 @@ const orderConfirm = () => {
           <h2 className="my-6 text-xl font-bold text-gray-700 ">
             Phương thức thanh toán
           </h2>
+          <div className="flex justify-start space-x-8 px-8 text-gray-700">
+            <div className="flex items-center">
+              <label className="min-w-2 mr-2 text-base font-semibold text-dark-1">
+                Phương thức:
+              </label>
+              {paymentMethod === "cod" ? (
+                <p>Thanh toán khi nhận hàng</p>
+              ) : (
+                <p>Thanh toán qua VNPay</p>
+              )}
+            </div>
+            <Button
+              variant="text"
+              sx={styleButtonOutlined}
+              onClick={() => setChangeMethod(true)}
+            >
+              Thay đổi
+            </Button>
+          </div>
+          {changeMethod && (
+            <div className="flex justify-center">
+              <ButtonGroup
+                variant="outlined"
+                aria-label="text button group"
+                sx={styleButtonOutlined}
+              >
+                <Button onClick={() => setPaymentMethod("cod")}>
+                  <span className="px-2">
+                    <TruckIcon className="h-6 w-6 text-gray-500" />
+                  </span>
+                  <span className="text-base text-dark-1">COD</span>
+                </Button>
+                <Button onClick={() => setPaymentMethod("vnpay")}>
+                  <span className="px-2">
+                    <img src="./VNPAY.webp" alt="vnpay" className="h-6 w-6" />
+                  </span>
+                  <span className="text-base text-dark-1">VNPay</span>
+                </Button>
+              </ButtonGroup>
+              <Button
+                variant="text"
+                sx={styleButtonOutlined}
+                onClick={() => setChangeMethod(false)}
+              >
+                Xong
+              </Button>
+            </div>
+          )}
         </section>
+      </div>
+      <div className="flex items-center justify-center p-8">
+        <button
+          className={` min-w-max rounded-sm border border-secondary-1 bg-primary-1 px-9 py-2 text-base 
+                  text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
+                  ${loading ? "cursor-not-allowed" : "cursor-pointer"}
+                  ${loading ? "opacity-50" : "opacity-100"}
+                  `}
+        >
+          {loading && <CircularProgress size={20} className="mr-2" />}
+          MUA HÀNG
+        </button>
       </div>
     </div>
   );

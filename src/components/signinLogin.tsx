@@ -228,7 +228,9 @@ const Login = ({
           {errors.password && errors.password?.type !== "minLength" && (
             <span>
               {" "}
-              <p className="pl-1 text-red-700">Hãy nhập password</p>
+              <p className="pl-1 text-red-700">
+                Chưa có password hoặc nhập sai
+              </p>
             </span>
           )}
           {errors.password?.type === "minLength" && (

@@ -374,17 +374,19 @@ const Order = () => {
           <div className="m-8 mx-16">
             <div className="mt-3 p-1">
               {cartItems.length > 0 ? (
-                <button
-                  onClick={handleConfirm}
-                  className={` w-full rounded-sm border border-secondary-1 bg-primary-1 px-3 py-1 text-base 
-                text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
-                ${loading ? "cursor-not-allowed" : "cursor-pointer"}
-                ${loading ? "opacity-50" : "opacity-100"}
-                `}
-                >
-                  {loading && <CircularProgress size={20} className="mr-2" />}
-                  MUA HÀNG
-                </button>
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleConfirm}
+                    className={` rounded-sm border border-secondary-1 bg-primary-1 px-9 py-2 text-base 
+                  text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50
+                  ${loading ? "cursor-not-allowed" : "cursor-pointer"}
+                  ${loading ? "opacity-50" : "opacity-100"}
+                  `}
+                  >
+                    {loading && <CircularProgress size={20} className="mr-2" />}
+                    MUA HÀNG
+                  </button>
+                </div>
               ) : (
                 <div className="flex items-center justify-center space-x-4">
                   <p>Hãy đưa sản phẩm vào giỏ hàng để thanh toán</p>
