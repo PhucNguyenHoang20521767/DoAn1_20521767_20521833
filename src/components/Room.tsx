@@ -8,8 +8,8 @@ const Room = () => {
         <div className="text-center">
           <img
             className="h-[200px] w-[150px] object-cover shadow-lg"
-            src="https://media.designcafe.com/wp-content/uploads/2019/12/17055334/minimalistic-living-room-interior.jpg"
-            alt=""
+            src="livingHome.webp"
+            alt="livingHome"
           />
           <p className="text-lg font-bold text-dark-1">Phòng khách</p>
         </div>
@@ -18,8 +18,8 @@ const Room = () => {
         <div className="text-center">
           <img
             className="h-[200px] w-[150px] object-cover shadow-lg"
-            src="https://www.thespruce.com/thmb/TiVwyfd-o6P-s2iKlu9KjgmDOvA=/2048x0/filters:no_upscale():max_bytes(150000):strip_icc()/exciting-small-kitchen-ideas-1821197-hero-d00f516e2fbb4dcabb076ee9685e877a.jpg"
-            alt=""
+            src="./kitchenHome.webp"
+            alt="kitchenHome"
           />
           <p className="text-lg font-bold text-dark-1">Nhà bếp</p>
         </div>
@@ -28,8 +28,8 @@ const Room = () => {
         <div className="text-center">
           <img
             className="h-[200px] w-[150px] object-cover shadow-lg"
-            src="https://hips.hearstapps.com/hmg-prod/images/ghk010121homefeature-008-1671137680.png?resize=1200:*"
-            alt=""
+            src="bedHome.webp"
+            alt="bedHome"
           />
           <p className="text-lg font-bold text-dark-1">Phòng ngủ</p>
         </div>

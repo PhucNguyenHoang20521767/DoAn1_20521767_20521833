@@ -6,8 +6,8 @@ const Inspiration = () => {
     <div className="relative m-auto mb-10 h-[600px] max-w-[1200px] px-2 pb-12">
       <img
         className="left-0 top-0 h-[600px] w-full object-cover object-top"
-        src="https://img.freepik.com/free-photo/beautiful-flowers-table_23-2147755188.jpg?w=996&t=st=1683019970~exp=1683020570~hmac=3a55d97e73e780789b88684feef78447419d4d5c61fd10ff04063951df84b0d0"
-        alt="/"
+        src="./flowerTable.avif"
+        alt="inspiration"
       />
       {/* <div className='bg-black/30 absolute top-0 left-0 w-full h-full' /> */}
       <div className="absolute left-0 top-1 flex h-full max-w-[600px] flex-col justify-center text-primary-0 max-sm:ml-[140px] md:w-full lg:left-[600px]">

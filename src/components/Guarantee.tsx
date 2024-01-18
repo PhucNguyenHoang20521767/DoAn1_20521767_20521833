@@ -21,8 +21,8 @@ const Guarantee = () => {
           <img
             className="h-[56px] w-auto"
             // src="https://cdn-icons-png.flaticon.com/512/6582/6582140.png"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2_WOfvpIn1YQxm9NICpihz-n9BBT1ktn5Iw&usqp=CAU"
-            alt=""
+            src="./24.webp"
+            alt="support"
           />
           <div className="pl-4">
             <p className="text-lg font-bold text-black/80">Hỗ trợ 24/7</p>
@@ -30,11 +30,7 @@ const Guarantee = () => {
           </div>
         </div>
         <div className="flex flex-wrap justify-between">
-          <img
-            className="h-[60px] w-[60px]"
-            src="https://www.iconpacks.net/icons/2/free-guarantee-icon-3598-thumb.png"
-            alt=""
-          />
+          <img className="h-[60px] w-[60px]" src="secure.avif" alt="secure" />
           <div className="pl-4">
             <p className="text-lg font-bold text-black/80">Bảo hành 2 năm</p>
             <p className="text-md text-black/60">Đối với tất cả sản phẩm</p>
