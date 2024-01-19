@@ -1,7 +1,7 @@
 import { RootState } from "@/redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import CartItemComponent from "./cartDetailOrder";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styleButtonOutlined } from "@/utils/ui";
 import { Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { TruckIcon } from "@heroicons/react/24/outline";
@@ -16,6 +16,20 @@ import { CartItem } from "./cartOrder";
 import { notify } from "@/redux/reducers/notify_reducers";
 import { useNavigate, Navigate } from "react-router-dom";
 import { removeCartItems } from "@/redux/reducers/cartItem_reducers";
+import {
+  updateConfirmOrder,
+  removeConfirmOrder,
+} from "@/redux/reducers/orderConfirm_reducers";
+
+// "paymentStatus": true,
+// "_id": "6485bd7318d7886b9017c861",
+// "paymentType": "VNPAY",
+
+interface PaymentInter {
+  paymentStatus: boolean;
+  _id: string;
+  paymentType: string;
+}
 
 const orderConfirm = () => {
   const dispatch = useDispatch();
@@ -27,12 +41,30 @@ const orderConfirm = () => {
   const finalPrice = tempPrice + orderInfor.orderShippingFee;
   const selectedAddress = orderInfor.orderAddress;
   const [loading, setLoading] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "vnpay">("cod");
+  const VNPayString = "6485bd7318d7886b9017c861";
+  const CODString = "648a91e82b36c6bbd96704a4";
+  const [paymentMethod, setPaymentMethod] = useState(CODString);
   const [changeMethod, setChangeMethod] = useState(false);
+  const [payments, setPayments] = useState<PaymentInter[]>([]);
   const cartId = useSelector((state: RootState) => state.cart._id);
 
+  useEffect(() => {
+    getAllPayments(currentUser)
+      .then((res) => {
+        setPayments(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   function handleConfirmOrder(): void {
-    if (paymentMethod === "vnpay") {
+    if (paymentMethod === VNPayString) {
+      const newConfirmOrder = {
+        ...orderInfor,
+        paymentMethod: VNPayString,
+      };
+      dispatch(updateConfirmOrder({ orderInfor: newConfirmOrder }));
       setLoading(true);
       createVnpayPayment(currentUser, finalPrice, "", "vn")
         .then((res) => {
@@ -59,7 +91,7 @@ const orderConfirm = () => {
           "Đặt hàng",
           orderInfor.orderNote,
           selectedAddress._id.toString(),
-          "648a91e82b36c6bbd96704a4",
+          paymentMethod,
           30000
         )
           .then((res) => {
@@ -97,6 +129,7 @@ const orderConfirm = () => {
           })
           .then(async () => {
             try {
+              dispatch(removeConfirmOrder);
               dispatch(
                 notify({
                   message: "Đặt hàng thành công",
@@ -275,7 +308,7 @@ const orderConfirm = () => {
                 <label className="min-w-2 mr-2 text-base font-semibold text-dark-1">
                   Phương thức:
                 </label>
-                {paymentMethod === "cod" ? (
+                {paymentMethod === CODString ? (
                   <p>Thanh toán khi nhận hàng</p>
                 ) : (
                   <p>Thanh toán qua VNPay</p>
@@ -296,13 +329,13 @@ const orderConfirm = () => {
                   aria-label="text button group"
                   sx={styleButtonOutlined}
                 >
-                  <Button onClick={() => setPaymentMethod("cod")}>
+                  <Button onClick={() => setPaymentMethod(CODString)}>
                     <span className="px-2">
                       <TruckIcon className="h-6 w-6 text-gray-500" />
                     </span>
                     <span className="text-base text-dark-1">COD</span>
                   </Button>
-                  <Button onClick={() => setPaymentMethod("vnpay")}>
+                  <Button onClick={() => setPaymentMethod(VNPayString)}>
                     <span className="px-2">
                       <img src="./VNPAY.webp" alt="vnpay" className="h-6 w-6" />
                     </span>

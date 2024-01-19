@@ -1,14 +1,32 @@
-import { getVNPayReturn } from "@/api/api_function";
+import {
+  createOrder,
+  createOrderItem,
+  getVNPayReturn,
+  removeAllItemFromCart,
+} from "@/api/api_function";
+import { removeCartItems } from "@/redux/reducers/cartItem_reducers";
+import { notify } from "@/redux/reducers/notify_reducers";
 import { RootState } from "@/redux/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { CartItem } from "../Order/cartOrder";
+import { removeConfirmOrder } from "@/redux/reducers/orderConfirm_reducers";
 
 const PaymentSuccess = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const cartId = useSelector((state: RootState) => state.cart._id);
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  const { orderInfor } = useSelector((state: RootState) => state.orderConfirm);
+  const cartItems = orderInfor.cartItems;
+  const tempPrice = orderInfor.totalPrice ? orderInfor.totalPrice : 0;
+  const finalPrice = tempPrice + orderInfor.orderShippingFee;
+  const selectedAddress = orderInfor.orderAddress;
   const dispatch = useDispatch();
+  const VNPayString = "6485bd7318d7886b9017c861";
   const urlParams = new URLSearchParams(location.search);
+  const [loading, setLoading] = useState<boolean>(false);
   // const urlParams = new URLSearchParams(
   //   "?vnp_Amount=528000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14287723&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A+140231&vnp_PayDate=20240119210957&vnp_ResponseCode=00&vnp_TmnCode=FXJUR0TP&vnp_TransactionNo=14287723&vnp_TransactionStatus=00&vnp_TxnRef=140231&vnp_SecureHash=522e622833b3be4fac4044a4efdb3216f19555e694446420151cda9f981161ba9cc654230413c162195a4858cd033d82f3f2649f545ea582a1a56f58c6a6e05b"
   // );
@@ -37,9 +55,100 @@ const PaymentSuccess = () => {
   const vnp_TxnRef = urlParams.get("vnp_TxnRef");
   const vnp_SecureHash = urlParams.get("vnp_SecureHash");
 
+  const handleOrder = async () => {
+    // for
+    let orderId = "";
+    setLoading(true);
+    if (cartItems.length > 0) {
+      if (selectedAddress) {
+        await createOrder(
+          currentUser,
+          orderInfor.customerId,
+          orderInfor.orderCode.toString(),
+          "Đặt hàng",
+          orderInfor.orderNote,
+          selectedAddress._id.toString(),
+          orderInfor.paymentMethod,
+          30000
+        )
+          .then((res) => {
+            orderId = res.data.data._id;
+            cartItems.forEach((item: CartItem) => {
+              const normalPrice = item.productPrice * item.productQuantity;
+              const checkPrice = item.productSalePrice
+                ? item.productSalePrice
+                : item.productPrice;
+              const finalPrice = checkPrice * item.productQuantity;
+
+              createOrderItem(
+                currentUser,
+                orderId,
+                item.productId,
+                item.productColorId,
+                item.productQuantity,
+                normalPrice,
+                finalPrice
+              )
+                .then((res) => {
+                  console.log("res order item");
+                })
+                .catch((err) => {
+                  dispatch(
+                    notify({
+                      message: `${err}`,
+                      isError: true,
+                      isSuccess: false,
+                      isInfo: false,
+                    })
+                  );
+                });
+            });
+          })
+          .then(async () => {
+            try {
+              dispatch(removeConfirmOrder);
+              dispatch(
+                notify({
+                  message: "Đặt hàng thành công",
+                  isError: false,
+                  isSuccess: true,
+                  isInfo: false,
+                })
+              );
+              const result = await removeAllItemFromCart(cartId, currentUser);
+              dispatch(removeCartItems());
+            } catch (err) {
+              dispatch(
+                notify({
+                  message: `${err}`,
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false,
+                })
+              );
+            }
+          })
+          .catch((err) => {
+            console.log("err order");
+          });
+      }
+      navigate(`/account/bill/${orderId}`);
+    } else {
+      // alert("Giỏ hàng trống");
+      dispatch(
+        notify({
+          message: "Giỏ hàng trống",
+          isError: true,
+          isSuccess: false,
+          isInfo: false,
+        })
+      );
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     const getReturn = async () => {
-      console.log("refund1", urlParams);
       if (!currentUser) {
         return;
       } else if (!vnp_Amount) return;
@@ -54,7 +163,6 @@ const PaymentSuccess = () => {
       else if (!vnp_TransactionStatus) return;
       else if (!vnp_TxnRef) return;
       else if (!vnp_SecureHash) return;
-      console.log("refund2");
 
       const res = await getVNPayReturn(
         currentUser,
@@ -71,7 +179,8 @@ const PaymentSuccess = () => {
         vnp_TxnRef,
         vnp_SecureHash
       );
-      console.log("refund3");
+      if (orderInfor.paymentMethod === VNPayString) {
+      }
     };
     getReturn();
   }, [currentUser]);
