@@ -56,6 +56,13 @@ const PaymentSuccess = () => {
   const vnp_SecureHash = urlParams.get("vnp_SecureHash");
 
   const handleOrder = async () => {
+    if (!currentUser) {
+      return;
+    }
+    if (!vnp_TxnRef) {
+      return;
+    }
+
     // for
     let orderId = "";
     setLoading(true);
@@ -64,7 +71,7 @@ const PaymentSuccess = () => {
         await createOrder(
           currentUser,
           orderInfor.customerId,
-          orderInfor.orderCode.toString(),
+          vnp_TxnRef.toString(),
           "Đặt hàng",
           orderInfor.orderNote,
           selectedAddress._id.toString(),
