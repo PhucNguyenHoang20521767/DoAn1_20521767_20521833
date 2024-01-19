@@ -400,21 +400,68 @@ export const createOrder = async (
   orderNote: string,
   orderAddress: string,
   paymentMethod: string,
+  orderShippingFee: number,
+  voucherId: string
+) => {
+  // return await mainApi.post(
+  //   apiEndpoints.CREATE_ORDER,
+  //   apiEndpoints.getCreateOrderBody(
+  //     customerId,
+  //     orderCode,
+  //     orderStatus,
+  //     orderNote,
+  //     orderAddress,
+  //     paymentMethod,
+  //     orderShippingFee,
+  //     voucherId
+  //   ),
+  //   apiEndpoints.getAccessToken(token)
+  // );
+  return await axios({
+    method: "post",
+    url: `${baseURL}/orders/createOrder`,
+    data: {
+      customerId: customerId,
+      orderCode: orderCode,
+      orderStatus: orderStatus,
+      orderNote: orderNote,
+      orderAddress: orderAddress,
+      paymentMethod: paymentMethod,
+      orderShippingFee: orderShippingFee,
+      voucherId: voucherId,
+    },
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+};
+
+export const createOrderV = async (
+  token: string,
+  customerId: string,
+  orderCode: string,
+  orderStatus: string,
+  orderNote: string,
+  orderAddress: string,
+  paymentMethod: string,
   orderShippingFee: number
 ) => {
-  return await mainApi.post(
-    apiEndpoints.CREATE_ORDER,
-    apiEndpoints.getCreateOrderBody(
-      customerId,
-      orderCode,
-      orderStatus,
-      orderNote,
-      orderAddress,
-      paymentMethod,
-      orderShippingFee
-    ),
-    apiEndpoints.getAccessToken(token)
-  );
+  return await axios({
+    method: "post",
+    url: `${baseURL}/orders/createOrder`,
+    data: {
+      customerId: customerId,
+      orderCode: orderCode,
+      orderStatus: orderStatus,
+      orderNote: orderNote,
+      orderAddress: orderAddress,
+      paymentMethod: paymentMethod,
+      orderShippingFee: orderShippingFee,
+    },
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
 };
 
 //create order item

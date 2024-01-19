@@ -8,7 +8,7 @@ import { createAddress } from "@/api/api_function";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RootState } from "@/redux/store/store";
 import { useSelector, useDispatch } from "react-redux";
-import { notify } from "@/redux/reducers/notify_reducers";
+import { notify, notifyError } from "@/redux/reducers/notify_reducers";
 import { VoucherInter } from "@/pages/Order/cartOrder";
 
 interface Props {
@@ -18,6 +18,8 @@ interface Props {
   vouchers: VoucherInter[];
   currentVoucher: VoucherInter | null;
   setCurrentVoucher: React.Dispatch<React.SetStateAction<VoucherInter | null>>;
+  price: number;
+  setPrice: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface IAddressInput {
@@ -38,6 +40,8 @@ function VoucherModal({
   vouchers,
   currentVoucher,
   setCurrentVoucher,
+  price,
+  setPrice,
 }: Props) {
   //   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -51,10 +55,20 @@ function VoucherModal({
   );
 
   function handleChooseVoucher(voucher: VoucherInter): void {
+    if (voucher.minOrderPrice > price) {
+      dispatch(notifyError("Giá trị đơn hàng không đủ để sử dụng voucher này"));
+      return;
+    }
+
     setTempVoucher(voucher);
   }
 
   function handleSubmit(): void {
+    if (!tempVoucher) {
+      dispatch(notifyError("Bạn chưa chọn voucher"));
+      return;
+    }
+
     setCurrentVoucher(tempVoucher);
     setOpen(false);
   }

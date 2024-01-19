@@ -113,112 +113,111 @@ const CartItemComponent = ({
 
   useEffect(() => {
     const fetchProduct = async () => {
-      // try {
-      const res3 = await getProductById(cartItem.productId);
-      const product = res3.data.data;
-      setProduct(product);
-      setPrice(product.productPrice);
+      try {
+        const res3 = await getProductById(cartItem.productId);
+        const product = res3.data.data;
+        setProduct(product);
+        setPrice(product.productPrice);
 
-      setCartItems((prevCartItems) => {
-        const tempCartItems = prevCartItems.map((item: CartItem) => {
-          if (item._id === cartItem._id) {
-            return { ...item, productPrice: product.productPrice };
-          }
-          return item;
-        });
-        return tempCartItems;
-      });
-
-      // const imageRes = await getProductImagesUrl(cartItem.productId)
-      // const productImages = imageRes.data.data
-      // const theImageUrls = productImages.map((productImage: any) => productImage.imageURL);
-      // console.log('theImageUrls', theImageUrls)
-      // setImageUrls(theImageUrls);
-
-      // const res4 = await getProductColor(cartItem.productId)
-      // const productColor = res4.data.data
-      // console.log('productColor', productColor)
-      // console.log('cartItem', cartItem)
-
-      const colorRes = await getProductColorById(cartItem.productColorId);
-      const _color = colorRes.data.color;
-      setColor(_color);
-      // console.log('_color', _color._id)
-      // console.log('color', color)
-
-      const res5 = await getAllProductImageUrlByColor(
-        cartItem.productId,
-        cartItem.productColorId
-      );
-      const productImageUrls = res5.data.data;
-      const _imageUrls = productImageUrls.map(
-        (productImageUrl: any) => productImageUrl.imageURL
-      );
-      setImageUrls(_imageUrls);
-      // console.log('productImageUrls', productImageUrls)
-      // console.log('_imageUrls', _imageUrls)
-
-      // const listColor = await Promise.all(productColor.map(async (color: any) => {
-      //   const listColorRes = await getProductColorById(color._id)
-      //   const listColor = listColorRes.data.color
-      //   // console.log('listColor1', listColor)
-      //   return { ...color, ...listColor, colorId: color._id }
-      // }))
-
-      setColor(_color);
-      if (product.productDiscountId) {
-        const productDiscountRes = await getDiscountById(
-          product.productDiscountId
-        );
-        const productDiscount = productDiscountRes.data.data;
-        const errorDiscount = productDiscountRes.data.success;
-        // console.log('errordiscount', error)
-        // console.log('productDiscount', productDiscount)
-        if (
-          productDiscount &&
-          new Date(productDiscount.discountEndDate) > new Date()
-        ) {
-          setDiscount(productDiscount.discountPercent);
-          setDiscountNotExpired(true);
-          handlePrice(product.productPrice);
-          setDiscountDetail(productDiscount);
-          // console.log('productDiscount', productDiscount)
-
-          setCartItems((prevCartItems) => {
-            const tempCartItems = prevCartItems.map((item: CartItem) => {
-              if (item._id === cartItem._id) {
-                return {
-                  ...item,
-                  productPrice: product.productPrice,
-                  productDiscount: productDiscount.discountPercent,
-                };
-              }
-              return item;
-            });
-            return tempCartItems;
+        setCartItems((prevCartItems) => {
+          const tempCartItems = prevCartItems.map((item: CartItem) => {
+            if (item._id === cartItem._id) {
+              return { ...item, productPrice: product.productPrice };
+            }
+            return item;
           });
+          return tempCartItems;
+        });
 
-          // const tempCartItems = _cartItems.map((item: CartItem) => {
-          //   if (item._id === cartItem._id) {
-          //     return { ...item, productPrice: product.productPrice, productDiscount: productDiscount.discountPercent }
-          //   }
-          //   return item
-          // })
-          // dispatch(loadCartItems({cartItems: tempCartItems}))
+        // const imageRes = await getProductImagesUrl(cartItem.productId)
+        // const productImages = imageRes.data.data
+        // const theImageUrls = productImages.map((productImage: any) => productImage.imageURL);
+        // console.log('theImageUrls', theImageUrls)
+        // setImageUrls(theImageUrls);
+
+        // const res4 = await getProductColor(cartItem.productId)
+        // const productColor = res4.data.data
+        // console.log('productColor', productColor)
+        // console.log('cartItem', cartItem)
+
+        const colorRes = await getProductColorById(cartItem.productColorId);
+        const _color = colorRes.data.color;
+        setColor(_color);
+        // console.log('_color', _color._id)
+        // console.log('color', color)
+
+        const res5 = await getAllProductImageUrlByColor(
+          cartItem.productId,
+          cartItem.productColorId
+        );
+        const productImageUrls = res5.data.data;
+        const _imageUrls = productImageUrls.map(
+          (productImageUrl: any) => productImageUrl.imageURL
+        );
+        setImageUrls(_imageUrls);
+        // console.log('productImageUrls', productImageUrls)
+        // console.log('_imageUrls', _imageUrls)
+
+        // const listColor = await Promise.all(productColor.map(async (color: any) => {
+        //   const listColorRes = await getProductColorById(color._id)
+        //   const listColor = listColorRes.data.color
+        //   // console.log('listColor1', listColor)
+        //   return { ...color, ...listColor, colorId: color._id }
+        // }))
+
+        setColor(_color);
+        if (product.productDiscountId) {
+          const productDiscountRes = await getDiscountById(
+            product.productDiscountId
+          );
+          const productDiscount = productDiscountRes.data.data;
+          const error = productDiscountRes.data.error;
+          // console.log('errordiscount', error)
+          // console.log('productDiscount', productDiscount)
+          if (
+            productDiscount &&
+            new Date(productDiscount.discountEndDate) > new Date()
+          ) {
+            setDiscount(productDiscount.discountPercent);
+            setDiscountNotExpired(true);
+            handlePrice(product.productPrice);
+            setDiscountDetail(productDiscount);
+            // console.log('productDiscount', productDiscount)
+
+            setCartItems((prevCartItems) => {
+              const tempCartItems = prevCartItems.map((item: CartItem) => {
+                if (item._id === cartItem._id) {
+                  return {
+                    ...item,
+                    productPrice: product.productPrice,
+                    productDiscount: productDiscount.discountPercent,
+                  };
+                }
+                return item;
+              });
+              return tempCartItems;
+            });
+
+            // const tempCartItems = _cartItems.map((item: CartItem) => {
+            //   if (item._id === cartItem._id) {
+            //     return { ...item, productPrice: product.productPrice, productDiscount: productDiscount.discountPercent }
+            //   }
+            //   return item
+            // })
+            // dispatch(loadCartItems({cartItems: tempCartItems}))
+          } else {
+            discountFailed();
+          }
+
+          if (error) {
+            discountFailed();
+          }
         } else {
           discountFailed();
         }
-
-        if (errorDiscount) {
-          discountFailed();
-        }
-      } else {
-        discountFailed();
+      } catch (error) {
+        console.log(error);
       }
-      // }
-      // catch (error) {
-      //   console.log(error);
-      // }
 
       if (new Date(discountDetail?.discountEndDate) > new Date()) {
         const tempCartItems = _cartItems.map((item: CartItem) => {

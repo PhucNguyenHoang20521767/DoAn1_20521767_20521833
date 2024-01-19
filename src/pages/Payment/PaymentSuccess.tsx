@@ -15,6 +15,7 @@ import {
   removeConfirmOrder,
   updateConfirmOrder,
 } from "@/redux/reducers/orderConfirm_reducers";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 const PaymentSuccess = () => {
   const location = useLocation();
@@ -69,19 +70,17 @@ const PaymentSuccess = () => {
       return;
     } else if (!orderInfor.orderCode) {
       return;
-    } else if (!orderInfor.orderNote) {
-      return;
     } else if (!orderInfor.orderAddress) {
       return;
     } else if (!orderInfor.orderShippingFee) {
       return;
     } else if (!orderInfor.totalPrice) {
       return;
-    } else if (!orderInfor.voucher) {
-      return;
     } else if (!orderInfor.paymentMethod) {
       return;
     }
+
+    console.log("vnpay 2");
 
     // for
     let orderId = "";
@@ -93,10 +92,11 @@ const PaymentSuccess = () => {
           orderInfor.customerId,
           vnp_TxnRef.toString(),
           "Đặt hàng",
-          orderInfor.orderNote,
+          orderInfor.orderNote || "",
           selectedAddress._id.toString(),
           orderInfor.paymentMethod,
-          30000
+          30000,
+          orderInfor.voucher?._id || "string"
         )
           .then((res) => {
             orderId = res.data.data._id;
@@ -215,6 +215,7 @@ const PaymentSuccess = () => {
         vnp_SecureHash
       );
       if (orderInfor.paymentMethod === VNPayString) {
+        console.log("vnpay 1");
         handleOrder();
       }
     };
@@ -226,6 +227,12 @@ const PaymentSuccess = () => {
   } else
     return (
       <div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <div className="h-full bg-gray-100">
           <div className="bg-white p-6  md:mx-auto">
             <svg

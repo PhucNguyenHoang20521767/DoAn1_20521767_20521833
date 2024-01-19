@@ -274,7 +274,8 @@ export const getCreateOrderBody = (
   orderNote: string,
   orderAddress: string,
   paymentMethod: string,
-  orderShippingFee: number
+  orderShippingFee: number,
+  voucherId?: string
 ) => ({
   customerId: customerId,
   orderCode: orderCode,
@@ -283,6 +284,7 @@ export const getCreateOrderBody = (
   orderAddress: orderAddress,
   paymentMethod: paymentMethod,
   orderShippingFee: orderShippingFee,
+  voucherId: voucherId ? voucherId : null,
 });
 
 //create order item

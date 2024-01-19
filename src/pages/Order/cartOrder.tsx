@@ -205,6 +205,15 @@ export const CartOrder = ({
   }, [cartItems, dispatch, _cartItems, change]);
 
   useEffect(() => {
+    if (currentVoucher && currentVoucher.voucherType === "PERCENT") {
+      setPrice(price - (price * currentVoucher.voucherValue) / 100);
+    }
+    if (currentVoucher && currentVoucher.voucherType === "MONEY") {
+      setPrice(price - currentVoucher.voucherValue);
+    }
+  }, [currentVoucher]);
+
+  useEffect(() => {
     setTotalPrice(price + ship);
   }, [price]);
 
@@ -308,6 +317,8 @@ export const CartOrder = ({
         open={openModal}
         setOpen={setOpenModal}
         handleReload={handleReload}
+        price={price}
+        setPrice={setPrice}
       />
     </>
   );

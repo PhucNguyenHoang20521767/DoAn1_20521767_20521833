@@ -63,6 +63,15 @@ const Order = () => {
   const [reload, setReload] = useState(false);
   const [orderNote, setOrderNote] = useState("");
 
+  useEffect(() => {
+    if (currentVoucher && currentVoucher.voucherType === "PERCENT") {
+      setPrice(price - (price * currentVoucher.voucherValue) / 100);
+    }
+    if (currentVoucher && currentVoucher.voucherType === "MONEY") {
+      setPrice(price - currentVoucher.voucherValue);
+    }
+  }, [currentVoucher]);
+
   const handleDefaultAddress = () => {
     const defaultAddress = addresses.find(
       (address) => address.isDefault === true
