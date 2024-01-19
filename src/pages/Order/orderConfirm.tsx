@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CartItemComponent from "./cartDetailOrder";
 import { useEffect, useState } from "react";
 import { styleButtonOutlined } from "@/utils/ui";
-import { Button, ButtonGroup, CircularProgress } from "@mui/material";
+import { Backdrop, Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { TruckIcon } from "@heroicons/react/24/outline";
 import {
   createOrder,
@@ -67,6 +67,9 @@ const orderConfirm = () => {
       };
       dispatch(updateConfirmOrder({ orderInfor: newConfirmOrder }));
       setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
       createVnpayPayment(currentUser, finalPrice, "", "vn")
         .then((res) => {
           window.location.href = res.data.paymentURL;
@@ -449,6 +452,12 @@ const orderConfirm = () => {
             ĐẶT HÀNG
           </button>
         </div>
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={loading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     );
 };
