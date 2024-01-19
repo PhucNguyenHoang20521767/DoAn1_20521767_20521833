@@ -1,6 +1,7 @@
 import {
   createOrder,
   createOrderItem,
+  createOrderV,
   getVNPayReturn,
   removeAllItemFromCart,
 } from "@/api/api_function";
@@ -76,27 +77,24 @@ const PaymentSuccess = () => {
       return;
     } else if (!orderInfor.totalPrice) {
       return;
-    } else if (!orderInfor.paymentMethod) {
-      return;
     }
 
     console.log("vnpay 2");
 
-    // for
     let orderId = "";
     setLoading(true);
     if (cartItems.length > 0) {
-      if (selectedAddress) {
+      if (selectedAddress && orderInfor.voucher) {
         await createOrder(
           currentUser,
           orderInfor.customerId,
-          vnp_TxnRef.toString(),
+          orderInfor.orderCode.toString(),
           "Đặt hàng",
           orderInfor.orderNote || "",
           selectedAddress._id.toString(),
-          orderInfor.paymentMethod,
+          orderInfor.paymentMethod || VNPayString,
           30000,
-          orderInfor.voucher?._id || "string"
+          orderInfor.voucher?._id
         )
           .then((res) => {
             orderId = res.data.data._id;
@@ -135,13 +133,76 @@ const PaymentSuccess = () => {
             try {
               dispatch(removeConfirmOrder);
               dispatch(
-                updateConfirmOrder({
-                  orderInfor: {
-                    cartItems: [],
-                  },
+                notify({
+                  message: "Đặt hàng thành công",
+                  isError: false,
+                  isSuccess: true,
+                  isInfo: false,
                 })
               );
+              const result = await removeAllItemFromCart(cartId, currentUser);
+              dispatch(removeCartItems());
+            } catch (err) {
+              dispatch(
+                notify({
+                  message: `${err}`,
+                  isError: true,
+                  isSuccess: false,
+                  isInfo: false,
+                })
+              );
+            }
+          })
+          .catch((err) => {
+            console.log("err order");
+          });
+      } else if (selectedAddress && !orderInfor.voucher) {
+        await createOrderV(
+          currentUser,
+          orderInfor.customerId,
+          orderInfor.orderCode.toString(),
+          "Đặt hàng",
+          orderInfor.orderNote || "",
+          selectedAddress._id.toString(),
+          orderInfor.paymentMethod || VNPayString,
+          30000
+        )
+          .then((res) => {
+            orderId = res.data.data._id;
+            cartItems.forEach((item: CartItem) => {
+              const normalPrice = item.productPrice * item.productQuantity;
+              const checkPrice = item.productSalePrice
+                ? item.productSalePrice
+                : item.productPrice;
+              const finalPrice = checkPrice * item.productQuantity;
 
+              createOrderItem(
+                currentUser,
+                orderId,
+                item.productId,
+                item.productColorId,
+                item.productQuantity,
+                normalPrice,
+                finalPrice
+              )
+                .then((res) => {
+                  console.log("res order item");
+                })
+                .catch((err) => {
+                  dispatch(
+                    notify({
+                      message: `${err}`,
+                      isError: true,
+                      isSuccess: false,
+                      isInfo: false,
+                    })
+                  );
+                });
+            });
+          })
+          .then(async () => {
+            try {
+              dispatch(removeConfirmOrder);
               dispatch(
                 notify({
                   message: "Đặt hàng thành công",
@@ -169,7 +230,6 @@ const PaymentSuccess = () => {
       }
       navigate(`/account/bill/${orderId}`);
     } else {
-      // alert("Giỏ hàng trống");
       dispatch(
         notify({
           message: "Giỏ hàng trống",
