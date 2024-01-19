@@ -47,16 +47,16 @@ const Hero = () => {
       {imgAdd.map((img, index) => (
         <LazyLoadImage
           key={index}
-          className={`top-30 absolute mx-40 box-border h-full max-h-[400px] w-3/4 ${
+          className={`top-30 absolute mx-[6rem] box-border h-full max-h-[500px] w-full max-w-[1280px] overflow-hidden object-cover object-center text-center transition-opacity duration-1000 md:left-6 ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
           // className={`top-30 absolute left-0 box-border h-full max-h-[400px] w-max overflow-hidden object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
           //   index === currentImg ? "opacity-100" : "opacity-0"
           // }`}
           alt="hero"
-          height={128}
+          height={500}
           src={img}
-          width={44}
+          width={1280}
           onError={(e: any) => {
             e.currentTarget.src =
               "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
