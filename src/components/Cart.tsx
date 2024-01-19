@@ -135,7 +135,7 @@ export const Cart = ({ isCart }: CartProps) => {
     if (currentUser) {
       fetchCart();
     }
-  }, [currentUser]);
+  }, [currentUser, change, dispatch]);
 
   // useEffect(() => {
   //   if (cartItems.length > 0) getCartItemsDetail(cartItems);
