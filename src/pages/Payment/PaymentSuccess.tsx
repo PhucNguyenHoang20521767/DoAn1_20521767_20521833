@@ -1,8 +1,78 @@
-import { useSelector } from "react-redux";
+import { getVNPayReturn } from "@/api/api_function";
+import { RootState } from "@/redux/store/store";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
-  const currentUser = useSelector((state: any) => state.auth.currentUser);
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
+  const dispatch = useDispatch();
+  const urlParams = new URLSearchParams(
+    "?vnp_Amount=528000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14287723&vnp_CardType=ATM&vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A+140231&vnp_PayDate=20240119210957&vnp_ResponseCode=00&vnp_TmnCode=FXJUR0TP&vnp_TransactionNo=14287723&vnp_TransactionStatus=00&vnp_TxnRef=140231&vnp_SecureHash=522e622833b3be4fac4044a4efdb3216f19555e694446420151cda9f981161ba9cc654230413c162195a4858cd033d82f3f2649f545ea582a1a56f58c6a6e05b"
+  );
+  // vnp_Amount: string,
+  // vnp_BankCode: string,
+  // vnp_BankTranNo: string,
+  // vnp_CardType: string,
+  // vnp_OrderInfo: string,
+  // vnp_PayDate: string,
+  // vnp_ResponseCode: string,
+  // vnp_TmnCode: string,
+  // vnp_TransactionNo: string,
+  // vnp_TransactionStatus: string,
+  // vnp_TxnRef: string,
+  // vnp_SecureHash: string
+  const vnp_Amount = urlParams.get("vnp_Amount");
+  const vnp_BankCode = urlParams.get("vnp_BankCode");
+  const vnp_BankTranNo = urlParams.get("vnp_BankTranNo");
+  const vnp_CardType = urlParams.get("vnp_CardType");
+  const vnp_OrderInfo = urlParams.get("vnp_OrderInfo");
+  const vnp_PayDate = urlParams.get("vnp_PayDate");
+  const vnp_ResponseCode = urlParams.get("vnp_ResponseCode");
+  const vnp_TmnCode = urlParams.get("vnp_TmnCode");
+  const vnp_TransactionNo = urlParams.get("vnp_TransactionNo");
+  const vnp_TransactionStatus = urlParams.get("vnp_TransactionStatus");
+  const vnp_TxnRef = urlParams.get("vnp_TxnRef");
+  const vnp_SecureHash = urlParams.get("vnp_SecureHash");
+
+  useEffect(() => {
+    const getReturn = async () => {
+      console.log("refund1", urlParams);
+      if (!currentUser) {
+        return;
+      } else if (!vnp_Amount) return;
+      else if (!vnp_BankCode) return;
+      else if (!vnp_BankTranNo) return;
+      else if (!vnp_CardType) return;
+      else if (!vnp_OrderInfo) return;
+      else if (!vnp_PayDate) return;
+      else if (!vnp_ResponseCode) return;
+      else if (!vnp_TmnCode) return;
+      else if (!vnp_TransactionNo) return;
+      else if (!vnp_TransactionStatus) return;
+      else if (!vnp_TxnRef) return;
+      else if (!vnp_SecureHash) return;
+      console.log("refund2");
+
+      const res = await getVNPayReturn(
+        currentUser,
+        vnp_Amount,
+        vnp_BankCode,
+        vnp_BankTranNo,
+        vnp_CardType,
+        vnp_OrderInfo,
+        vnp_PayDate,
+        vnp_ResponseCode,
+        vnp_TmnCode,
+        vnp_TransactionNo,
+        vnp_TransactionStatus,
+        vnp_TxnRef,
+        vnp_SecureHash
+      );
+      console.log("refund3");
+    };
+    getReturn();
+  }, [currentUser]);
 
   if (!currentUser) {
     return <Navigate to="/signin" replace={true} state={{ from: "/" }} />;

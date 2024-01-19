@@ -419,3 +419,46 @@ export const getCreateVNPayPaymentBody = (
 
 //get all payments
 export const GET_ALL_PAYMENTS = `/payments/getAllPayments`;
+
+// https://nguyenshomefurniture-be.onrender.com/api/payments/getVNPayReturn?
+// vnp_Amount=528000000&
+// vnp_BankCode=NCB&
+// vnp_BankTranNo=VNP14287723&
+// vnp_CardType=ATM&
+// vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A+140231&
+// vnp_PayDate=20240119210957&
+// vnp_ResponseCode=00&
+// vnp_TmnCode=FXJUR0TP&
+// vnp_TransactionNo=14287723&
+// vnp_TransactionStatus=00&
+// vnp_TxnRef=140231&
+// vnp_SecureHash=522e622833b3be4fac4044a4efdb3216f19555e694446420151cda9f981161ba9cc654230413c162195a4858cd033d82f3f2649f545ea582a1a56f58c6a6e05b
+//get vnpay return
+export const GET_VNPAY_RETURN = `/payments/getVNPayReturn`;
+// export const getVNPayReturnBody = (
+//   vnp_Amount: string,
+//   vnp_BankCode: string,
+//   vnp_BankTranNo: string,
+//   vnp_CardType: string,
+//   vnp_OrderInfo: string,
+//   vnp_PayDate: string,
+//   vnp_ResponseCode: string,
+//   vnp_TmnCode: string,
+//   vnp_TransactionNo: string,
+//   vnp_TransactionStatus: string,
+//   vnp_TxnRef: string,
+//   vnp_SecureHash: string
+// ) => ({
+//   vnp_Amount: vnp_Amount,
+//   vnp_BankCode: vnp_BankCode,
+//   vnp_BankTranNo: vnp_BankTranNo,
+//   vnp_CardType: vnp_CardType,
+//   vnp_OrderInfo: vnp_OrderInfo,
+//   vnp_PayDate: vnp_PayDate,
+//   vnp_ResponseCode: vnp_ResponseCode,
+//   vnp_TmnCode: vnp_TmnCode,
+//   vnp_TransactionNo: vnp_TransactionNo,
+//   vnp_TransactionStatus: vnp_TransactionStatus,
+//   vnp_TxnRef: vnp_TxnRef,
+//   vnp_SecureHash: vnp_SecureHash,
+// });
