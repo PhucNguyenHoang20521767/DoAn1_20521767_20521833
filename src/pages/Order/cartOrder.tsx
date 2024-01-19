@@ -181,6 +181,7 @@ export const CartOrder = ({
     };
     if (currentUser) {
       fetchCart();
+      setLoadCart(false);
     }
   }, [currentUser, reload]);
 

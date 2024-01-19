@@ -14,13 +14,13 @@ import { VoucherInter } from "@/pages/Order/cartOrder";
 // }
 
 interface IOrderInforState {
-  customerId: string;
-  orderCode: string;
-  orderStatus: string;
-  orderNote: string;
+  customerId?: string;
+  orderCode?: string;
+  orderStatus?: string;
+  orderNote?: string;
   orderAddress?: IAddress;
-  paymentMethod: string;
-  orderShippingFee: number;
+  paymentMethod?: string;
+  orderShippingFee?: number;
   createdAt?: string;
   updatedAt?: string;
   cartItems: CartItem[];

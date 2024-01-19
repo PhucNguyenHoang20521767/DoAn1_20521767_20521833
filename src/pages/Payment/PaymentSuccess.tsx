@@ -11,7 +11,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { CartItem } from "../Order/cartOrder";
-import { removeConfirmOrder } from "@/redux/reducers/orderConfirm_reducers";
+import {
+  removeConfirmOrder,
+  updateConfirmOrder,
+} from "@/redux/reducers/orderConfirm_reducers";
 
 const PaymentSuccess = () => {
   const location = useLocation();
@@ -21,7 +24,7 @@ const PaymentSuccess = () => {
   const { orderInfor } = useSelector((state: RootState) => state.orderConfirm);
   const cartItems = orderInfor.cartItems;
   const tempPrice = orderInfor.totalPrice ? orderInfor.totalPrice : 0;
-  const finalPrice = tempPrice + orderInfor.orderShippingFee;
+  const finalPrice = tempPrice + (orderInfor.orderShippingFee || 0);
   const selectedAddress = orderInfor.orderAddress;
   const dispatch = useDispatch();
   const VNPayString = "6485bd7318d7886b9017c861";
@@ -60,6 +63,23 @@ const PaymentSuccess = () => {
       return;
     }
     if (!vnp_TxnRef) {
+      return;
+    }
+    if (!orderInfor.customerId) {
+      return;
+    } else if (!orderInfor.orderCode) {
+      return;
+    } else if (!orderInfor.orderNote) {
+      return;
+    } else if (!orderInfor.orderAddress) {
+      return;
+    } else if (!orderInfor.orderShippingFee) {
+      return;
+    } else if (!orderInfor.totalPrice) {
+      return;
+    } else if (!orderInfor.voucher) {
+      return;
+    } else if (!orderInfor.paymentMethod) {
       return;
     }
 
@@ -114,6 +134,14 @@ const PaymentSuccess = () => {
           .then(async () => {
             try {
               dispatch(removeConfirmOrder);
+              dispatch(
+                updateConfirmOrder({
+                  orderInfor: {
+                    cartItems: [],
+                  },
+                })
+              );
+
               dispatch(
                 notify({
                   message: "Đặt hàng thành công",
@@ -187,6 +215,7 @@ const PaymentSuccess = () => {
         vnp_SecureHash
       );
       if (orderInfor.paymentMethod === VNPayString) {
+        handleOrder();
       }
     };
     getReturn();

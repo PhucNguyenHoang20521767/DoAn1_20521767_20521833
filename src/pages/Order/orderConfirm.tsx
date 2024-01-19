@@ -38,7 +38,7 @@ const orderConfirm = () => {
   const { currentUser } = useSelector((state: RootState) => state.auth);
   const cartItems = orderInfor.cartItems;
   const tempPrice = orderInfor.totalPrice ? orderInfor.totalPrice : 0;
-  const finalPrice = tempPrice + orderInfor.orderShippingFee;
+  const finalPrice = tempPrice + (orderInfor.orderShippingFee || 0);
   const selectedAddress = orderInfor.orderAddress;
   const [loading, setLoading] = useState(false);
   const VNPayString = "6485bd7318d7886b9017c861";
@@ -80,6 +80,21 @@ const orderConfirm = () => {
 
   const handleOrder = async () => {
     // for
+    if (!orderInfor.customerId) {
+      return;
+    } else if (!orderInfor.orderCode) {
+      return;
+    } else if (!orderInfor.orderNote) {
+      return;
+    } else if (!orderInfor.orderAddress) {
+      return;
+    } else if (!orderInfor.orderShippingFee) {
+      return;
+    } else if (!orderInfor.totalPrice) {
+      return;
+    } else if (!orderInfor.voucher) {
+      return;
+    }
     let orderId = "";
     setLoading(true);
     if (cartItems.length > 0) {
@@ -155,7 +170,7 @@ const orderConfirm = () => {
             console.log("err order");
           });
       }
-      navigate(`/account/bill/${orderId}`);
+      // navigate(`/account/bill/${orderId}`);
     } else {
       // alert("Giỏ hàng trống");
       dispatch(
@@ -225,7 +240,7 @@ const orderConfirm = () => {
             <div className="flex justify-between">
               <span className="text-xl text-gray-700">Phí ship:</span>
               <span className="text-xl text-gray-700">
-                {orderInfor.orderShippingFee.toLocaleString("vi-VN", {
+                {orderInfor.orderShippingFee?.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
