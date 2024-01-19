@@ -1,10 +1,8 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, logout } from "@/redux/reducers/auth_reducers";
 import { RootState } from "@/redux/store/store";
-import MuiAlert, { Stack, Snackbar, IconButton } from "@mui/material";
-import { Alert } from "@/utils/ui";
+import { Stack, Snackbar } from "@mui/material";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CustomeDrawer from "../Drawer/drawer";
@@ -22,13 +20,11 @@ import { loadCartItems } from "@/redux/reducers/cartItem_reducers";
 import SuccessNotify from "@/components/customs/SuccessNotify";
 import InformationNotify from "@/components/customs/InformationNotify";
 import ErrorNotify from "@/components/customs/ErrorNotify";
-import Chatbot from "@/components/Chatbot";
 import { fetchConversation } from "./Loading";
 import {
   IConversationState,
   loadConversation,
 } from "@/redux/reducers/conversation_reducers";
-import { notification } from "antd";
 import LoadingPage from "@/utils/loadingPage";
 // import "./snow.css";
 // import Snowflake from "./SnowFlake";
@@ -51,7 +47,6 @@ interface ICartState {
 const GOOGLE_LOGIN_MAGIC_NUMBER = "12345678";
 
 const RootPage = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const loginType = useSelector((state: RootState) => state.auth.loginType);
   const isLog = useSelector((state: RootState) => state.auth.isLogin);
@@ -96,7 +91,7 @@ const RootPage = () => {
 
       dispatch(gglogin(userLogin));
     } catch (error: any) {
-      console.log("error");
+      console.log("error all");
     }
   };
 
@@ -104,7 +99,23 @@ const RootPage = () => {
     try {
       if (currentUser) await createCart(currentUser);
     } catch (error) {
-      console.log("error");
+      console.log("error createCart");
+    }
+  };
+
+  const fetchCartItem = async () => {
+    try {
+      const res = await getAllCartItem(currentCart._id, currentUser);
+      const cartItems = res.data.data;
+      if (cartItems.length === 0)
+        dispatch(
+          loadCartItems({
+            cartItems: [],
+            isDeleted: true,
+          })
+        );
+    } catch (error) {
+      console.log("error fetchCartItem");
     }
   };
 
@@ -121,14 +132,9 @@ const RootPage = () => {
 
       if (cartInfores.length === 0) {
         makeCart();
-      } else {
-        const res2 = await getAllCartItem(cartInfores[0]._id, currentUser);
-        const cartItems = res2.data.data;
-        // dispatch(loadCartItems(cartItems))
-        console.log("aci");
       }
     } catch (error) {
-      console.log("error");
+      console.log("error fetchCart");
     }
   };
 
@@ -154,6 +160,12 @@ const RootPage = () => {
       setOpenSnack(true);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (currentCart._id) {
+      fetchCartItem();
+    }
+  }, [currentCart]);
 
   // Scroll
   useEffect(() => {

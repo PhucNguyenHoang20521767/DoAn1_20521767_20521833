@@ -23,7 +23,6 @@ import { googleLogout } from "@/api/api_function";
 import { removeSub } from "@/redux/reducers/subCategories";
 import { notProduct } from "@/redux/reducers/slug_reducers";
 import HeaderSearch from "./HeaderSearch";
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 
 type Props = {};
 
@@ -36,6 +35,7 @@ const Header = (props: Props) => {
   const cartItems = useSelector((state: RootState) => state.cartItem.cartItems);
   const cartCount = cartItems.length;
   const [cartCountState, setCartCountState] = useState(cartCount);
+  const [chatCountState, setChatCountState] = useState(0);
   const [nav, setNav] = useState(false);
 
   const handleRemoveSub = () => {

@@ -47,10 +47,12 @@ const Hero = () => {
       {imgAdd.map((img, index) => (
         <LazyLoadImage
           key={index}
-          // className="h-16 w-32 object-contain"
-          className={`mt-30 absolute left-0 top-0 box-border h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
+          className={`top-30 absolute mx-40 box-border h-full max-h-[400px] w-3/4 ${
             index === currentImg ? "opacity-100" : "opacity-0"
           }`}
+          // className={`top-30 absolute left-0 box-border h-full max-h-[400px] w-max overflow-hidden object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
+          //   index === currentImg ? "opacity-100" : "opacity-0"
+          // }`}
           alt="hero"
           height={128}
           src={img}
@@ -67,14 +69,6 @@ const Hero = () => {
             e.currentTarget.style.transform = "scale(1)";
           }}
         />
-        // <img
-        //   key={index}
-        //   className={`mt-30 absolute left-0 top-0 box-border h-full max-h-[740px] w-max object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
-        //     index === currentImg ? "opacity-100" : "opacity-0"
-        //   }`}
-        //   src={img}
-        //   alt="hero"
-        // />
       ))}
       {/* <CampaignCarousel /> */}
       <div className="lg:top-30 absolute top-[4rem] flex h-full w-full flex-col justify-center text-primary-0">

@@ -138,9 +138,7 @@ const orderConfirm = () => {
   };
 
   const handleRemoveCart = () => {
-    if (currentUser) {
-      dispatch(removeCartItems());
-    }
+    dispatch(removeCartItems());
   };
 
   if (!currentUser) {
