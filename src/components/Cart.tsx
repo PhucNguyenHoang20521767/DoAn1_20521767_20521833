@@ -145,7 +145,7 @@ export const Cart = ({ isCart }: CartProps) => {
     if (cart.length > 0 && cartItems.length > 0) {
       dispatch(loadCartItems({ cartItems: cartItems, isDeleted: false }));
     }
-  }, [loadCart]);
+  }, [loadCart, currentUser]);
 
   if (!currentUser) {
     return (
