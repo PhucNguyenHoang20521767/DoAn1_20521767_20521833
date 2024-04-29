@@ -200,7 +200,7 @@ const RootPage = () => {
             <Header />
           </header>
           <main className="">
-            <div className="mt-40"></div>
+            <div className="xl:mt-40"></div>
             <Outlet />
             {/* <div className="absolute top-40 h-full w-full">{snow()}</div> */}
             {/* Notify */}

@@ -45,30 +45,32 @@ const Hero = () => {
         />
       ))} */}
       {imgAdd.map((img, index) => (
-        <LazyLoadImage
-          key={index}
-          className={`top-30 absolute box-border h-full max-h-[560px] w-full max-w-[1280px] overflow-hidden object-cover object-center text-center transition-opacity duration-1000 md:mx-[3rem] lg:left-6 lg:mx-[6rem] ${
-            index === currentImg ? "opacity-100" : "opacity-0"
-          }`}
-          // className={`top-30 absolute left-0 box-border h-full max-h-[400px] w-max overflow-hidden object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
-          //   index === currentImg ? "opacity-100" : "opacity-0"
-          // }`}
-          alt="hero"
-          height={560}
-          src={img}
-          width={1280}
-          onError={(e: any) => {
-            e.currentTarget.src =
-              "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
-          }}
-          style={{ transition: "transform 0.3s ease" }}
-          onMouseEnter={(e: any) => {
-            e.currentTarget.style.transform = "scale(1.1)";
-          }}
-          onMouseLeave={(e: any) => {
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        />
+        <div className="absolute hidden h-full w-full items-center justify-center md:flex xl:top-20">
+          <LazyLoadImage
+            key={index}
+            className={`box-border h-full max-h-[560px] w-full max-w-[1280px] overflow-hidden object-cover object-center text-center transition-opacity duration-1000 ${
+              index === currentImg ? "opacity-100" : "opacity-0"
+            }`}
+            // className={`top-30 absolute left-0 box-border h-full max-h-[400px] w-max overflow-hidden object-cover object-center transition-opacity duration-1000 md:max-h-full md:w-full md:object-contain md:object-top ${
+            //   index === currentImg ? "opacity-100" : "opacity-0"
+            // }`}
+            alt="hero"
+            height={560}
+            src={img}
+            width={1280}
+            onError={(e: any) => {
+              e.currentTarget.src =
+                "https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg";
+            }}
+            style={{ transition: "transform 0.3s ease" }}
+            onMouseEnter={(e: any) => {
+              e.currentTarget.style.transform = "scale(1.1)";
+            }}
+            onMouseLeave={(e: any) => {
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+          />
+        </div>
       ))}
       {/* <CampaignCarousel /> */}
       <div className="lg:top-30 absolute top-[4rem] flex h-full w-full flex-col justify-center text-primary-0">
